@@ -18,7 +18,7 @@ export function useProject(initial) {
       last.current = { key, t: now };
       apply({ past: merge ? s.past : [...s.past.slice(-99), s.present], present: { ...s.present, [key]: next }, future: [] });
     };
-    return { lines: make("lines"), notes: make("notes"), links: make("links"), panels: make("panels"), meta: make("meta"), desk: make("desk") };
+    return { lines: make("lines"), notes: make("notes"), links: make("links"), panels: make("panels"), meta: make("meta"), desk: make("desk"), gridNotes: make("gridNotes") };
   }, []);
 
   const undo = useCallback(() => {

@@ -16,6 +16,20 @@
   --color-neutral-700: #c3bde3;
 }
 
+/* textures : grain fin + marbrures de la pâte à modeler, fibres du papier craft */
+:root {
+  --tex-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .30  0 0 0 0 .20  0 0 0 0 .48  0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url%28%23f%29'/%3E%3C/svg%3E");
+  --tex-blotch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.028' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55  0 0 0 0 .38  0 0 0 0 .8  0 0 0 .13 -.02'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url%28%23f%29'/%3E%3C/svg%3E");
+  --tex-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55 .05' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45  0 0 0 0 .32  0 0 0 0 .2  0 0 0 .20 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url%28%23f%29'/%3E%3C/svg%3E");
+}
+.font-hand { font-family: "Marker Felt", "Bradley Hand", "Chalkboard SE", ui-rounded, cursive; }
+.washi {
+  position: absolute; width: 78px; height: 24px; z-index: 5; pointer-events: none;
+  background: repeating-linear-gradient(135deg, rgba(255,255,255,.5) 0 5px, transparent 5px 10px), var(--c, #ffc4d8);
+  opacity: .93; box-shadow: 1px 3px 5px rgba(80,50,130,.28);
+  clip-path: polygon(3% 0,97% 0,100% 12%,96% 25%,100% 38%,96% 50%,100% 62%,96% 75%,100% 88%,97% 100%,3% 100%,0 88%,4% 75%,0 62%,4% 50%,0 38%,4% 25%,0 12%);
+}
+
 html, body, #root { height: 100%; margin: 0; }
 body {
   font-family: var(--font-sans);
@@ -36,31 +50,31 @@ body {
 ::-webkit-scrollbar-thumb { background: #cfc4f2; border-radius: 12px; border: 3px solid transparent; background-clip: content-box; }
 
 @utility clay-card {
-  background: linear-gradient(145deg, #ffffff, #f6f0ff);
+  background: var(--tex-fine), var(--tex-blotch), linear-gradient(145deg, #ffffff, #f6f0ff);
   border-radius: 28px !important;
   box-shadow: 10px 14px 28px rgba(118,92,190,.20), -8px -8px 18px rgba(255,255,255,.95),
               inset 3px 3px 7px #fff, inset -5px -6px 12px rgba(160,135,220,.16);
 }
 @utility clay-paper {
-  background: linear-gradient(145deg, #fffdf8, #fbf4e6);
+  background: var(--tex-paper), var(--tex-blotch), linear-gradient(145deg, #fffdf8, #fbf1de);
   border-radius: 30px !important;
   box-shadow: 14px 18px 36px rgba(160,120,70,.22), -8px -8px 20px rgba(255,255,255,.9),
               inset 4px 4px 9px #fff, inset -6px -8px 16px rgba(200,160,100,.14);
   color: #2f2a55;
 }
 @utility clay-chip {
-  background: linear-gradient(145deg, #ffffff, #f3ecff);
+  background: var(--tex-fine), linear-gradient(145deg, #ffffff, #f3ecff);
   border-radius: 999px !important;
   box-shadow: 4px 5px 10px rgba(118,92,190,.18), -3px -3px 8px rgba(255,255,255,.95),
               inset 2px 2px 4px #fff, inset -2px -3px 6px rgba(160,135,220,.14);
 }
 @utility clay-well {
-  background: #ece4fb;
+  background: var(--tex-fine), #ece4fb;
   border-radius: 20px !important;
   box-shadow: inset 4px 5px 10px rgba(140,115,200,.28), inset -4px -4px 9px rgba(255,255,255,.95);
 }
 @utility clay-solid {
-  background: linear-gradient(145deg, var(--c2, #efe8ff), var(--c, #d9c8ff));
+  background: var(--tex-fine), var(--tex-blotch), linear-gradient(145deg, var(--c2, #efe8ff), var(--c, #d9c8ff));
   border-radius: 18px !important;
   box-shadow: 5px 7px 14px rgba(118,92,190,.28), -4px -4px 10px rgba(255,255,255,.9),
               inset 2px 2px 5px rgba(255,255,255,.75), inset -3px -4px 8px rgba(0,0,0,.10);
@@ -70,13 +84,14 @@ body {
   &:hover { transform: translateY(-1px); }
   &:active { transform: translateY(1px); box-shadow: inset 3px 4px 8px rgba(0,0,0,.18), inset -3px -3px 8px rgba(255,255,255,.6); }
 }
-@utility clay-btn { --c: #ddd0ff; --c2: #f1ebff; background: linear-gradient(145deg, var(--c2), var(--c)); border-radius: 18px !important;
+@utility clay-btn { --c: #ddd0ff; --c2: #f1ebff; background: var(--tex-fine), linear-gradient(145deg, var(--c2), var(--c)); border-radius: 18px !important;
   box-shadow: 5px 7px 14px rgba(118,92,190,.24), -4px -4px 10px rgba(255,255,255,.9), inset 2px 2px 5px rgba(255,255,255,.75), inset -3px -4px 8px rgba(0,0,0,.08);
   transition: transform .12s ease; &:hover { transform: translateY(-1px); } &:active { transform: translateY(1px); } }
-@utility clay-btn-active { --c: #ffb98f; --c2: #ffdcc4; background: linear-gradient(145deg, var(--c2), var(--c)); border-radius: 18px !important;
+@utility clay-btn-active { --c: #ffb98f; --c2: #ffdcc4; background: var(--tex-fine), linear-gradient(145deg, var(--c2), var(--c)); border-radius: 18px !important;
   box-shadow: 5px 7px 14px rgba(255,140,80,.30), -4px -4px 10px rgba(255,255,255,.9), inset 2px 2px 5px rgba(255,255,255,.75), inset -3px -4px 8px rgba(0,0,0,.08); }
 @utility clay-note {
-  border-radius: 22px !important;
+  background-image: var(--tex-paper), linear-gradient(165deg, rgba(255,255,255,.38), rgba(255,255,255,0) 45%, rgba(0,0,0,.07));
+  border-radius: 18px 18px 22px 14px !important;
   box-shadow: 6px 9px 16px rgba(90,60,140,.25), -3px -3px 8px rgba(255,255,255,.7), inset 3px 3px 7px rgba(255,255,255,.65), inset -4px -5px 9px rgba(0,0,0,.10);
 }
 @utility clay-sky { --c: #9fd4ff; --c2: #d3ecff; }
@@ -86,3 +101,17 @@ body {
 @utility clay-butter { --c: #ffdf6e; --c2: #fff0b0; }
 @utility clay-coral { --c: #ff9d9d; --c2: #ffd0d0; }
 @utility clay-pink { --c: #ffb3d1; --c2: #ffdbe9; }
+
+/* coutures : pointillés cousus à l'intérieur d'une surface (couleur réglable avec --stitch) */
+@utility clay-stitch {
+  position: relative;
+  &::after {
+    content: ""; position: absolute; inset: 8px; border-radius: calc(var(--r, 28px) - 8px);
+    border: 2.5px dashed var(--stitch, rgba(255,255,255,.95)); pointer-events: none;
+    filter: drop-shadow(0 1px 0 rgba(120,90,190,.22));
+  }
+}
+@utility clay-ring {
+  position: relative;
+  &::after { content: ""; position: absolute; inset: 3px; border-radius: 999px; border: 1.6px dashed rgba(255,255,255,.95); pointer-events: none; }
+}

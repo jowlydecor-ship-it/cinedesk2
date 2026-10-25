@@ -6,7 +6,7 @@ export const uid = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.
 
 export const newProject = () => ({
   version: 1, meta: { title: "Sans titre", author: "", contact: "" },
-  lines: [{ type: "heading", text: "" }], notes: [], links: [], panels: [], desk: [],
+  lines: [{ type: "heading", text: "" }], notes: [], links: [], panels: [], desk: [], gridNotes: {},
 });
 
 /* Ajoute au mur un post-it pour chaque scène qui n'en a pas encore (clé = en-tête de scène) */
@@ -40,7 +40,7 @@ export function parseProject(text) {
   return {
     ...base, ...d, meta: { ...base.meta, ...(d.meta || {}) },
     lines: d.lines.length ? d.lines : base.lines,
-    notes: d.notes || [], links: d.links || [], panels: d.panels || [], desk: d.desk || [],
+    notes: d.notes || [], links: d.links || [], panels: d.panels || [], desk: d.desk || [], gridNotes: d.gridNotes || {},
   };
 }
 

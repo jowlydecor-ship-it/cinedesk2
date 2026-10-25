@@ -131,3 +131,8 @@ test("de bout en bout : PDF → séquencier, storyboard, dépouillement et analy
   assert.equal(report.scenes.length, 3);
   assert.ok(report.scenes.every(s => s.summary.length > 10));
 });
+
+test("transitions : ENCHAÎNEMENT, INTERCUT, COUPE SUR :, FONDU AU NOIR", () => {
+  const lines = parseText("INT. BAR – NUIT\n\nIl boit.\n\nENCHAÎNEMENT SUR :\n\nEXT. RUE – NUIT\n\nIl marche.\n\nINTERCUT\n\nINT. BAR – NUIT\n\nFONDU AU NOIR.");
+  assert.deepEqual(types(lines), ["heading", "action", "transition", "heading", "action", "transition", "heading", "transition"]);
+});

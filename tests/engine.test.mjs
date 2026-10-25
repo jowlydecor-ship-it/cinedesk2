@@ -73,3 +73,60 @@ test("Script Doctor : chaque faille est localisée et expliquée", () => {
   assert.ok(r.flags[f.lines[0]].includes(f));          // marqueur posé sur la bonne ligne du scénario
   r.flaws.forEach(x => { assert.ok(x.why && x.fix && x.text); });
 });
+
+test("durée estimée, actes au temps et statistiques de personnages", () => {
+  const r = analyze(scenes, [], []);
+  assert.ok(r.runtime.total > 0 && r.runtime.low <= r.runtime.total && r.runtime.total <= r.runtime.high);
+  assert.equal(r.acts.length, 4);
+  assert.ok(Math.abs(r.acts.reduce((a, x) => a + x.minutes, 0) - r.runtime.total) < 0.01);
+  const lea = r.characters.find(c => c.name === "LÉA");
+  assert.ok(lea.lines >= 5 && lea.share > 40 && lea.cum.at(-1) === lea.words);
+  assert.equal(r.scenes[3].minute > r.scenes[2].minute, true);
+});
+
+test("grille d'analyse et critères pré-remplis", () => {
+  const r = analyze(scenes, [], []);
+  const keys = r.grid.map(g => g.key);
+  for (const k of ["exposition", "incident", "bascule", "midpoint", "climax", "denouement", "protagoniste", "antagoniste", "preparations", "suspense", "specificites"]) assert.ok(keys.includes(k), k);
+  assert.match(r.grid.find(g => g.key === "protagoniste").auto, /LÉA/);
+  assert.match(r.grid.find(g => g.key === "preparations").auto, /revolver/);
+  assert.deepEqual(r.criteria.map(c => c.key), ["rythme", "enjeux", "arc", "information"]);
+  for (const k of ["act_sujet", "act_opposant", "prop_dram", "t1", "t14", "t19", "t22"]) assert.ok(r.grid.some(g => g.key === k), k);
+  assert.equal(r.criteria.find(c => c.key === "information").status, "warn");   // « lettre » sans suite
+  assert.equal(r.criteria.find(c => c.key === "arc").status, "manual");
+});
+
+test("enjeux qui n'escaladent pas : détecté avec justification chiffrée", () => {
+  const flat = Array.from({ length: 10 }, (_, k) => [{ type: "heading", text: `INT. LIEU ${k} – JOUR` }, { type: "action", text: "Il attend." }, { type: "character", text: "PAUL" }, { type: "dialogue", text: "Bonjour." }]).flat();
+  const r = analyze(parseScript(flat), [], []);
+  const f = r.flaws.find(x => x.kind === "stakes" || x.kind === "flat");
+  assert.ok(f && /pente|écart-type/.test(f.why));
+});
+
+const make = (n, fn) => Array.from({ length: n }, (_, k) => fn(k)).flat();
+const sc = (k, head, action, who, line) => [{ type: "heading", text: head }, { type: "action", text: action }, ...(who ? [{ type: "character", text: who }, { type: "dialogue", text: line }] : [])];
+
+test("principes de dramaturgie : opposant absent, hasard, ouverture, alternance jour/nuit", () => {
+  const lines = make(12, k => sc(k, `INT. LIEU ${k} – NUIT`, k === 0 ? "Léa entre." : "Léa attend. Heureusement, la porte s'ouvre par hasard.", "LÉA", k < 4 ? "Où est Marc ?" : "Je suis seule."))
+    .concat(make(12, k => []));
+  // Marc n'apparaît que dans le premier tiers
+  [0, 1, 2].forEach(i => lines.splice(lines.findIndex(l => l.text === `INT. LIEU ${i} – NUIT`) + 2, 0, { type: "character", text: "MARC" }, { type: "dialogue", text: "Tu me cherches ? Tu vas me payer ça, je te le promets." }));
+  const r = analyze(parseScript(lines), [], []);
+  const kinds = r.flaws.map(f => f.kind);
+  assert.ok(kinds.includes("luck"), "hasard");
+  assert.ok(kinds.includes("daynight"), "alternance jour/nuit");
+  assert.ok(kinds.includes("opponent"), "opposant");
+  r.flaws.filter(f => ["luck", "daynight", "opponent"].includes(f.kind)).forEach(f => assert.ok(f.why.length > 30 && f.fix.length > 10));
+});
+
+test("modèle actantiel et indice d'arc dans la grille", () => {
+  const lines = [...sc(0, "INT. BAR – JOUR", "Léa boit.", "LÉA", "Je veux retrouver mon frère."), { type: "character", text: "MARC" }, { type: "dialogue", text: "Laisse tomber." },
+    ...sc(1, "INT. RUE – JOUR", "Marc la suit.", "MARC", "Tu ne le trouveras pas."), { type: "character", text: "LÉA" }, { type: "dialogue", text: "Je le trouverai." },
+    ...sc(2, "INT. BAR – NUIT", "Ils se battent.", "LÉA", "Non ! Arrête !"), { type: "character", text: "MARC" }, { type: "dialogue", text: "Tais-toi !" },
+    ...sc(3, "INT. QUAI – JOUR", "Léa pleure.", "LÉA", "Je comprends enfin, tout ce temps il était là.")];
+  const r = analyze(parseScript(lines), [], []);
+  assert.match(r.grid.find(g => g.key === "act_objet").auto, /frère/);
+  assert.match(r.grid.find(g => g.key === "act_opposant").auto, /MARC/);
+  assert.ok(r.revelation && r.revelation.id === 4);
+  assert.equal(r.criteria.find(c => c.key === "arc").status, "ok");
+});

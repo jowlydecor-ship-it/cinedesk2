@@ -30,7 +30,7 @@ export function parseScript(lines) {
     if (l.type === "heading") { if (t) open(t, i); return; }
     if (!t) return;
     if (!cur) open("(SANS EN-TÊTE)", i);
-    cur.lines.push({ ...l, text: t, i });
+    cur.lines.push({ ...l, text: t, i, who: l.type === "dialogue" ? who : undefined });
     cur.end = i;
     if (l.type === "character") {
       who = speaker(t);

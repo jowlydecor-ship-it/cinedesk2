@@ -1,6 +1,7 @@
 /* Script Doctor – moteur d'analyse 100 % local, déterministe et EXPLICABLE :
    chaque valeur de tension et chaque faille s'accompagne de sa justification chiffrée. */
 import { words, breakdown, eighths, SIGNIFICANT_RE } from "./screenplay.js";
+import { runtimeOf, insights, fmtDur, findAntagonist, WANT_RE } from "./insights.js";
 
 export const fmt = v => (Math.round(v * 10) / 10).toFixed(1).replace(".", ",");
 const tok = s => s.toLowerCase().match(/[\p{L}'’-]+/gu) || [];
@@ -48,6 +49,7 @@ function factorsOf(s, ctx) {
 export function analyze(scenes, notes = [], acts = []) {
   const n = scenes.length;
   const B = breakdown(scenes);
+  const rt = runtimeOf(scenes);
   const ctx = { chars: new Set(), locs: new Set() };
 
   /* ── courbe de tension expliquée ── */
@@ -85,17 +87,17 @@ export function analyze(scenes, notes = [], acts = []) {
       const label = [...raw[i].f, ...raw[i - 1].f].find(x => x.key === dk?.[0])?.label.toLowerCase();
       trend = `${v > vals[i - 1] ? "Hausse" : "Baisse"} de ${fmt(Math.abs(v - vals[i - 1]))} point(s) par rapport à la scène ${i}${label ? ` : ${label} ${dk[1] > 0 ? "en plus" : "en moins"}` : ""}.`;
     }
-    return { id: s.id, heading: s.heading, value: v, factors: r.f, summary, trend, role: peaks.includes(i) ? "pic" : valleys.includes(i) ? "creux" : "" };
+    return { id: s.id, heading: s.heading, minute: rt.start[i], value: v, factors: r.f, summary, trend, role: peaks.includes(i) ? "pic" : valleys.includes(i) ? "creux" : "" };
   });
 
   /* ── structure : points de bascule attendus ── */
-  const BEATS = [["Incident déclencheur", 0.12, 0.08, false], ["Premier point de bascule", 0.25, 0.1, true], ["Milieu du récit", 0.5, 0.1, false], ["Second point de bascule", 0.75, 0.1, true], ["Climax", 0.9, 0.12, true]];
-  const beats = n < 6 ? [] : BEATS.map(([name, at, tol, strict]) => {
+  const BEATS = [["Incident incitateur", 0.12, 0.08, false, "Incident"], ["Premier tournant", 0.25, 0.1, true, "Pivot 1"], ["Point médian", 0.5, 0.1, false, "Milieu"], ["Crise (tout est perdu)", 0.75, 0.1, true, "Crise"], ["Climax", 0.9, 0.12, true, "Climax"]];
+  const beats = n < 6 ? [] : BEATS.map(([name, at, tol, strict, short]) => {
     const idx = vals.map((v, i) => i).filter(i => Math.abs(i / (n - 1) - at) <= tol);
     const best = idx.sort((a, b) => vals[b] - vals[a])[0] ?? Math.round(at * (n - 1));
     const need = Math.max(5.5, med + 0.6 * sd);
     const found = vals[best] >= need;
-    return { name, at: Math.round(at * 100), strict, scene: best + 1, value: vals[best], found,
+    return { name, short, at: Math.round(at * 100), strict, scene: best + 1, minute: rt.start[best] ?? 0, value: vals[best], found,
       why: found ? `Scène ${best + 1} (${pct(best + 1, n)} %) : tension ${fmt(vals[best])}/10, au-dessus du seuil ${fmt(need)}.`
         : `Autour de ${Math.round(at * 100)} % (scènes ${idx.length ? list(idx.map(i => i + 1)) : best + 1}), le plus fort moment n'atteint que ${fmt(vals[best])}/10 (seuil ${fmt(need)}, médiane ${fmt(med)}).` };
   });
@@ -228,6 +230,98 @@ export function analyze(scenes, notes = [], acts = []) {
     "Les personnages disent ce qu'ils ressentent (« j'ai peur », « je t'aime »…) au lieu de le jouer : le sous-texte disparaît.", "Remplacez par une action, un silence ou une phrase qui dit autre chose que ce qu'elle ressent.",
     [...new Set(nose.map(i => scenes.find(s => s.start <= i && i <= s.end)?.id).filter(Boolean))], nose);
 
+  /* escalade des enjeux et enchaînement causal (critères « enjeux » et « rythme ») */
+  const avg = a => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0);
+  const trend = vals.map((_, i) => avg(vals.slice(Math.max(0, i - 1), i + 2)));
+  let slope10 = 0;
+  if (n >= 8) {
+    const xs = [], ys = [];
+    for (let i = Math.floor(n * 0.2); i < Math.ceil(n * 0.95); i++) { xs.push(i); ys.push(trend[i]); }
+    const mx = avg(xs), my = avg(ys);
+    slope10 = (xs.reduce((a, x, k) => a + (x - mx) * (ys[k] - my), 0) / Math.max(1e-9, xs.reduce((a, x) => a + (x - mx) ** 2, 0))) * (n - 1) * 0.1;
+    const third = k => avg(vals.slice(Math.floor((n * k) / 3), Math.floor((n * (k + 1)) / 3)));
+    if (slope10 < 0.3) add("mid", "stakes", "Enjeux qui n'escaladent pas", "La tension ne monte pas entre le premier tournant et le climax.",
+      `Moyenne par tiers du film : ${fmt(third(0))} → ${fmt(third(1))} → ${fmt(third(2))} ; pente de ${fmt(slope10)} point(s) par tranche de 10 % du récit (un récit qui s'intensifie dépasse en général +0,5).`,
+      "Faites payer un prix croissant au protagoniste : chaque obstacle doit coûter plus cher que le précédent.");
+    else if (slope10 >= 0.8) strengths.push(`Les enjeux montent crescendo : +${fmt(slope10)} point(s) de tension par tranche de 10 % du film.`);
+  }
+  let linkRate = 1;
+  if (n >= 6) {
+    let linked = 0;
+    for (let i = 1; i < n; i++) { const a = scenes[i - 1], b = scenes[i]; if ([...a.chars.keys()].some(c => b.chars.has(c)) || [...a.props].some(p => b.props.has(p))) linked++; }
+    linkRate = linked / (n - 1);
+    if (linkRate < 0.5) add("mid", "linkage", "Scènes juxtaposées", "Les scènes s'enchaînent peu entre elles.",
+      `Seules ${linked} paires de scènes consécutives sur ${n - 1} partagent un personnage ou un objet : le récit avance par « et ensuite » plutôt que par « par conséquent / mais alors ».`,
+      "Faites de chaque scène la conséquence de la précédente : une décision, une erreur ou une découverte qui déclenche la suite.");
+  }
+
+  /* ── principes de dramaturgie (cours de scénario, modèle actantiel, paradigme de Field) ── */
+  const esc = t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const antag = findAntagonist(B, infos, prot);
+  if (antag && n >= 9) {
+    const ids = new Set(B.characters.find(c => c.name === antag).scenes);
+    for (let k = 0; k < 3; k++) {
+      const a = Math.floor((n * k) / 3), b = Math.floor((n * (k + 1)) / 3);
+      const range = scenes.slice(a, b).map(s => s.id);
+      if (range.length && !range.some(id => ids.has(id)))
+        add("mid", "opponent", `${antag} disparaît du récit`, `L'opposant n'apparaît dans aucune scène du ${["premier", "deuxième", "dernier"][k]} tiers (scènes ${list(range)}).`,
+          `L'antagonisme entre le sujet et l'opposant doit durer tout au long du récit : sans lui, la tension retombe. ${antag} apparaît dans ${ids.size} scène(s) sur ${n}.`,
+          "Faites sentir l'opposant (menace, conséquence de ses actes, regard d'un autre personnage) même quand il est absent à l'écran.", range, startOf(range));
+    }
+  }
+  const LUCK = /par hasard|par chance|heureusement|miraculeusement|coïncidence|comme par miracle|à point nommé|par un heureux hasard|juste à temps/i;
+  const lucky = [];
+  scenes.forEach(s => s.lines.forEach(l => { if ((l.type === "action" || l.type === "dialogue") && LUCK.test(l.text)) lucky.push({ i: l.i, id: s.id }); }));
+  if (lucky.length) {
+    const late = lucky.filter(x => (x.id - 1) / Math.max(1, n - 1) > 0.75);
+    add(late.length ? "mid" : "low", "luck", late.length ? "Hasard dans le dénouement" : "Recours au hasard", `${lucky.length} formule(s) de hasard ou de chance (« par hasard », « heureusement »…).`,
+      late.length ? `${late.length} figurent dans le dernier quart : un dénouement doit découler logiquement de ce qui précède, pas d'une coïncidence (deus ex machina).` : "Un événement dû au hasard affaiblit la nécessité du récit : chaque fait doit avoir une cause.",
+      "Préparez l'événement par une cause antérieure (préparation) ou faites-le résulter d'un choix du héros.", [...new Set(lucky.map(x => x.id))], lucky.map(x => x.i));
+  }
+  if (n >= 6 && vals[0] < Math.min(med, 3.5) && !infos[0].factors.some(f => f.key === "conflict"))
+    add("low", "hook", "Ouverture peu accrocheuse", "La première scène ne crée pas de tension.",
+      `Tension de ${fmt(vals[0])}/10 pour une médiane de ${fmt(med)} et aucun marqueur de conflit : le point d'attaque doit « accrocher » le spectateur dès le début.`,
+      "Commencez plus tard, en pleine action, et distillez l'exposition en mouvement plutôt qu'en explications.", [1], [scenes[0].start]);
+  if (prot && n >= 6) {
+    const re = new RegExp(`(?<![\\p{L}])${esc(prot.name)}(?![\\p{L}])`, "giu");
+    let c = 0;
+    scenes.slice(0, Math.max(1, Math.ceil(n * 0.15))).forEach(s => s.lines.forEach(l => { if (l.type === "action" || l.type === "dialogue") c += (l.text.match(re) || []).length; }));
+    if (c < 3) add("low", "name", "Nom du protagoniste peu répété au début", `${prot.name} n'est cité que ${c} fois dans les premières scènes.`,
+      "Pour qu'un public retienne une information, elle doit être répétée plusieurs fois, sous des formes variées ; le nom des personnages principaux se prononce souvent dès l'ouverture.",
+      "Faites prononcer le nom par d'autres personnages et placez-le dans l'action des premières scènes.", [1], [scenes[0].start]);
+    const dialShare = scenes.reduce((a, s) => a + s.dialogueWords, 0) / Math.max(1, scenes.reduce((a, s) => a + s.dialogueWords + s.actionWords, 0));
+    const early = scenes.slice(0, Math.ceil(n * 0.4));
+    if (dialShare > 0.25 && !early.some(s => s.lines.some(l => l.type === "dialogue" && l.who === prot.name && WANT_RE.test(l.text))))
+      add("low", "goal", "But du protagoniste non formulé", `${prot.name} n'exprime aucun désir ni projet dans les 40 % premiers du récit.`,
+        "Le but principal doit être posé aussitôt que possible pour créer l'anticipation (même s'il peut passer par l'image dans un film peu dialogué).", "Faites formuler (ou montrer) ce que le héros veut, et ce qu'il risque de perdre.");
+  }
+  const nightOf = s => (/NUIT|SOIR/.test(s.time) ? 1 : /JOUR|MATIN|AUBE|APR[ÈE]S-MIDI/.test(s.time) ? 0 : null);
+  { let best = [0, 0], start = 0;
+    for (let i = 1; i <= n; i++) { if (i === n || nightOf(scenes[i]) !== nightOf(scenes[start]) || nightOf(scenes[i]) === null) { if (nightOf(scenes[start]) !== null && i - start > best[1] - best[0]) best = [start, i]; start = i; } }
+    if (n >= 8 && best[1] - best[0] >= 6) { const ids = scenes.slice(best[0], best[1]).map(s => s.id);
+      add("low", "daynight", "Peu d'alternance jour / nuit", `${ids.length} scènes d'affilée de ${nightOf(scenes[best[0]]) ? "nuit" : "jour"} (scènes ${list(ids)}).`,
+        "L'alternance des jours et des nuits donne un rythme naturel au récit et fait glisser le temps plus vite.", "Insérez une scène de contraste (autre moment de la journée) pour faire respirer la séquence.", ids, startOf(ids)); } }
+  if (n >= 8) {
+    const ts = Math.floor(n * 0.65), tv = vals.slice(ts), ci = ts + tv.indexOf(Math.max(...tv));
+    const after = (rt.total - (rt.start[ci] + rt.dur[ci])) / (rt.total || 1);
+    if (after > 0.15) add("low", "long-end", "Dénouement trop long", `Après le climax (scène ${ci + 1}), il reste ${Math.round(after * 100)} % du film.`,
+      `Le dénouement classique est bref : ici ${fmtDur(after * rt.total)} s'écoulent après le moment le plus intense du dernier tiers.`, "Resserrez la résolution : une ou deux scènes suffisent généralement.", [ci + 1], [scenes[ci].start]);
+  }
+  const pv1 = beats.find(b => b.name === "Premier tournant"), pv2 = beats.find(b => b.name.startsWith("Crise"));
+  [[pv1, 0.15, 0.35, "Acte I", "premier tournant"], [pv2, 0.65, 0.85, "Acte III", "crise"]].forEach(([b, lo, hi, act, nm]) => {
+    if (!b?.found || !rt.total) return;
+    const p = b.minute / rt.total;
+    if (p < lo || p > hi) add("mid", "act-length", `${act} ${(act === "Acte I") === (p < lo) ? "très court" : "très long"}`, `Le ${nm} tombe à ${Math.round(p * 100)} % du film (scène ${b.scene}).`,
+      `Le paradigme classique répartit le film en quart / moitié / quart : le ${nm} se situe normalement autour de ${act === "Acte I" ? 25 : 75} %. Ici : ${Math.round(p * 100)} % (≈ ${fmtDur(b.minute)}).`,
+      "Déplacez le tournant ou rééquilibrez la durée des actes pour retrouver une progression plus classique (sauf choix de forme assumé).", [b.scene], [scenes[b.scene - 1].start]);
+  });
+  scenes.forEach((s, i) => {
+    const mv = infos[i].factors.find(f => f.key === "move");
+    const long = s.lines.filter(l => l.type === "dialogue" && words(l.text) > 14);
+    if (mv && mv.points >= 3 && long.length) add("low", "chase", "Poursuite bavarde", `La scène ${s.id} mêle action intense et répliques longues.`,
+      `${mv.detail} mais ${long.length} réplique(s) de plus de 14 mots : le dialogue ralentit l'action, les répliques doivent être brèves et laconiques dans une poursuite.`, "Réduisez chaque réplique à quelques mots et laissez l'action porter l'information.", [s.id], long.map(l => l.i));
+  });
+
   /* rythme global */
   if (n >= 8 && sd < 1.2) add("mid", "flat", "Rythme monotone", "La courbe de tension est presque plate.", `Écart-type de ${fmt(sd)} (< 1,2) : toutes les scènes ont une intensité voisine, sans respiration ni montée.`, "Alternez scènes de pression et scènes de calme ; creusez un contraste avant le climax.");
   else if (n >= 5 && sd > 2) strengths.push(`Bonne alternance de tension (écart-type ${fmt(sd)}) : montées et respirations bien contrastées.`);
@@ -241,13 +335,10 @@ export function analyze(scenes, notes = [], acts = []) {
   flaws.forEach(f => { const at = f.lines.length ? f.lines : f.scenes.slice(0, 8).map(id => scenes[id - 1]?.start).filter(x => x != null);
     at.forEach(i => (flags[i] = flags[i] || []).push(f)); });
 
-  /* matrice de présence */
-  const characters = B.characters.slice(0, 10).map(c => ({ name: c.name, total: c.words,
-    cells: scenes.map(s => (s.chars.has(c.name) ? Math.max(1, s.chars.get(c.name).words) : 0)) }));
-
   const dial = scenes.reduce((a, s) => a + s.dialogueWords, 0), act = scenes.reduce((a, s) => a + s.actionWords, 0);
+  const extra = insights({ scenes, B, vals, infos, beats, flaws, rt, slope10, linkRate });
   return {
-    strengths, flaws, flags, scenes: infos, beats, peaks, valleys, characters, median: med,
+    strengths, flaws, flags, scenes: infos, beats, peaks, valleys, ...extra, trend, slope10, linkRate, median: med,
     curve: vals, climax: vals.length ? vals.indexOf(Math.max(...vals)) : -1,
     metrics: { scenes: n, pages: B.pages, minutes: B.minutes, characters: B.characters.length, locations: B.locations.length,
       dialoguePct: Math.round((dial / Math.max(1, dial + act)) * 100), protagonist: prot?.name },

@@ -1,12 +1,17 @@
 import { useRef, useState, useLayoutEffect, useEffect } from "react";
 import { Link2, RefreshCw, Trash2, ArrowUpRight, AlertTriangle } from "lucide-react";
 import { ACTS, uid } from "../lib/project";
+import { SewnButton, tilt } from "./Craft";
+import { fmt } from "../lib/doctor";
 
 export const COLORS = { A: "#FFD60A", B: "#FF9F0A", C: "#64D2FF", D: "#BF5AF2" };
 export const COLOR_LABEL = { A: "Intrigue A", B: "Sous-intrigue", C: "Personnage", D: "Émotion" };
 const LINK_LABELS = ["Fusil de Tchekhov", "Indice", "Écho", "Cause → effet"];
 
-export default function PostItWall({ notes, setNotes, links, setLinks, scenes, filter, setFilter, highlight, onOpenScene, onSync }) {
+const PIN = { A: "#ff7a59", B: "#8d6bff", C: "#ff9d6b", D: "#3aa6ff" };
+
+export default function PostItWall({ notes, setNotes, links, setLinks, scenes, filter, setFilter, highlight, onOpenScene, onSync, report }) {
+  const [mode, setMode] = useState("manual");
   const [dragId, setDragId] = useState(null);
   const [linkMode, setLinkMode] = useState(false);
   const [from, setFrom] = useState(null);
@@ -56,6 +61,14 @@ export default function PostItWall({ notes, setNotes, links, setLinks, scenes, f
   useEffect(() => { if (highlight) els.current.get(highlight)?.scrollIntoView({ block: "center", behavior: "smooth" }); }, [highlight]);
 
   const orphan = n => n.heading && !sceneOf(n);
+  const info = n => { const s = sceneOf(n); return s && report ? report.scenes[s.id - 1] : null; };
+  /* couleurs d'après l'analyse : scènes fortes / respirations, présence du protagoniste (méthode des cartes) */
+  const shown = n => {
+    const inf = info(n);
+    if (mode === "tension" && inf) return inf.value >= 7 ? "#ff9d9d" : inf.value >= 4 ? "#ffdf6e" : "#9fd4ff";
+    if (mode === "presence" && inf) return report.characters[0]?.cells[inf.id - 1] > 0 ? "#8fe8c2" : "#cdb4ff";
+    return COLORS[n.color];
+  };
 
   return (
     <div className="p-6">
@@ -67,6 +80,13 @@ export default function PostItWall({ notes, setNotes, links, setLinks, scenes, f
             <span className="h-2.5 w-2.5 rounded-full" style={{ background: c }} />{COLOR_LABEL[k]} ({notes.filter(n => n.color === k).length})
           </button>
         ))}
+        {report && (
+          <span className="ml-3 flex items-center gap-1.5"><span className="text-ink-mute">Couleurs :</span>
+            {[["manual", "Manuelles"], ["tension", "Tension"], ["presence", "Présence du héros"]].map(([k, l]) => (
+              <button key={k} onClick={() => setMode(k)} className={`px-3 py-1 ${mode === k ? "clay-btn-active" : "clay-chip"}`}>{l}</button>
+            ))}
+          </span>
+        )}
         <div className="flex-1" />
         <button onClick={() => { setLinkMode(m => !m); setFrom(null); }} className={`flex items-center gap-1.5 rounded-md px-3 py-1 ${linkMode ? "clay-solid clay-peach" : "clay-btn"}`}>
           <Link2 size={13} />{linkMode ? (from ? "Choisissez le post-it d'arrivée" : "Choisissez le post-it de départ") : "Relier des post-it"}
@@ -87,9 +107,11 @@ export default function PostItWall({ notes, setNotes, links, setLinks, scenes, f
                   <div key={n.id} ref={el => (el ? els.current.set(n.id, el) : els.current.delete(n.id))}
                        draggable={!linkMode} onDragStart={() => setDragId(n.id)} onDragOver={e => e.preventDefault()}
                        onDrop={e => { e.stopPropagation(); drop(act, n.id); }} onClick={() => clickNote(n.id)}
-                       className={`clay-note p-3 text-[13px] font-medium text-ink transition ${linkMode ? "cursor-pointer" : "cursor-grab"} ${filter && filter !== n.color ? "opacity-20" : ""} ${from === n.id || highlight === n.id ? "ring-4 ring-[#ff8a5b]" : ""}`}
-                       style={{ background: COLORS[n.color] }}>
-                    <textarea value={n.text} rows={3} onChange={e => upd(n.id, { text: e.target.value })} className="w-full resize-none bg-transparent outline-none" />
+                       className={`clay-note clay-stitch relative p-3 pt-4 text-[13px] font-medium text-ink transition ${linkMode ? "cursor-pointer" : "cursor-grab"} ${filter && filter !== n.color ? "opacity-20" : ""} ${from === n.id || highlight === n.id ? "ring-4 ring-[#ff8a5b]" : ""}`}
+                       style={{ backgroundColor: shown(n), transform: `rotate(${tilt(n.id)}deg)`, "--r": "20px" }}>
+                    <SewnButton size={26} color={PIN[n.color] || "#ff7a59"} holes={n.color === "B" || n.color === "D" ? 2 : 4} className="pointer-events-none absolute -top-3 left-1/2 -translate-x-1/2" />
+                    {info(n) && <span className="clay-chip absolute -right-2 -top-3 px-2 py-0.5 text-[10px] font-extrabold text-ink">{fmt(info(n).value)}</span>}
+                    <textarea value={n.text} rows={3} onChange={e => upd(n.id, { text: e.target.value })} className="font-hand w-full resize-none bg-transparent text-[15px] leading-snug outline-none" />
                     <div className="mt-1 flex items-center gap-1">
                       {Object.entries(COLORS).map(([k, c]) => (
                         <button key={k} onClick={e => { e.stopPropagation(); upd(n.id, { color: k }); }} className="h-3 w-3 rounded-full border border-black/30" style={{ background: c }} />

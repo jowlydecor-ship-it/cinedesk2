@@ -3,6 +3,7 @@ import { Pin } from "lucide-react";
 import { TYPES } from "../lib/formats";
 import { parseText } from "../lib/importer";
 import { SEV_COLOR } from "./TensionChart";
+import { SewnButton } from "./Craft";
 
 const NEXT_ENTER = { heading: "action", action: "action", character: "dialogue", dialogue: "action", parenthetical: "dialogue", transition: "heading" };
 const NEXT_TAB = { action: "character", character: "dialogue", dialogue: "character", heading: "action", parenthetical: "dialogue", transition: "heading" };
@@ -109,8 +110,10 @@ export default function ScriptEditor({ lines, setLines, meta, setMeta, jumpTo, o
   return (
     <div className="mx-auto my-6 max-w-[800px] px-4">
       <div className="mb-3 grid grid-cols-3 gap-2">{field("title", "Titre")}{field("author", "Auteur·rice")}{field("contact", "Contact")}</div>
-      <div className="clay-paper px-16 py-12"
-           style={{ fontFamily: "'Courier Prime','Courier New',Courier,monospace", fontSize: "12pt", lineHeight: 1.5 }}>
+      <div className="clay-paper clay-stitch relative px-16 py-12" 
+           style={{ fontFamily: "'Courier Prime','Courier New',Courier,monospace", fontSize: "12pt", lineHeight: 1.5, "--stitch": "rgba(205,160,100,.7)", "--r": "30px" }}>
+        <SewnButton size={30} color="#ff7a59" className="pointer-events-none absolute -top-3 left-14" />
+        <SewnButton size={30} color="#3aa6ff" holes={2} className="pointer-events-none absolute -top-3 right-14" />
         {lines.map((l, i) => {
           const sug = suggest(i);
           const fl = flags[i];

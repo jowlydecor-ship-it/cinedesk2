@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { fmt } from "../lib/doctor";
+import { fmtDur } from "../lib/insights";
 
 export const SEV_COLOR = { high: "#ff6b6b", mid: "#ffb020", low: "#6bb6ff" };
 const RANK = { high: 3, mid: 2, low: 1 };
@@ -58,10 +59,11 @@ export default function TensionChart({ report, height = 150, compact = false, se
           <text x={W - pr} y={y(report.median) - 5} textAnchor="end" fontSize="10" fill="#8a82b3">médiane {fmt(report.median)}</text></>}
         {!compact && report.beats.filter(b => b.strict).map(b => (
           <g key={b.name}><line x1={x(b.scene - 1)} x2={x(b.scene - 1)} y1={pt - 22} y2={pt - 8} stroke={b.found ? "#2fbf8f" : "#ff6b6b"} strokeWidth="2" />
-            <text x={x(b.scene - 1)} y={pt - 25} textAnchor="middle" fontSize="10" fontWeight="700" fill={b.found ? "#1f9b72" : "#e04848"}>{b.name.replace("Premier point de bascule", "Pivot 1").replace("Second point de bascule", "Pivot 2")}</text></g>
+            <text x={x(b.scene - 1)} y={pt - 25} textAnchor="middle" fontSize="10" fontWeight="700" fill={b.found ? "#1f9b72" : "#e04848"}>{b.short}</text></g>
         ))}
 
         <path d={area} fill={`url(#${gid})`} />
+        {!compact && <path d={report.trend.map((v, i) => `${i ? "L" : "M"}${x(i)},${y(v)}`).join(" ")} fill="none" stroke="#8d6bff" strokeWidth="2.5" strokeDasharray="2 7" strokeLinecap="round" />}
         <path d={line} fill="none" stroke="#ff8a5b" strokeWidth={compact ? 3.5 : 4.5} strokeLinecap="round" strokeLinejoin="round" />
 
         {selected != null && <line x1={x(selected)} x2={x(selected)} y1={pt - 6} y2={H - pb} stroke="#8d6bff" strokeWidth="2.5" />}
@@ -85,7 +87,7 @@ export default function TensionChart({ report, height = 150, compact = false, se
         <div className="pointer-events-none absolute z-50 w-72 clay-card p-3 text-xs leading-snug"
              style={{ left: Math.max(0, Math.min(hover.px + 14, hover.w - 290)), top: hover.py + 16 }}>
           <div className="mb-1 flex items-center gap-2">
-            <span className="font-bold text-ink">Scène {info.id}</span>
+            <span className="font-bold text-ink">Scène {info.id}</span><span className="text-[10px] font-semibold text-ink-mute">≈ {fmtDur(info.minute)}</span>
             {info.role && <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${info.role === "pic" ? "bg-[#ffd9cc] text-[#c4421c]" : "bg-[#d3ecff] text-[#2a6fb0]"}`}>{info.role === "pic" ? "▲ pic" : "▼ creux"}</span>}
             <span className="ml-auto text-base font-extrabold text-[#ff7a59]">{fmt(info.value)}<span className="text-[10px] font-semibold text-ink-mute">/10</span></span>
           </div>

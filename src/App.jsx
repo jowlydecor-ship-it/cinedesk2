@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, useCallback, useDeferredValue } from "react";
 import {
-  PenLine, StickyNote, Clapperboard, PanelLeft, Film, ClipboardList, LayoutDashboard, Activity, Sparkles,
+  PenLine, StickyNote, Clapperboard, PanelLeft, ClipboardList, LayoutDashboard, Activity, Sparkles,
   FilePlus2, FolderOpen, FileUp, Save, Download, Undo2, Redo2,
 } from "lucide-react";
 import { useProject } from "./hooks/useProject";
@@ -18,6 +18,7 @@ import Breakdown from "./modules/Breakdown";
 import DoctorPanel from "./modules/DoctorPanel";
 import Analysis from "./modules/Analysis";
 import Desk from "./modules/Desk";
+import { SewnButton } from "./modules/Craft";
 import ImportDialog from "./modules/ImportDialog";
 
 const slug = s => (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w]+/g, "-").replace(/^-|-$/g, "").toLowerCase() || "scenario";
@@ -32,6 +33,9 @@ const NAV = [
   { id: "desk", label: "Bureau", icon: LayoutDashboard, c: "clay-lilac" },
   { id: "analysis", label: "Analyse", icon: Activity, c: "clay-peach", doctor: true },
 ];
+/* « step outline » : une phrase par scène, numérotée */
+const sequencier = (scenes, meta) => `${(meta.title || "SÉQUENCIER").toUpperCase()}\n${"=".repeat(40)}\n\n` + scenes.map(s =>
+  `${s.id}. ${s.heading}\n   ${s.firstAction ? s.firstAction.split(/(?<=[.!?…])\s/)[0] : "(pas d'action décrite)"}\n   Personnages : ${[...s.chars.keys()].join(", ") || "—"}\n`).join("\n");
 const IconBtn = ({ icon: I, label, onClick, disabled }) => (
   <button title={label} onClick={onClick} disabled={disabled} className="rounded-xl p-2 text-ink-soft hover:clay-chip disabled:opacity-30"><I size={17} /></button>
 );
@@ -39,7 +43,7 @@ const IconBtn = ({ icon: I, label, onClick, disabled }) => (
 export default function App() {
   const [init] = useState(sampleProject);
   const { project, set, undo, redo, load, markSaved, canUndo, canRedo, dirty } = useProject(init);
-  const { meta, lines, notes, links, panels, desk } = project;
+  const { meta, lines, notes, links, panels, desk, gridNotes } = project;
 
   const [view, setView] = useState("script");
   const [sidebar, setSidebar] = useState(true);
@@ -115,6 +119,7 @@ export default function App() {
       const base = slug(meta.title); let ok;
       if (kind === "pdf-us" || kind === "pdf-cnc")
         ok = await store.saveBytes(`${base}.pdf`, new Uint8Array(screenplayPdf(lines, meta, kind === "pdf-cnc" ? "cnc" : "hollywood")), [{ name: "PDF", extensions: ["pdf"] }]);
+      else if (kind === "seq") ok = await store.saveText(`${base}-sequencier.txt`, sequencier(scenes, meta), [{ name: "Texte", extensions: ["txt"] }]);
       else if (kind === "fdx") ok = await store.saveText(`${base}.fdx`, toFdx(lines), [{ name: "Final Draft", extensions: ["fdx"] }]);
       else ok = await store.saveText(`${base}.fountain`, toFountain(lines, meta), [{ name: "Fountain", extensions: ["fountain"] }]);
       if (ok) say("Export terminé");
@@ -163,7 +168,7 @@ export default function App() {
     <div className="flex h-screen flex-col gap-3 p-3">
       <header data-tauri-drag-region className="flex h-14 shrink-0 items-center gap-1 clay-card pl-24 pr-4">
         <IconBtn icon={PanelLeft} label="Afficher / masquer la barre latérale" onClick={() => setSidebar(s => !s)} />
-        <Film size={16} className="mx-1 text-[#ff8a5b]" />
+        <SewnButton size={34} color="#ff9d6b" className="mx-1" />
         <span data-tauri-drag-region className="mr-3 max-w-[220px] truncate text-sm font-extrabold text-ink">{meta.title || "Sans titre"}{dirty ? " •" : ""}</span>
         <IconBtn icon={FilePlus2} label="Nouveau (⌘N)" onClick={newDoc} />
         <IconBtn icon={FolderOpen} label="Ouvrir un projet ou un scénario (⌘O)" onClick={openDoc} />
@@ -175,7 +180,7 @@ export default function App() {
             <>
               <div className="fixed inset-0 z-30" onClick={() => setMenu(false)} />
               <div className="absolute left-0 top-11 z-40 w-64 clay-card p-2 text-xs">
-                {[["pdf-us", "PDF – norme Hollywood (Letter)"], ["pdf-cnc", "PDF – norme CNC (A4)"], ["fdx", "Final Draft (.fdx)"], ["fountain", "Fountain (.fountain)"]].map(([k, l]) => (
+                {[["pdf-us", "PDF – norme Hollywood (Letter)"], ["pdf-cnc", "PDF – norme CNC (A4)"], ["fdx", "Final Draft (.fdx)"], ["fountain", "Fountain (.fountain)"], ["seq", "Séquencier (.txt, une phrase par scène)"]].map(([k, l]) => (
                   <button key={k} onClick={() => exportAs(k)} className="block w-full rounded-2xl px-3 py-2 text-left font-semibold text-ink hover:clay-chip">{l}</button>
                 ))}
               </div>
@@ -190,27 +195,30 @@ export default function App() {
         <Sparkles size={15} className={ai ? "text-[#ff8a5b]" : "text-ink-mute"} />
         <span className="mx-2 text-xs font-bold text-ink-soft">Script Doctor</span>
         <button role="switch" aria-checked={ai} onClick={() => setAi(a => !a)} className={`relative h-7 w-12 rounded-full transition ${ai ? "bg-[#7fe0b8]" : "bg-[#d9cff7]"}`} style={{ boxShadow: "inset 3px 3px 6px rgba(0,0,0,.15), inset -2px -2px 5px rgba(255,255,255,.7)" }}>
-          <span className={`absolute top-0.5 h-6 w-6 rounded-full bg-white transition-all ${ai ? "left-[22px]" : "left-0.5"}`} style={{ boxShadow: "2px 3px 6px rgba(0,0,0,.25)" }} />
+          <span className={`absolute top-0.5 transition-all ${ai ? "left-[22px]" : "left-0.5"}`}><SewnButton size={24} color="#fff2c4" holes={2} /></span>
         </button>
       </header>
 
       <div className="flex min-h-0 flex-1 gap-3">
         {sidebar && (
-          <nav className="w-56 shrink-0 space-y-2 clay-card p-3">
+          <nav className="flex w-56 shrink-0 flex-col gap-2 clay-card clay-stitch p-3">
             {NAV.filter(n => !n.doctor || ai).map(({ id, label, icon: I, c }) => (
               <button key={id} onClick={() => setView(id)} className={`flex w-full items-center gap-3 px-3 py-2.5 text-sm ${current === id ? `clay-solid ${c}` : "rounded-2xl font-semibold text-ink-soft hover:clay-chip"}`}>
-                <span className={`clay-solid ${c} flex h-8 w-8 items-center justify-center !rounded-full`}><I size={16} /></span>{label}
+                <span className={`clay-solid clay-ring ${c} flex h-8 w-8 items-center justify-center !rounded-full`}><I size={16} /></span>{label}
               </button>
             ))}
+            <div className="mt-auto flex items-center justify-center gap-2 pt-4">
+              <SewnButton size={26} color="#ff9d9d" /><SewnButton size={26} color="#8fe8c2" holes={2} /><SewnButton size={26} color="#9fd4ff" />
+            </div>
           </nav>
         )}
         <main className="min-w-0 flex-1 overflow-auto rounded-[28px]">
           {current === "script" && <ScriptEditor lines={lines} setLines={set.lines} meta={meta} setMeta={set.meta} jumpTo={jumpTo} onShowNote={showNote} flags={report?.flags || {}} onOpenFlaw={id => openAnalysis({ flaw: id })} />}
-          {current === "wall" && <PostItWall notes={notes} setNotes={set.notes} links={links} setLinks={set.links} scenes={scenes} filter={filter} setFilter={setFilter} highlight={highlight} onOpenScene={jump} onSync={sync} />}
+          {current === "wall" && <PostItWall report={report} notes={notes} setNotes={set.notes} links={links} setLinks={set.links} scenes={scenes} filter={filter} setFilter={setFilter} highlight={highlight} onOpenScene={jump} onSync={sync} />}
           {current === "board" && <Storyboard scenes={scenes} panels={panels} setPanels={set.panels} />}
           {current === "break" && <Breakdown scenes={scenes} />}
           {current === "desk" && <Desk items={desk} setItems={set.desk} notes={notes} />}
-          {current === "analysis" && report && <Analysis report={report} scenes={slowScenes} onJump={jump} ai={local} focus={focus} />}
+          {current === "analysis" && report && <Analysis report={report} scenes={slowScenes} onJump={jump} ai={local} focus={focus} gridNotes={gridNotes} setGridNotes={set.gridNotes} />}
         </main>
         {ai && current !== "analysis" && <DoctorPanel report={report} onOpenAnalysis={openAnalysis} />}
       </div>

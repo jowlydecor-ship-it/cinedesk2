@@ -1,16 +1,17 @@
 import { Sparkles, Activity } from "lucide-react";
 import TensionChart, { SEV_COLOR } from "./TensionChart";
 import { fmt } from "../lib/doctor";
+import { fmtDur } from "../lib/insights";
 
 /* Panneau latéral compact : aperçu. Le détail complet est dans l'onglet « Analyse ». */
 export default function DoctorPanel({ report, onOpenAnalysis }) {
   if (!report) return null;
   const m = report.metrics;
   return (
-    <aside className="w-[340px] shrink-0 overflow-y-auto clay-card p-4">
+    <aside className="w-[340px] shrink-0 overflow-y-auto clay-card clay-stitch p-5">
       <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-ink"><Sparkles size={16} className="text-[#ff8a5b]" />Script Doctor</h2>
       <div className="mb-3 grid grid-cols-4 gap-2 text-center text-[11px] text-ink-soft">
-        {[["scènes", m.scenes], ["pages", m.pages], ["perso.", m.characters], ["dial. %", m.dialoguePct]].map(([l, v]) => (
+        {[["scènes", m.scenes], ["durée", fmtDur(report.runtime.total)], ["perso.", m.characters], ["dial. %", m.dialoguePct]].map(([l, v]) => (
           <div key={l} className="clay-chip !rounded-2xl py-1.5"><div className="text-base font-extrabold text-ink">{v}</div>{l}</div>
         ))}
       </div>

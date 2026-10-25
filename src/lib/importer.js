@@ -9,7 +9,7 @@ const wc = t => (t.match(/[\p{L}\p{N}'’]+/gu) || []).length;
 const CONTD = /\s*\((?:CONT['’]?D\.?|CONT\.?|SUITE|CONTINUED|CONTINUE|CONTINUE?)\)\s*$/i;
 const HEAD = new RegExp(
   "^(?:\\d{1,3}[A-Z]?[.)\\s-]+)?(?:(?:INT[ÉE]RIEUR|EXT[ÉE]RIEUR|INT\\.?\\s*/\\s*EXT\\.?|EXT\\.?\\s*/\\s*INT\\.?|INT\\.?|EXT\\.?|I/E\\.?)(?=[\\s.\\-–—])|(?:S[ÉE]QUENCE|SC[ÈE]NE)\\s*\\d+)", "iu");
-const TRANS = /^(?:FONDU(?:\s+(?:AU|EN)\s+(?:NOIR|BLANC))?|FONDU\s+ENCHA[IÎ]N[ÉE]|COUPE(?:\s+BRUTALE)?(?:\s+SUR.*)?|ENCHA[IÎ]N[ÉE].*|CUT TO|SMASH CUT TO|MATCH CUT TO|DISSOLVE TO|FADE (?:IN|OUT|TO)|FIN)\s*[:.]?$/i;
+const TRANS = /^(?:FONDU(?:\s+(?:AU|EN)\s+(?:NOIR|BLANC))?|FONDU\s+ENCHA[IÎ]N[ÉE]|COUPE(?:\s+BRUTALE)?(?:\s+SUR.*)?|ENCHA[IÎ]N[ÉE].*|ENCHA[IÎ]NEMENT(?:\\s+SUR.*)?|INTERCUT(?:\\s+AVEC.*)?|RETOUR\\s+(?:À|A|SUR).*|SUPERPOSITION|CUT TO|SMASH CUT TO|MATCH CUT TO|DISSOLVE TO|FADE (?:IN|OUT|TO)|FIN)\s*[:.]?$/i;
 const isHead = t => HEAD.test(t);
 const isTrans = t => caps(t) && wc(t) <= 6 && (TRANS.test(t.trim()) || /\bTO:$/.test(t.trim()));
 const isParen = t => /^\(.+\)$/.test(t) && t.length <= 90;

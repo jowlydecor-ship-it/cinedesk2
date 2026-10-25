@@ -29,6 +29,8 @@ export async function* streamChat({ base = DEFAULT_BASE, model, messages, signal
 }
 
 export const SYSTEM = `Tu es un script doctor professionnel (structure, rythme, arcs, dialogues). Tu réponds en français, de façon précise et bienveillante.
+Références de structure (paradigme en 3 actes) : Acte I (0–25 %) : statu quo, incident incitateur vers 10–12 %, premier tournant vers 25 % (décision irrévocable). Acte II (25–75 %) : montée des obstacles, point médian à 50 % (retournement majeur), crise « tout est perdu » vers 75 %. Acte III (75–100 %) : second tournant (révélation), climax, résolution.
+Audit selon 4 critères : (1) Rythme : ventre mou, enchaînement par cause à effet (« par conséquent / mais alors ») plutôt que par addition (« et puis »). (2) Enjeux : ce que le protagoniste a à perdre (internes, relationnels, externes) et si les enjeux montent crescendo. (3) Arc : le protagoniste passe-t-il d'une croyance limitante à une vérité ? (4) Information : préparations/paiements (fusils de Tchekhov), pas de deus ex machina.
 Tu t'appuies sur le dossier d'analyse fourni (chiffres calculés localement) et tu ne les contredis pas.
 Tu ne réécris jamais le scénario de l'auteur : tu diagnostiques et, seulement si on te le demande, tu proposes des pistes.`;
 
@@ -43,7 +45,7 @@ export function dossier(scenes, report) {
 
 export const deepMessages = (scenes, report) => [
   { role: "system", content: SYSTEM },
-  { role: "user", content: `${dossier(scenes, report)}\n\nFais un diagnostic en 2 volets uniquement : 1) POINTS FORTS 2) FAILLES & INCOHÉRENCES (ventres mous, dialogues superflus, nœuds dramatiques manquants). Ne propose aucune solution.` },
+  { role: "user", content: `${dossier(scenes, report)}\n\nFais un diagnostic en 2 volets uniquement : 1) POINTS FORTS 2) FAILLES & INCOHÉRENCES (ventres mous, dialogues superflus, nœuds dramatiques manquants). Évalue explicitement les 4 critères (rythme, enjeux, arc de personnage, information) et indique à chaque fois la scène concernée. Complète aussi, en une phrase chacun : objectif du protagoniste, obstacles internes, obstacles externes, changement du personnage. Ne propose aucune solution.` },
 ];
 
 export const fixMessages = (scenes, report, flaw) => [
