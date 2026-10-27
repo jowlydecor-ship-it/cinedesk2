@@ -4,10 +4,11 @@ import { uid } from "../lib/project";
 import { fetchBlob, toDataUrl, LIMITS, kindOf } from "../lib/reader";
 import Reference from "./Reference";
 import { SewnButton, Tape, tilt } from "./Craft";
+import { COLORS as POSTIT, COLOR_LIST, curlOf } from "../lib/postit";
 
 const SITES = [["Pinterest", "https://www.pinterest.com", "clay-coral"], ["ShotDeck", "https://shotdeck.com", "clay-mint"], ["The Script Lab", "https://thescriptlab.com", "clay-butter"], ["CNC", "https://www.cnc.fr", "clay-lilac"]];
 const TAGS = ["Lumière", "Décor", "Costume", "Cadrage", "Couleur", "Ambiance"];
-const NOTE_COLORS = ["#FFE27A", "#FFB38A", "#9FD8FF", "#C9B3FF", "#9BE8C3", "#FF9FB8"];
+const NOTE_COLORS = COLOR_LIST;
 const TAPES = ["#ffc4d8", "#bfe8ff", "#ffe9a8", "#cfeccd", "#e3d3ff"];
 const IMG = /\.(png|jpe?g|webp|gif|avif|mp4|webm|mov|m4v)(\?.*)?$/i;
 
@@ -116,7 +117,7 @@ export default function Desk({ items, setItems, notes }) {
 
   const importScenes = () => {
     const have = new Set(items.filter(i => i.ref).map(i => i.ref));
-    notes.filter(n => !have.has(n.id)).forEach((n, k) => add({ kind: "note", text: n.text, color: n.color === "A" ? "#FFE27A" : n.color === "B" ? "#FFB38A" : n.color === "C" ? "#9FD8FF" : "#C9B3FF", w: 200, ref: n.id, tag: "" }, { x: 40 + (k % 5) * 220, y: 40 + Math.floor(k / 5) * 150 }));
+    notes.filter(n => !have.has(n.id)).forEach((n, k) => add({ kind: "note", text: n.text, color: POSTIT[n.color] || POSTIT.A, w: 200, ref: n.id, tag: "" }, { x: 40 + (k % 5) * 220, y: 40 + Math.floor(k / 5) * 150 }));
   };
   const tags = [...new Set(items.map(i => i.tag).filter(Boolean))];
   const Caption = ({ it }) => (
@@ -133,7 +134,7 @@ export default function Desk({ items, setItems, notes }) {
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <div className="clay-card flex flex-wrap items-center gap-2 p-3 text-xs">
           <button onClick={() => setReader(r => !r)} className={`flex items-center gap-1.5 px-3 py-1.5 ${reader ? "clay-solid clay-peach" : "clay-btn font-semibold"}`}><Compass size={13} />Explorateur Eye Candy / Film Grab</button>
-          <span className="mx-1 h-5 w-px bg-[#d9cff7]" />
+          <span className="mx-1 h-5 w-px bg-[var(--line)]" />
           <button onClick={() => add({ kind: "note", text: "", color: NOTE_COLORS[0], w: 190, tag: "" })} className="clay-btn flex items-center gap-1 px-3 py-1.5 font-semibold"><StickyNote size={13} />Post-it</button>
           <button onClick={() => add({ kind: "text", text: "Titre", w: 220, tag: "" })} className="clay-btn flex items-center gap-1 px-3 py-1.5 font-semibold"><Type size={13} />Texte</button>
           <button onClick={importScenes} className="clay-btn flex items-center gap-1 px-3 py-1.5 font-semibold"><Download size={13} />Scènes du séquencier</button>
@@ -145,11 +146,11 @@ export default function Desk({ items, setItems, notes }) {
           {tags.length > 0 && <span className="ml-3 font-bold text-ink">Filtrer :</span>}
           {tags.map(t => <button key={t} onClick={() => setFilter(filter === t ? null : t)} className={`px-2.5 py-0.5 font-semibold ${filter === t ? "clay-solid clay-peach" : "clay-chip"}`}>{t}</button>)}
         </div>
-        {notice && <p className="flex items-center gap-2 rounded-2xl bg-[#fff3c4] px-3 py-2 text-xs font-semibold text-ink">⚠ {notice}<button onClick={() => setNotice("")} className="ml-auto text-ink-mute">✕</button></p>}
+        {notice && <p className="flex items-center gap-2 rounded-2xl bg-[var(--warn)] px-3 py-2 text-xs font-semibold text-ink">⚠ {notice}<button onClick={() => setNotice("")} className="ml-auto text-ink-mute">✕</button></p>}
 
         <div ref={scroller} className="min-h-0 flex-1 overflow-auto clay-well">
           <div ref={canvas} onDragOver={e => e.preventDefault()} onDrop={onDrop} className="relative"
-               style={{ width: 3200, height: 2200, backgroundImage: "radial-gradient(#d3c8f3 1.6px, transparent 1.6px)", backgroundSize: "28px 28px" }}>
+               style={{ width: 3200, height: 2200, backgroundImage: "radial-gradient(var(--dots) 1.6px, transparent 1.6px)", backgroundSize: "28px 28px" }}>
             {items.map(it => (
               <div key={it.id} onPointerDown={e => down(e, it)} onPointerMove={move} onPointerUp={() => (drag.current = null)}
                    style={{ left: it.x, top: it.y, width: it.w, zIndex: it.z || 1, touchAction: "none", transform: it.kind === "video" ? undefined : `rotate(${tilt(it.id)}deg)` }}
@@ -165,16 +166,17 @@ export default function Desk({ items, setItems, notes }) {
                 {it.kind === "video" && (
                   <div className="clay-card p-2" style={{ "--r": "28px" }}>
                     <Tape color={TAPES[it.tape ?? 1]} rotate={4} style={{ top: -11, left: "calc(50% - 39px)" }} />
-                    <video src={it.src} poster={it.poster || undefined} controls loop muted playsInline preload="metadata" referrerPolicy="no-referrer" className="w-full rounded-2xl bg-[#2f2a55]" />
+                    <video src={it.src} poster={it.poster || undefined} controls loop muted playsInline preload="metadata" referrerPolicy="no-referrer" className="w-full rounded-2xl bg-[var(--frame)]" />
                     {it.remote && <span className="clay-chip absolute left-4 top-4 px-2 py-0.5 text-[9px] font-extrabold text-ink">EN LIGNE</span>}
                     <Caption it={it} />
                   </div>
                 )}
                 {it.kind === "note" && (
-                  <div className="clay-note clay-stitch relative p-3 pt-4" style={{ backgroundColor: it.color, "--r": "20px" }}>
-                    <SewnButton size={24} color="#ff7a59" className="pointer-events-none absolute -top-3 left-1/2 -translate-x-1/2" />
-                    <textarea value={it.text} rows={3} onChange={e => upd(it.id, { text: e.target.value })} placeholder="Idée, scène, intention…" className="font-hand w-full resize-none bg-transparent text-[15px] text-ink outline-none placeholder:text-[#2f2a5566]" />
-                    <div className="mt-1 flex gap-1">{NOTE_COLORS.map(c => <button key={c} onClick={() => upd(it.id, { color: c })} className="h-3.5 w-3.5 rounded-full border border-black/20" style={{ background: c }} />)}</div>
+                  <div className="postit-shadow">
+                    <div className={`postit ${curlOf(it.id)} px-3 pb-2 pt-3.5`} style={{ backgroundColor: it.color }}>
+                      <textarea value={it.text} rows={3} onChange={e => upd(it.id, { text: e.target.value })} placeholder="Idée, scène, intention…" className="font-hand w-full resize-none bg-transparent text-[17px] leading-[1.25] text-[#2b2420] outline-none placeholder:text-[#2b242066]" />
+                      <div className="mt-1 flex gap-1">{NOTE_COLORS.map(c => <button key={c} onClick={() => upd(it.id, { color: c })} className="h-3.5 w-3.5 rounded-full border border-black/25" style={{ background: c }} />)}</div>
+                    </div>
                   </div>
                 )}
                 {it.kind === "text" && <div className="clay-card px-4 py-3"><textarea value={it.text} rows={1} onChange={e => upd(it.id, { text: e.target.value })} className="font-hand w-full resize-none bg-transparent text-xl font-extrabold text-ink outline-none" /></div>}

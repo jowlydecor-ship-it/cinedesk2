@@ -7,8 +7,8 @@ const th = "px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-wid
 const td = "px-3 py-2 text-[13px] text-neutral-200";
 const Table = ({ head, rows }) => (
   <table className="w-full overflow-hidden clay-card">
-    <thead className="bg-[#efe7ff]"><tr>{head.map(h => <th key={h} className={th}>{h}</th>)}</tr></thead>
-    <tbody className="divide-y divide-[#ece4fb]">{rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j} className={td}>{c}</td>)}</tr>)}</tbody>
+    <thead className="bg-[var(--soft2)]"><tr>{head.map(h => <th key={h} className={th}>{h}</th>)}</tr></thead>
+    <tbody className="divide-y divide-[var(--soft)]">{rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j} className={td}>{c}</td>)}</tr>)}</tbody>
   </table>
 );
 

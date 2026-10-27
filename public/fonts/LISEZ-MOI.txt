@@ -1,0 +1,9 @@
+POLICE « CRAYON HAND » (texte des post-it)
+
+Déposez ici les deux fichiers de la police :
+  CrayonHand-Regular.otf
+  CrayonHand-Bold.otf
+puis relancez la fabrication de l'application (GitHub Actions ou `npm run tauri build`).
+
+Si ces fichiers sont absents, CinéDesk utilise une police manuscrite approchante de macOS
+avec un effet de grain « crayon ». Vérifiez la licence de la police avant toute distribution.

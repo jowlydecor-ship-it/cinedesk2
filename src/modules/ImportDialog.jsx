@@ -24,7 +24,7 @@ export default function ImportDialog({ file, onPick, onClose, onConfirm }) {
   const r = st.result?.report;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#2f2a5560] backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--overlay)] backdrop-blur-sm">
       <div className="max-h-[90vh] w-[640px] overflow-y-auto clay-card p-6">
         <h2 className="mb-1 text-lg font-extrabold text-ink">Importer un scénario</h2>
         <p className="mb-4 text-xs text-ink-soft">PDF, Word (.docx), Final Draft (.fdx), Fountain ou texte. CinéDesk reconnaît les séquences, personnages, dialogues et actions, puis reconstruit le séquencier.</p>
@@ -51,7 +51,7 @@ export default function ImportDialog({ file, onPick, onClose, onConfirm }) {
               <span className="clay-chip px-3 py-1 font-bold text-ink">{r.dialogues} répliques</span>
               <span className={`clay-solid ${CONF[r.confidence]} px-3 py-1`}>Fiabilité : {r.confidence}</span>
             </div>
-            {r.warnings.map((w, i) => <p key={i} className="mb-2 rounded-2xl bg-[#fff3c4] p-3 text-xs text-ink">⚠ {w}</p>)}
+            {r.warnings.map((w, i) => <p key={i} className="mb-2 rounded-2xl bg-[var(--warn)] p-3 text-xs text-ink">⚠ {w}</p>)}
             <div className="mb-1 text-xs font-bold text-ink-soft">Aperçu de la reconnaissance</div>
             <ul className="mb-4 max-h-56 space-y-1 overflow-y-auto clay-well p-3">
               {st.result.lines.slice(0, 16).map((l, i) => (

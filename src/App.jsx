@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback, useDeferredValue } from "react";
 import {
   PenLine, StickyNote, Clapperboard, PanelLeft, ClipboardList, LayoutDashboard, Activity, Sparkles,
-  FilePlus2, FolderOpen, FileUp, Save, Download, Undo2, Redo2,
+  FilePlus2, FolderOpen, FileUp, Save, Download, Undo2, Redo2, Settings as GearIcon,
 } from "lucide-react";
 import { useProject } from "./hooks/useProject";
 import { useLocalAI } from "./hooks/useLocalAI";
@@ -19,6 +19,8 @@ import DoctorPanel from "./modules/DoctorPanel";
 import Analysis from "./modules/Analysis";
 import Desk from "./modules/Desk";
 import { SewnButton } from "./modules/Craft";
+import Settings from "./modules/Settings";
+import { ThemeProvider, SvgDefs, useTheme } from "./theme";
 import ImportDialog from "./modules/ImportDialog";
 
 const slug = s => (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w]+/g, "-").replace(/^-|-$/g, "").toLowerCase() || "scenario";
@@ -29,8 +31,8 @@ const NAV = [
   { id: "script", label: "Scénario", icon: PenLine, c: "clay-sky" },
   { id: "wall", label: "Post-it", icon: StickyNote, c: "clay-butter" },
   { id: "board", label: "Storyboard", icon: Clapperboard, c: "clay-coral" },
-  { id: "break", label: "Dépouillement", icon: ClipboardList, c: "clay-mint" },
-  { id: "desk", label: "Bureau", icon: LayoutDashboard, c: "clay-lilac" },
+  { id: "break", label: "Dépouillement", icon: ClipboardList, c: "clay-lilac" },
+  { id: "desk", label: "Bureau", icon: LayoutDashboard, c: "clay-mint" },
   { id: "analysis", label: "Analyse", icon: Activity, c: "clay-peach", doctor: true },
 ];
 /* « step outline » : une phrase par scène, numérotée */
@@ -40,7 +42,9 @@ const IconBtn = ({ icon: I, label, onClick, disabled }) => (
   <button title={label} onClick={onClick} disabled={disabled} className="rounded-xl p-2 text-ink-soft hover:clay-chip disabled:opacity-30"><I size={17} /></button>
 );
 
-export default function App() {
+function AppInner() {
+  const { theme } = useTheme();
+  const [settings, setSettings] = useState(false);
   const [init] = useState(sampleProject);
   const { project, set, undo, redo, load, markSaved, canUndo, canRedo, dirty } = useProject(init);
   const { meta, lines, notes, links, panels, desk, gridNotes } = project;
@@ -187,14 +191,15 @@ export default function App() {
             </>
           )}
         </div>
-        <span className="mx-1 h-5 w-px bg-[#d9cff7]" />
+        <span className="mx-1 h-5 w-px bg-[var(--line)]" />
         <IconBtn icon={Undo2} label="Annuler (⌘Z)" onClick={undo} disabled={!canUndo} />
         <IconBtn icon={Redo2} label="Rétablir (⇧⌘Z)" onClick={redo} disabled={!canRedo} />
+        <IconBtn icon={GearIcon} label="Réglages (thème)" onClick={() => setSettings(true)} />
         <div data-tauri-drag-region className="h-full flex-1" />
         <span className="mr-3 text-[11px] font-semibold text-ink-soft">{scenes.length} scènes · ≈ {stats.pages} p.</span>
         <Sparkles size={15} className={ai ? "text-[#ff8a5b]" : "text-ink-mute"} />
         <span className="mx-2 text-xs font-bold text-ink-soft">Script Doctor</span>
-        <button role="switch" aria-checked={ai} onClick={() => setAi(a => !a)} className={`relative h-7 w-12 rounded-full transition ${ai ? "bg-[#7fe0b8]" : "bg-[#d9cff7]"}`} style={{ boxShadow: "inset 3px 3px 6px rgba(0,0,0,.15), inset -2px -2px 5px rgba(255,255,255,.7)" }}>
+        <button role="switch" aria-checked={ai} onClick={() => setAi(a => !a)} className={`relative h-7 w-12 rounded-full transition ${ai ? "bg-[#7fe0b8]" : "bg-[var(--line)]"}`} style={{ boxShadow: "inset 3px 3px 6px rgba(0,0,0,.15), inset -2px -2px 5px rgba(255,255,255,.7)" }}>
           <span className={`absolute top-0.5 transition-all ${ai ? "left-[22px]" : "left-0.5"}`}><SewnButton size={24} color="#fff2c4" holes={2} /></span>
         </button>
       </header>
@@ -203,16 +208,16 @@ export default function App() {
         {sidebar && (
           <nav className="flex w-56 shrink-0 flex-col gap-2 clay-card clay-stitch p-3">
             {NAV.filter(n => !n.doctor || ai).map(({ id, label, icon: I, c }) => (
-              <button key={id} onClick={() => setView(id)} className={`flex w-full items-center gap-3 px-3 py-2.5 text-sm ${current === id ? `clay-solid ${c}` : "rounded-2xl font-semibold text-ink-soft hover:clay-chip"}`}>
-                <span className={`clay-solid clay-ring ${c} flex h-8 w-8 items-center justify-center !rounded-full`}><I size={16} /></span>{label}
+              <button key={id} data-active={current === id} onClick={() => setView(id)} className={`nav-item clay-solid ${c} flex w-full items-center gap-3 px-3 py-2.5 text-sm`}>
+                <span className={`nav-disc clay-solid clay-ring ${c} flex h-8 w-8 items-center justify-center !rounded-full`}><I size={16} /></span>{label}
               </button>
             ))}
             <div className="mt-auto flex items-center justify-center gap-2 pt-4">
-              <SewnButton size={26} color="#ff9d9d" /><SewnButton size={26} color="#8fe8c2" holes={2} /><SewnButton size={26} color="#9fd4ff" />
+              {(theme === "clay" ? [["#f2a71f", 0], ["#e8621b", 0], ["#7b3bc8", 0]] : [["#ff9d9d", 4], ["#8fe8c2", 2], ["#9fd4ff", 4]]).map(([c, h], i) => <SewnButton key={i} size={26} color={c} holes={h} />)}
             </div>
           </nav>
         )}
-        <main className="min-w-0 flex-1 overflow-auto rounded-[28px]">
+        <main className={`min-w-0 flex-1 overflow-auto rounded-[28px] ${current === "script" ? "desk-main" : ""}`}>
           {current === "script" && <ScriptEditor lines={lines} setLines={set.lines} meta={meta} setMeta={set.meta} jumpTo={jumpTo} onShowNote={showNote} flags={report?.flags || {}} onOpenFlaw={id => openAnalysis({ flaw: id })} />}
           {current === "wall" && <PostItWall report={report} notes={notes} setNotes={set.notes} links={links} setLinks={set.links} scenes={scenes} filter={filter} setFilter={setFilter} highlight={highlight} onOpenScene={jump} onSync={sync} />}
           {current === "board" && <Storyboard scenes={scenes} panels={panels} setPanels={set.panels} />}
@@ -223,10 +228,11 @@ export default function App() {
         {ai && current !== "analysis" && <DoctorPanel report={report} onOpenAnalysis={openAnalysis} />}
       </div>
 
+      {settings && <Settings onClose={() => setSettings(false)} />}
       {toast && <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 clay-card !rounded-full px-5 py-2.5 text-xs font-bold text-ink">{toast}</div>}
       {imp.open && <ImportDialog file={imp.file} onPick={f => setImp({ open: true, file: f })} onClose={() => setImp({ open: false, file: null })} onConfirm={confirmImport} />}
       {dlg && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-[#2f2a5560] backdrop-blur-sm">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-[var(--overlay)] backdrop-blur-sm">
           <div className="w-80 clay-card p-5">
             <p className="mb-4 text-sm font-semibold text-ink">{dlg.msg}</p>
             <div className="flex justify-end gap-2 text-xs">
@@ -237,5 +243,14 @@ export default function App() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <SvgDefs />
+      <AppInner />
+    </ThemeProvider>
   );
 }

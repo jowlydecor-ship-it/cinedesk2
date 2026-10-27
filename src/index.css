@@ -1,12 +1,10 @@
 @import "tailwindcss";
 
-/* ─────────── Thème « pâte à modeler » (claymorphism) ─────────── */
 @theme {
   --font-sans: ui-rounded, "SF Pro Rounded", "Nunito", -apple-system, system-ui, sans-serif;
   --color-ink: #2f2a55;
   --color-ink-soft: #62598f;
   --color-ink-mute: #a49cc8;
-  /* les anciennes teintes « neutral » deviennent de l'encre violette lisible sur fond pastel */
   --color-neutral-100: #2f2a55;
   --color-neutral-200: #2f2a55;
   --color-neutral-300: #4a4373;
@@ -16,102 +14,206 @@
   --color-neutral-700: #c3bde3;
 }
 
-/* textures : grain fin + marbrures de la pâte à modeler, fibres du papier craft */
+/* ───────── polices ─────────
+   « Crayon Hand » : déposez CrayonHand-Regular.otf et CrayonHand-Bold.otf dans public/fonts/ (voir README).
+   Sans ces fichiers, une police approchante est utilisée avec un effet de grain crayon. */
+@font-face { font-family: "Crayon Hand"; font-weight: 400; src: local("Crayon Hand"), local("CrayonHand-Regular"), local("Crayon Hand Regular"), url("/fonts/CrayonHand-Regular.otf") format("opentype"); }
+@font-face { font-family: "Crayon Hand"; font-weight: 700; src: local("Crayon Hand Bold"), local("CrayonHand-Bold"), url("/fonts/CrayonHand-Bold.otf") format("opentype"); }
+.font-hand { font-family: "Crayon Hand", "Chalkboard SE", "Chalkduster", "Comic Sans MS", cursive; letter-spacing: .01em; }
+.no-crayon-font .font-hand { filter: url(#crayon); }
+
+/* ───────── textures ───────── */
 :root {
   --tex-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .30  0 0 0 0 .20  0 0 0 0 .48  0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url%28%23f%29'/%3E%3C/svg%3E");
   --tex-blotch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.028' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55  0 0 0 0 .38  0 0 0 0 .8  0 0 0 .13 -.02'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url%28%23f%29'/%3E%3C/svg%3E");
   --tex-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55 .05' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45  0 0 0 0 .32  0 0 0 0 .2  0 0 0 .20 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url%28%23f%29'/%3E%3C/svg%3E");
-}
-.font-hand { font-family: "Marker Felt", "Bradley Hand", "Chalkboard SE", ui-rounded, cursive; }
-.washi {
-  position: absolute; width: 78px; height: 24px; z-index: 5; pointer-events: none;
-  background: repeating-linear-gradient(135deg, rgba(255,255,255,.5) 0 5px, transparent 5px 10px), var(--c, #ffc4d8);
-  opacity: .93; box-shadow: 1px 3px 5px rgba(80,50,130,.28);
-  clip-path: polygon(3% 0,97% 0,100% 12%,96% 25%,100% 38%,96% 50%,100% 62%,96% 75%,100% 88%,97% 100%,3% 100%,0 88%,4% 75%,0 62%,4% 50%,0 38%,4% 25%,0 12%);
+  --tex-bump: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.05' numOctaves='4' seed='7' result='n'/%3E%3CfeDiffuseLighting in='n' lighting-color='%239a9a9a' surfaceScale='2.6' diffuseConstant='1.15'%3E%3CfeDistantLight azimuth='235' elevation='58'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23f%29'/%3E%3C/svg%3E");
+  --tex-grain-b: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36  0 0 0 0 .22  0 0 0 0 .10  0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url%28%23f%29'/%3E%3C/svg%3E");
+  --tex-wood: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='84'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .16' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .22  0 0 0 0 .11  0 0 0 0 .04  0 0 0 .9 -.25'/%3E%3C/filter%3E%3Crect width='420' height='84' filter='url%28%23f%29'/%3E%3C/svg%3E");
+
+  /* ── thème « pastel » (précédent) : valeurs par défaut ── */
+  --line: #d9cff7; --soft: #ece4fb; --soft2: #efe7ff; --accent: #6b4de0; --warn: #fff3c4;
+  --frame: #2f2a55; --frame-text: #b9b0e8; --overlay: #2f2a5560; --dots: #d3c8f3; --sb: #cfc4f2; --stitch-c: rgba(255,255,255,.95);
+  --card-bg: var(--tex-fine), var(--tex-blotch), linear-gradient(145deg, #ffffff, #f6f0ff);
+  --card-bgm: normal; --card-r: 28px; --card-bd: 0 solid transparent; --bf: none;
+  --card-sh: 10px 14px 28px rgba(118,92,190,.20), -8px -8px 18px rgba(255,255,255,.95), inset 3px 3px 7px #fff, inset -5px -6px 12px rgba(160,135,220,.16);
+  --chip-bg: var(--tex-fine), linear-gradient(145deg, #ffffff, #f3ecff); --chip-bgm: normal; --chip-bd: 0 solid transparent;
+  --chip-sh: 4px 5px 10px rgba(118,92,190,.18), -3px -3px 8px rgba(255,255,255,.95), inset 2px 2px 4px #fff, inset -2px -3px 6px rgba(160,135,220,.14);
+  --well-bg: var(--tex-fine), #ece4fb; --well-bgm: normal; --well-r: 20px; --well-bd: 0 solid transparent;
+  --well-sh: inset 4px 5px 10px rgba(140,115,200,.28), inset -4px -4px 9px rgba(255,255,255,.95);
+  --sol-tex: var(--tex-fine), var(--tex-blotch); --sol-bgm: normal; --sol-r: 18px; --sol-bd: 0 solid transparent; --sol-ink: #2f2a55; --sol-ts: none;
+  --sol-sh: 5px 7px 14px rgba(118,92,190,.28), -4px -4px 10px rgba(255,255,255,.9), inset 2px 2px 5px rgba(255,255,255,.75), inset -3px -4px 8px rgba(0,0,0,.10);
+  --btn-c: #ddd0ff; --btn-c2: #f1ebff; --btn-ink: inherit;
+  --btn-sh: 5px 7px 14px rgba(118,92,190,.24), -4px -4px 10px rgba(255,255,255,.9), inset 2px 2px 5px rgba(255,255,255,.75), inset -3px -4px 8px rgba(0,0,0,.08);
+  --act-c: #ffb98f; --act-c2: #ffdcc4;
+  --act-sh: 5px 7px 14px rgba(255,140,80,.30), -4px -4px 10px rgba(255,255,255,.9), inset 2px 2px 5px rgba(255,255,255,.75), inset -3px -4px 8px rgba(0,0,0,.08);
+  --paper-bg: var(--tex-paper), var(--tex-blotch), linear-gradient(145deg, #fffdf8, #fbf1de); --paper-bgm: normal; --paper-r: 30px; --paper-bd: 0 solid transparent; --paper-bf: none;
+  --paper-sh: 14px 18px 36px rgba(160,120,70,.22), -8px -8px 20px rgba(255,255,255,.9), inset 4px 4px 9px #fff, inset -6px -8px 16px rgba(200,160,100,.14);
+  --sky-c: #9fd4ff; --sky-c2: #d3ecff; --peach-c: #ffb98f; --peach-c2: #ffdcc4; --mint-c: #8fe8c2; --mint-c2: #ccf7e3;
+  --lilac-c: #cdb4ff; --lilac-c2: #e8dcff; --butter-c: #ffdf6e; --butter-c2: #fff0b0; --coral-c: #ff9d9d; --coral-c2: #ffd0d0;
+  --pink-c: #ffb3d1; --pink-c2: #ffdbe9;
 }
 
 html, body, #root { height: 100%; margin: 0; }
 body {
-  font-family: var(--font-sans);
-  color: #2f2a55;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-sans); color: var(--color-ink); overflow: hidden; -webkit-font-smoothing: antialiased;
   background:
-    radial-gradient(circle at 10% 6%, #ffc9a8 0, transparent 40%),
-    radial-gradient(circle at 92% 10%, #b9e3ff 0, transparent 38%),
-    radial-gradient(circle at 72% 96%, #bff3d8 0, transparent 40%),
-    radial-gradient(circle at 6% 92%, #e3c4ff 0, transparent 38%),
-    radial-gradient(circle at 50% 50%, #ffd6ec 0, transparent 45%),
-    #f1e8ff;
+    radial-gradient(circle at 10% 6%, #ffc9a8 0, transparent 40%), radial-gradient(circle at 92% 10%, #b9e3ff 0, transparent 38%),
+    radial-gradient(circle at 72% 96%, #bff3d8 0, transparent 40%), radial-gradient(circle at 6% 92%, #e3c4ff 0, transparent 38%),
+    radial-gradient(circle at 50% 50%, #ffd6ec 0, transparent 45%), #f1e8ff;
   background-attachment: fixed;
 }
 ::selection { background: #ffd3b8; }
 ::-webkit-scrollbar { width: 12px; height: 12px; }
-::-webkit-scrollbar-thumb { background: #cfc4f2; border-radius: 12px; border: 3px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb { background: var(--sb); border-radius: 12px; border: 3px solid transparent; background-clip: content-box; }
 
-@utility clay-card {
-  background: var(--tex-fine), var(--tex-blotch), linear-gradient(145deg, #ffffff, #f6f0ff);
-  border-radius: 28px !important;
-  box-shadow: 10px 14px 28px rgba(118,92,190,.20), -8px -8px 18px rgba(255,255,255,.95),
-              inset 3px 3px 7px #fff, inset -5px -6px 12px rgba(160,135,220,.16);
-}
-@utility clay-paper {
-  background: var(--tex-paper), var(--tex-blotch), linear-gradient(145deg, #fffdf8, #fbf1de);
-  border-radius: 30px !important;
-  box-shadow: 14px 18px 36px rgba(160,120,70,.22), -8px -8px 20px rgba(255,255,255,.9),
-              inset 4px 4px 9px #fff, inset -6px -8px 16px rgba(200,160,100,.14);
-  color: #2f2a55;
-}
-@utility clay-chip {
-  background: var(--tex-fine), linear-gradient(145deg, #ffffff, #f3ecff);
-  border-radius: 999px !important;
-  box-shadow: 4px 5px 10px rgba(118,92,190,.18), -3px -3px 8px rgba(255,255,255,.95),
-              inset 2px 2px 4px #fff, inset -2px -3px 6px rgba(160,135,220,.14);
-}
-@utility clay-well {
-  background: var(--tex-fine), #ece4fb;
-  border-radius: 20px !important;
-  box-shadow: inset 4px 5px 10px rgba(140,115,200,.28), inset -4px -4px 9px rgba(255,255,255,.95);
-}
+/* ───────── composants (pilotés par les variables du thème) ───────── */
+@utility clay-card { background: var(--card-bg); background-blend-mode: var(--card-bgm); border-radius: var(--card-r) !important; box-shadow: var(--card-sh); border: var(--card-bd); -webkit-backdrop-filter: var(--bf); backdrop-filter: var(--bf); }
+@utility clay-paper { background: var(--paper-bg); background-blend-mode: var(--paper-bgm); border-radius: var(--paper-r) !important; box-shadow: var(--paper-sh); border: var(--paper-bd); -webkit-backdrop-filter: var(--paper-bf); backdrop-filter: var(--paper-bf); color: var(--color-ink); }
+@utility clay-chip { background: var(--chip-bg); background-blend-mode: var(--chip-bgm); border-radius: 999px; box-shadow: var(--chip-sh); border: var(--chip-bd); }
+@utility clay-well { background: var(--well-bg); background-blend-mode: var(--well-bgm); border-radius: var(--well-r) !important; box-shadow: var(--well-sh); border: var(--well-bd); }
 @utility clay-solid {
-  background: var(--tex-fine), var(--tex-blotch), linear-gradient(145deg, var(--c2, #efe8ff), var(--c, #d9c8ff));
-  border-radius: 18px !important;
-  box-shadow: 5px 7px 14px rgba(118,92,190,.28), -4px -4px 10px rgba(255,255,255,.9),
-              inset 2px 2px 5px rgba(255,255,255,.75), inset -3px -4px 8px rgba(0,0,0,.10);
-  color: #2f2a55;
-  font-weight: 600;
+  background: var(--sol-tex), linear-gradient(145deg, var(--c2, #efe8ff), var(--c, #d9c8ff)); background-blend-mode: var(--sol-bgm);
+  border-radius: var(--sol-r); box-shadow: var(--sol-sh); border: var(--sol-bd); color: var(--sol-ink); text-shadow: var(--sol-ts); font-weight: 600;
   transition: transform .12s ease, box-shadow .12s ease;
   &:hover { transform: translateY(-1px); }
-  &:active { transform: translateY(1px); box-shadow: inset 3px 4px 8px rgba(0,0,0,.18), inset -3px -3px 8px rgba(255,255,255,.6); }
+  &:active { transform: translateY(1px); filter: brightness(.96); }
 }
-@utility clay-btn { --c: #ddd0ff; --c2: #f1ebff; background: var(--tex-fine), linear-gradient(145deg, var(--c2), var(--c)); border-radius: 18px !important;
-  box-shadow: 5px 7px 14px rgba(118,92,190,.24), -4px -4px 10px rgba(255,255,255,.9), inset 2px 2px 5px rgba(255,255,255,.75), inset -3px -4px 8px rgba(0,0,0,.08);
-  transition: transform .12s ease; &:hover { transform: translateY(-1px); } &:active { transform: translateY(1px); } }
-@utility clay-btn-active { --c: #ffb98f; --c2: #ffdcc4; background: var(--tex-fine), linear-gradient(145deg, var(--c2), var(--c)); border-radius: 18px !important;
-  box-shadow: 5px 7px 14px rgba(255,140,80,.30), -4px -4px 10px rgba(255,255,255,.9), inset 2px 2px 5px rgba(255,255,255,.75), inset -3px -4px 8px rgba(0,0,0,.08); }
-@utility clay-note {
-  background-image: var(--tex-paper), linear-gradient(165deg, rgba(255,255,255,.38), rgba(255,255,255,0) 45%, rgba(0,0,0,.07));
-  border-radius: 18px 18px 22px 14px !important;
-  box-shadow: 6px 9px 16px rgba(90,60,140,.25), -3px -3px 8px rgba(255,255,255,.7), inset 3px 3px 7px rgba(255,255,255,.65), inset -4px -5px 9px rgba(0,0,0,.10);
+@utility clay-btn {
+  --c: var(--btn-c); --c2: var(--btn-c2);
+  background: var(--sol-tex), linear-gradient(145deg, var(--c2), var(--c)); background-blend-mode: var(--sol-bgm);
+  border-radius: var(--sol-r); box-shadow: var(--btn-sh); border: var(--sol-bd); color: var(--btn-ink); transition: transform .12s ease;
+  &:hover { transform: translateY(-1px); }
+  &:active { transform: translateY(1px); }
 }
-@utility clay-sky { --c: #9fd4ff; --c2: #d3ecff; }
-@utility clay-peach { --c: #ffb98f; --c2: #ffdcc4; }
-@utility clay-mint { --c: #8fe8c2; --c2: #ccf7e3; }
-@utility clay-lilac { --c: #cdb4ff; --c2: #e8dcff; }
-@utility clay-butter { --c: #ffdf6e; --c2: #fff0b0; }
-@utility clay-coral { --c: #ff9d9d; --c2: #ffd0d0; }
-@utility clay-pink { --c: #ffb3d1; --c2: #ffdbe9; }
+@utility clay-btn-active {
+  --c: var(--act-c); --c2: var(--act-c2);
+  background: var(--sol-tex), linear-gradient(145deg, var(--c2), var(--c)); background-blend-mode: var(--sol-bgm);
+  border-radius: var(--sol-r); box-shadow: var(--act-sh); border: var(--sol-bd);
+}
+@utility clay-sky { --c: var(--sky-c); --c2: var(--sky-c2); }
+@utility clay-peach { --c: var(--peach-c); --c2: var(--peach-c2); }
+@utility clay-mint { --c: var(--mint-c); --c2: var(--mint-c2); }
+@utility clay-lilac { --c: var(--lilac-c); --c2: var(--lilac-c2); }
+@utility clay-butter { --c: var(--butter-c); --c2: var(--butter-c2); }
+@utility clay-coral { --c: var(--coral-c); --c2: var(--coral-c2); }
+@utility clay-pink { --c: var(--pink-c); --c2: var(--pink-c2); }
 
-/* coutures : pointillés cousus à l'intérieur d'une surface (couleur réglable avec --stitch) */
+/* coutures et rubans (thèmes pâte à modeler et pastel) */
 @utility clay-stitch {
   position: relative;
-  &::after {
-    content: ""; position: absolute; inset: 8px; border-radius: calc(var(--r, 28px) - 8px);
-    border: 2.5px dashed var(--stitch, rgba(255,255,255,.95)); pointer-events: none;
-    filter: drop-shadow(0 1px 0 rgba(120,90,190,.22));
-  }
+  &::after { content: ""; position: absolute; inset: 8px; border-radius: calc(var(--r, 28px) - 8px); border: 2.5px dashed var(--stitch, var(--stitch-c)); pointer-events: none; filter: drop-shadow(0 1px 0 rgba(90,60,30,.2)); }
 }
 @utility clay-ring {
   position: relative;
-  &::after { content: ""; position: absolute; inset: 3px; border-radius: 999px; border: 1.6px dashed rgba(255,255,255,.95); pointer-events: none; }
+  &::after { content: ""; position: absolute; inset: 3px; border-radius: 999px; border: 1.6px dashed rgba(255,255,255,.9); pointer-events: none; }
 }
+.washi {
+  position: absolute; width: 78px; height: 24px; z-index: 5; pointer-events: none;
+  background: repeating-linear-gradient(135deg, rgba(255,255,255,.5) 0 5px, transparent 5px 10px), var(--c, #ffc4d8);
+  opacity: .93; box-shadow: 1px 3px 5px rgba(80,50,30,.28);
+  clip-path: polygon(3% 0,97% 0,100% 12%,96% 25%,100% 38%,96% 50%,100% 62%,96% 75%,100% 88%,97% 100%,3% 100%,0 88%,4% 75%,0 62%,4% 50%,0 38%,4% 25%,0 12%);
+}
+
+/* ───────── post-it : comme un vrai bloc (papier plat, ombre douce, coin corné) ───────── */
+.postit-shadow { filter: drop-shadow(0 1px 1px rgba(40,25,10,.20)) drop-shadow(5px 9px 7px rgba(40,25,10,.22)); }
+.postit {
+  position: relative; color: #2b2420; border-radius: 2px 2px 3px 2px;
+  background-image: linear-gradient(180deg, rgba(255,255,255,.26) 0, rgba(255,255,255,0) 28%, rgba(0,0,0,.06) 100%);
+}
+.postit-br { clip-path: polygon(0 0, 100% 0, 100% 76%, 76% 100%, 0 100%); }
+.postit-bl { clip-path: polygon(0 0, 100% 0, 100% 100%, 24% 100%, 0 76%); }
+.postit-br::after, .postit-bl::after { content: ""; position: absolute; bottom: 0; width: 24%; height: 24%; pointer-events: none; }
+.postit-br::after { right: 0; background: linear-gradient(to bottom right, rgba(255,255,255,.55) 0, rgba(255,255,255,.2) 49%, transparent 50%); filter: drop-shadow(-2px -2px 2px rgba(0,0,0,.22)); }
+.postit-bl::after { left: 0; background: linear-gradient(to bottom left, rgba(255,255,255,.55) 0, rgba(255,255,255,.2) 49%, transparent 50%); filter: drop-shadow(2px -2px 2px rgba(0,0,0,.22)); }
+
+/* ───────── navigation ───────── */
+.nav-item { border-radius: var(--nav-r, 18px) !important; text-align: left; }
+.nav-item[data-active="false"] { background: none; box-shadow: none; border-color: transparent; color: var(--color-ink-soft); text-shadow: none; font-weight: 600; }
+.nav-item[data-active="false"]:hover { background: var(--chip-bg); box-shadow: var(--chip-sh); }
+
+/* ═══════════ THÈME « PÂTE À MODELER » (nouveau, par défaut) ═══════════ */
+html[data-theme="clay"] {
+  --color-ink: #3b2a1c; --color-ink-soft: #6e5843; --color-ink-mute: #a58f77;
+  --color-neutral-100: #3b2a1c; --color-neutral-200: #3b2a1c; --color-neutral-300: #5b4631; --color-neutral-400: #6e5843; --color-neutral-500: #8f7a62; --color-neutral-600: #a58f77; --color-neutral-700: #cdbda5;
+  --line: rgba(120,85,50,.28); --soft: #dccdb2; --soft2: #e6d8bf; --accent: #7b3bc8; --warn: #f6e2a8;
+  --frame: #4a3523; --frame-text: #d9c7aa; --overlay: rgba(60,40,20,.45); --dots: rgba(120,85,50,.25); --sb: #c9b394; --stitch-c: rgba(255,247,230,.9);
+  --card-bg: var(--tex-bump), var(--tex-grain-b), linear-gradient(150deg, #f3e8d4, #e7d8bd);
+  --card-bgm: soft-light, normal, normal; --card-r: 30px;
+  --card-sh: 9px 12px 22px rgba(90,58,28,.30), -5px -5px 12px rgba(255,249,236,.8), inset 3px 3px 7px rgba(255,255,255,.7), inset -5px -6px 12px rgba(140,98,52,.24);
+  --chip-bg: var(--tex-bump), linear-gradient(150deg, #f8efdd, #eadcc3); --chip-bgm: soft-light, normal;
+  --chip-sh: 4px 6px 11px rgba(90,58,28,.26), -3px -3px 8px rgba(255,249,236,.8), inset 2px 2px 4px rgba(255,255,255,.75), inset -3px -3px 6px rgba(140,98,52,.2);
+  --well-bg: var(--tex-bump), #d9c9ad; --well-bgm: soft-light, normal; --well-r: 22px;
+  --well-sh: inset 5px 6px 12px rgba(100,68,36,.38), inset -4px -4px 9px rgba(255,248,232,.75);
+  --sol-tex: var(--tex-bump); --sol-bgm: soft-light, normal; --sol-r: 22px; --sol-ink: #fff8ea; --sol-ts: 0 1px 1px rgba(0,0,0,.28);
+  --sol-sh: 6px 9px 16px rgba(70,40,12,.40), -3px -3px 8px rgba(255,238,210,.55), inset 3px 4px 8px rgba(255,255,255,.45), inset -4px -6px 11px rgba(0,0,0,.22);
+  --btn-c: #e3d2b3; --btn-c2: #f3e7d0; --btn-ink: #3b2a1c;
+  --btn-sh: 5px 7px 14px rgba(90,58,28,.3), -3px -3px 8px rgba(255,249,236,.8), inset 2px 2px 5px rgba(255,255,255,.7), inset -3px -4px 8px rgba(120,80,40,.2);
+  --act-c: #e8761f; --act-c2: #f4a45b; --act-sh: var(--sol-sh);
+  --paper-bg: transparent; --paper-sh: none; --paper-r: 6px;
+  --sky-c: #2f9a5a; --sky-c2: #62c98a; --mint-c: #3f9f5e; --mint-c2: #7fd49b; --butter-c: #ee9f17; --butter-c2: #f9c24d;
+  --peach-c: #e66a1b; --peach-c2: #f59a4e; --coral-c: #e2552a; --coral-c2: #f08a63; --lilac-c: #6e32b9; --lilac-c2: #9a62dc; --pink-c: #d04283; --pink-c2: #ee86b6;
+  --nav-r: 26px;
+}
+html[data-theme="clay"] body {
+  background: radial-gradient(ellipse at 50% 0%, #f4ebdb 0, transparent 65%), #e5d6bb; background-attachment: fixed;
+}
+html[data-theme="clay"] ::selection { background: #f5c98a; }
+/* papier fait main aux bords déchirés (le fond est dessiné par ::before, le texte reste net) */
+html[data-theme="clay"] .clay-paper { position: relative; isolation: isolate; }
+html[data-theme="clay"] .clay-paper::before {
+  content: ""; position: absolute; inset: -4px; z-index: -1; pointer-events: none;
+  background: var(--tex-paper), var(--tex-blotch), linear-gradient(150deg, #f4ebd9, #e9dcc0);
+  filter: url(#deckle) drop-shadow(5px 9px 8px rgba(70,42,15,.38));
+}
+html[data-theme="clay"] .clay-paper::after, html[data-theme="clay"] .paper-pin { display: none; }
+/* table en bois sous la feuille */
+html[data-theme="clay"] .desk-main {
+  background: var(--tex-wood) left bottom / 420px 84px repeat-x, linear-gradient(180deg, #a9774b, #6d4426) left bottom / 100% 84px no-repeat;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.2);
+}
+html[data-theme="clay"] .nav-item { box-shadow: var(--sol-sh); }
+html[data-theme="clay"] .nav-item[data-active="false"] { background: var(--sol-tex), linear-gradient(145deg, var(--c2), var(--c)); background-blend-mode: var(--sol-bgm); box-shadow: var(--sol-sh); color: var(--sol-ink); text-shadow: var(--sol-ts); filter: saturate(.92); }
+html[data-theme="clay"] .nav-item[data-active="true"] { filter: saturate(1.1) brightness(1.04); transform: translateY(1px); box-shadow: 3px 5px 10px rgba(70,40,12,.35), 0 0 0 3px rgba(255,247,230,.9), inset 3px 4px 8px rgba(255,255,255,.4), inset -4px -6px 11px rgba(0,0,0,.2); }
+html[data-theme="clay"] .nav-disc { background: none !important; box-shadow: none !important; }
+html[data-theme="clay"] .nav-disc::after { display: none; }
+
+/* ═══════════ THÈME « LIQUID GLASS » ═══════════ */
+html[data-theme="glass"] {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
+  --color-ink: #10244a; --color-ink-soft: #3d5079; --color-ink-mute: #7587ab;
+  --color-neutral-100: #10244a; --color-neutral-200: #10244a; --color-neutral-300: #2f4270; --color-neutral-400: #3d5079; --color-neutral-500: #62749d; --color-neutral-600: #7587ab; --color-neutral-700: #aab7d3;
+  --line: rgba(255,255,255,.75); --soft: rgba(255,255,255,.38); --soft2: rgba(255,255,255,.55); --accent: #2f6df6; --warn: rgba(255,238,170,.85);
+  --frame: #1c2b4d; --frame-text: #cdd8f2; --overlay: rgba(20,40,90,.38); --dots: rgba(255,255,255,.75); --sb: rgba(255,255,255,.8);
+  --glass-hi: radial-gradient(130% 70% at 12% 0%, rgba(255,255,255,.7), rgba(255,255,255,0) 58%);
+  --card-bg: var(--glass-hi), linear-gradient(140deg, rgba(255,255,255,.52), rgba(255,255,255,.24));
+  --card-bgm: normal; --card-r: 30px; --card-bd: 1px solid rgba(255,255,255,.7); --bf: blur(26px) saturate(180%);
+  --card-sh: 0 14px 40px rgba(31,60,120,.24), inset 0 1.5px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.4), inset 1px 0 0 rgba(255,255,255,.55), inset -1px 0 0 rgba(255,255,255,.3);
+  --chip-bg: linear-gradient(160deg, rgba(255,255,255,.7), rgba(255,255,255,.36)); --chip-bgm: normal; --chip-bd: 1px solid rgba(255,255,255,.75);
+  --chip-sh: 0 5px 14px rgba(31,60,120,.18), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 2px rgba(255,255,255,.4);
+  --well-bg: rgba(255,255,255,.22); --well-bgm: normal; --well-r: 22px; --well-bd: 1px solid rgba(255,255,255,.5);
+  --well-sh: inset 0 3px 10px rgba(40,70,140,.2), inset 0 -1px 0 rgba(255,255,255,.7);
+  --sol-tex: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0) 55%); --sol-bgm: normal; --sol-r: 20px; --sol-bd: 1px solid rgba(255,255,255,.8); --sol-ink: #10244a; --sol-ts: none;
+  --sol-sh: 0 8px 20px rgba(31,60,120,.28), inset 0 1.5px 0 rgba(255,255,255,.95), inset 0 -2px 6px rgba(255,255,255,.35);
+  --btn-c: rgba(255,255,255,.55); --btn-c2: rgba(255,255,255,.75); --btn-ink: #10244a; --btn-sh: var(--chip-sh);
+  --act-c: rgba(255,171,122,.9); --act-c2: rgba(255,222,200,.95); --act-sh: var(--sol-sh);
+  --paper-bg: linear-gradient(145deg, rgba(255,255,255,.88), rgba(255,255,255,.7)); --paper-bgm: normal; --paper-r: 26px; --paper-bd: 1px solid rgba(255,255,255,.85); --paper-bf: blur(14px);
+  --paper-sh: 0 18px 50px rgba(31,60,120,.26), inset 0 1.5px 0 #fff;
+  --sky-c: rgba(110,182,255,.92); --sky-c2: rgba(205,230,255,.95); --peach-c: rgba(255,160,108,.92); --peach-c2: rgba(255,225,205,.95);
+  --mint-c: rgba(98,222,176,.92); --mint-c2: rgba(205,247,232,.95); --lilac-c: rgba(170,144,255,.92); --lilac-c2: rgba(228,218,255,.95);
+  --butter-c: rgba(255,208,92,.95); --butter-c2: rgba(255,240,190,.95); --coral-c: rgba(255,128,128,.92); --coral-c2: rgba(255,214,214,.95);
+  --pink-c: rgba(255,142,190,.92); --pink-c2: rgba(255,222,238,.95);
+  --nav-r: 22px;
+}
+html[data-theme="glass"] body {
+  background:
+    radial-gradient(1100px 700px at 12% 8%, #86c1ff 0, transparent 60%), radial-gradient(900px 620px at 92% 18%, #c7a4ff 0, transparent 56%),
+    radial-gradient(900px 700px at 72% 100%, #ffbf9c 0, transparent 56%), radial-gradient(800px 600px at 0% 100%, #96efd0 0, transparent 56%), #dbe7ff;
+  background-attachment: fixed;
+}
+html[data-theme="glass"] ::selection { background: rgba(110,160,255,.4); }
+html[data-theme="glass"] .clay-card .clay-card, html[data-theme="glass"] .clay-paper .clay-card { -webkit-backdrop-filter: none; backdrop-filter: none; }
+html[data-theme="glass"] .clay-stitch::after, html[data-theme="glass"] .clay-ring::after, html[data-theme="glass"] .washi, html[data-theme="glass"] .paper-pin { display: none; }
+html[data-theme="glass"] .nav-item[data-active="true"] { box-shadow: var(--sol-sh), 0 0 0 2px rgba(255,255,255,.9); }
+html[data-theme="glass"] .nav-disc { background: rgba(255,255,255,.55) !important; box-shadow: inset 0 1px 0 #fff !important; }
+html[data-theme="glass"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(20,40,90,.22)) drop-shadow(4px 9px 8px rgba(20,40,90,.25)); }

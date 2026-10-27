@@ -131,7 +131,7 @@ export default function Analysis({ report, scenes, onJump, ai, focus, gridNotes,
                   <div className="flex items-center gap-2 font-bold text-ink">
                     <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[11px] text-white ${b.found ? "bg-[#2fbf8f]" : b.strict ? "bg-[#ff6b6b]" : "bg-[#b9aee6]"}`}>{b.found ? "✓" : b.strict ? "✕" : "·"}</span>
                     {b.name} <span className="font-medium text-ink-mute">≈ {b.at} % · {fmtDur(b.minute)}</span>
-                    <button onClick={() => setSel(b.scene - 1)} className="ml-auto text-[11px] font-semibold text-[#6b4de0] underline">scène {b.scene}</button>
+                    <button onClick={() => setSel(b.scene - 1)} className="ml-auto text-[11px] font-semibold text-[var(--accent)] underline">scène {b.scene}</button>
                   </div>
                   <p className="mt-1 text-ink-soft">{b.why}</p>
                 </li>
@@ -158,7 +158,7 @@ export default function Analysis({ report, scenes, onJump, ai, focus, gridNotes,
             <thead><tr className="text-left text-[10px] uppercase tracking-wide text-ink-mute"><th className="pb-2">Personnage</th><th>Scènes</th><th>Répliques</th><th>Mots</th><th className="w-40">Part du dialogue</th><th>1re → dernière</th></tr></thead>
             <tbody>
               {report.characters.map((c, k) => (
-                <tr key={c.name} className="border-t border-[#e6defa] text-ink">
+                <tr key={c.name} className="border-t border-[var(--soft)] text-ink">
                   <td className="py-1.5 font-extrabold"><span className="mr-2 inline-block h-2.5 w-2.5 rounded-full" style={{ background: CHAR_COLORS[k % 5] }} />{c.name}</td>
                   <td>{c.scenes}/{n}</td><td>{c.lines}</td><td>{c.words}</td>
                   <td><div className="flex items-center gap-2"><div className="h-2.5 flex-1 overflow-hidden clay-well !rounded-full"><div className="h-full rounded-full" style={{ width: `${c.share}%`, background: CHAR_COLORS[k % 5] }} /></div><span className="w-8 text-right font-bold">{c.share} %</span></div></td>
@@ -198,7 +198,7 @@ export default function Analysis({ report, scenes, onJump, ai, focus, gridNotes,
           return (
             <div key={name} className="mb-2">
               <button onClick={() => setOpenG(o => { const x = new Set(o); x.has(name) ? x.delete(name) : x.add(name); return x; })}
-                className="clay-chip flex w-full items-center gap-2 !rounded-2xl px-4 py-2 text-left text-[11px] font-extrabold tracking-wide text-[#6b4de0]">
+                className="clay-chip flex w-full items-center gap-2 !rounded-2xl px-4 py-2 text-left text-[11px] font-extrabold tracking-wide text-[var(--accent)]">
                 <span>{isOpen ? "▾" : "▸"}</span>{name}<span className="ml-auto font-semibold text-ink-mute">{filled}/{rows.length} complétées</span>
               </button>
               {isOpen && (
@@ -242,7 +242,7 @@ export default function Analysis({ report, scenes, onJump, ai, focus, gridNotes,
                 {!open.has(f.id) && <button onClick={() => setOpen(s => new Set(s).add(f.id))} className="clay-solid clay-butter flex items-center gap-1 px-2.5 py-1"><Lightbulb size={12} />Proposer une solution</button>}
                 {ai.model && <button onClick={() => ai.run(f.title, fixMessages(scenes, report, f))} className="clay-solid clay-lilac flex items-center gap-1 px-2.5 py-1"><Cpu size={12} />Pistes IA</button>}
               </div>
-              {open.has(f.id) && <p className="mt-3 rounded-2xl bg-[#fff3c4] p-3 text-ink"><b>Piste : </b>{f.fix}</p>}
+              {open.has(f.id) && <p className="mt-3 rounded-2xl bg-[var(--warn)] p-3 text-ink"><b>Piste : </b>{f.fix}</p>}
             </li>
           ))}
           {!flaws.length && <li className="text-sm text-ink-mute">Rien à signaler dans cette catégorie.</li>}

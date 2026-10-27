@@ -1,6 +1,15 @@
 # CinéDesk
 
-Logiciel macOS tout-en-un pour réalisateurs et scénaristes (Tauri 2 + React + Tailwind), au style « pâte à modeler » : surfaces texturées, coutures, boutons de vêtements cousus, post-it en papier craft.
+Logiciel macOS tout-en-un pour réalisateurs et scénaristes (Tauri 2 + React + Tailwind).
+
+## Thèmes visuels (⚙ Réglages, en haut)
+- **Pâte à modeler** (par défaut) : beige chaud, plasticine texturée, onglets en boudins colorés, perles, feuille de scénario aux bords déchirés posée sur une table en bois, courbe de tension en fil de laine et perles.
+- **Pastel craft** (le thème précédent) : lavande douce, coutures, boutons cousus.
+- **Liquid Glass** : verre dépoli translucide façon Apple, reflets et reliefs lumineux.
+Le choix est mémorisé. Les **post-it** gardent leur aspect de vrais post-it (papier plat, ombre douce, coin corné, six couleurs) dans les trois thèmes, avec la police crayon (voir plus bas).
+
+## Police des post-it : « Crayon Hand »
+Je n'ai pas le fichier de cette police. Déposez `CrayonHand-Regular.otf` et `CrayonHand-Bold.otf` dans `public/fonts/` (voir `public/fonts/LISEZ-MOI.txt`), puis refabriquez l'application : elle est utilisée automatiquement. Sans ces fichiers, une police manuscrite de macOS (Chalkboard SE) est utilisée avec un effet de grain crayon. Les Réglages indiquent si la vraie police est détectée. Vérifiez sa licence avant toute distribution.
 
 ## Fonctions
 - **Importer un scénario** (bouton orange, ⌘O, ou glisser un fichier dans la fenêtre) : PDF, Word, Final Draft, Fountain, texte. Reconnaissance des séquences, personnages, dialogues, parenthèses, transitions (COUPE SUR, FONDU, ENCHAÎNEMENT, INTERCUT…) et actions, avec aperçu et indice de fiabilité. Le séquencier et le storyboard se construisent seuls. Le texte collé dans l'éditeur est reclassé automatiquement.
@@ -44,7 +53,7 @@ Clic droit sur CinéDesk → **Ouvrir**, ou : `xattr -dr com.apple.quarantine /A
 - **Explorateur de références** : il lit les pages et en extrait les médias ; ce n'est pas un navigateur complet. Je n'ai **pas pu le tester sur les vrais sites** (pas d'accès réseau ici) : il est validé sur des pages d'essai piégées de publicités. Si Eye Candy ou Film Grab changent leur structure ou chargent leurs images par JavaScript, certaines cartes peuvent manquer ; dans ce cas, « Ouvrir dans le navigateur » reste disponible. Pinterest, Instagram et ShotDeck exigent une connexion et ne peuvent pas être lus : copiez-y une image (clic droit) puis ⌘V dans le bureau. Les autorisations réseau de l'app (`src-tauri/capabilities/default.json`) peuvent demander un ajustement au premier essai.
 - **PDF scannés** (images) : pas d'OCR. **Mises en page atypiques** (noms centrés, deux colonnes) : reconnaissance moins fiable, vérifiez l'aperçu avant d'importer.
 - **Script Doctor** : règles et statistiques, pas une lecture « littéraire ». Les valeurs de tension sont relatives au film (0 à 10 entre sa scène la plus calme et la plus tendue). L'arc du personnage et le sens profond ne sont qu'esquissés (indice de prise de conscience) : grille à compléter ou IA locale. Durée estimée à ±15 %.
-- **Style visuel** : validé sur une maquette des mêmes classes CSS ; l'aspect exact dans l'application compilée reste à constater au premier lancement (la police « Marker Felt » des post-it est celle de macOS).
+- **Thèmes** : validés sur des maquettes des mêmes classes CSS (texture, papier déchiré, verre, post-it) ; l'aspect exact dans l'application compilée reste à constater au premier lancement. L'effet Liquid Glass est une imitation en CSS, pas le matériau natif d'Apple.
 - Le double-clic sur un `.cinedesk` dans le Finder n'ouvre pas encore le projet : ⌘O ou glisser-déposer.
 
 ## Structure

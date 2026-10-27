@@ -82,8 +82,8 @@ export default function Storyboard({ scenes, panels, setPanels }) {
                      onDrop={e => { e.preventDefault(); e.dataTransfer.files?.length ? readFile(e.dataTransfer.files[0], p.id) : dropOn(p.id); }}
                      onClick={() => setSelected(p.id)}
                      className={`clay-card p-2.5 ${selected === p.id ? "ring-4 ring-[#9fd4ff]" : ""}`}>
-                  <div className="relative mb-2 flex items-center justify-center overflow-hidden rounded-2xl bg-[#2f2a55]" style={{ aspectRatio: ratio }}>
-                    {p.image ? <img src={p.image} alt="" className="h-full w-full object-cover" /> : <span className="flex items-center gap-1 text-[11px] text-[#b9b0e8]"><ImagePlus size={13} />Déposer une image</span>}
+                  <div className="relative mb-2 flex items-center justify-center overflow-hidden rounded-2xl bg-[var(--frame)]" style={{ aspectRatio: ratio }}>
+                    {p.image ? <img src={p.image} alt="" className="h-full w-full object-cover" /> : <span className="flex items-center gap-1 text-[11px] text-[var(--frame-text)]"><ImagePlus size={13} />Déposer une image</span>}
                     <span className="absolute left-1.5 top-1.5 rounded bg-black/60 px-1.5 text-[10px] text-white">{i + 1}</span>
                     <div className="absolute right-1 top-1 flex gap-1">
                       <button onClick={() => setSketch(p.id)} className="rounded bg-black/60 p-1 text-white"><Pencil size={11} /></button>
