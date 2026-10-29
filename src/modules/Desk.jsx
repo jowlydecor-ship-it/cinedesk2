@@ -174,7 +174,7 @@ export default function Desk({ items, setItems, notes }) {
                 {it.kind === "note" && (
                   <div className="postit-shadow">
                     <div className={`postit ${curlOf(it.id)} px-3 pb-2 pt-3.5`} style={{ backgroundColor: it.color }}>
-                      <textarea value={it.text} rows={3} onChange={e => upd(it.id, { text: e.target.value })} placeholder="Idée, scène, intention…" className="font-hand w-full resize-none bg-transparent text-[17px] leading-[1.25] text-[#2b2420] outline-none placeholder:text-[#2b242066]" />
+                      <textarea value={it.text} rows={3} onChange={e => upd(it.id, { text: e.target.value })} placeholder="Idée, scène, intention…" className="font-hand w-full resize-none bg-transparent text-[15px] font-medium leading-[1.3] text-[#2b2420] outline-none placeholder:text-[#2b242066]" />
                       <div className="mt-1 flex gap-1">{NOTE_COLORS.map(c => <button key={c} onClick={() => upd(it.id, { color: c })} className="h-3.5 w-3.5 rounded-full border border-black/25" style={{ background: c }} />)}</div>
                     </div>
                   </div>

@@ -47,6 +47,11 @@ export function parseScript(lines) {
     }
   });
   const names = new Set(scenes.flatMap(s => [...s.chars.keys()]));
+  /* Un personnage compte comme PRÉSENT dans une séquence dès qu'il parle OU qu'il agit (son nom figure dans une ligne d'action),
+     même sans aucune réplique. Les noms trop courts ou courants (articles, pronoms) sont ignorés. */
+  const esc = t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const STOP = new Set(["LES", "DES", "UNE", "TOUS", "TOUT", "LUI", "ELLE", "ILS", "ELLES", "NOUS", "VOUS", "OFF"]);
+  const nameRes = [...names].filter(n => n.length >= 3 && !STOP.has(n)).map(n => [n, new RegExp(`(?<![\\p{L}])${esc(n)}(?![\\p{L}])`, "iu")]);
   scenes.forEach(s => {
     s.lines.filter(l => l.type === "action").forEach(l => {
       const note = p => { const k = stem(p); s.props.add(k); (s.propAt[k] = s.propAt[k] || []).push(l.i); };
@@ -54,6 +59,10 @@ export function parseScript(lines) {
       (l.text.match(CAPS) || []).forEach(p => { if (!names.has(p)) note(p); });
     });
     const w = s.dialogueWords + s.actionWords;
+    s.lines.forEach(l => {
+      if (l.type !== "action") return;
+      nameRes.forEach(([n, re]) => { if (re.test(l.text)) { const c = s.chars.get(n) || { words: 0, lines: 0 }; c.actions = (c.actions || 0) + 1; s.chars.set(n, c); } });
+    });
     s.eighths = Math.max(1, Math.ceil((w / 200) * 8));   // ≈ 200 mots / page
     s.seconds = Math.round((s.eighths / 8) * 60);         // ≈ 1 page = 1 minute
   });
@@ -64,8 +73,8 @@ export function breakdown(scenes) {
   const chars = new Map(), locs = new Map(), props = new Map();
   scenes.forEach(s => {
     s.chars.forEach((v, name) => {
-      const c = chars.get(name) || { name, scenes: [], words: 0, lines: 0 };
-      c.scenes.push(s.id); c.words += v.words; c.lines += v.lines; chars.set(name, c);
+      const c = chars.get(name) || { name, scenes: [], words: 0, lines: 0, actions: 0 };
+      c.scenes.push(s.id); c.words += v.words; c.lines += v.lines; c.actions += v.actions || 0; chars.set(name, c);
     });
     const l = locs.get(s.location) || { name: s.location, ie: s.ie, scenes: [], times: new Set(), eighths: 0 };
     l.scenes.push(s.id); if (s.time) l.times.add(s.time); l.eighths += s.eighths; locs.set(s.location, l);

@@ -130,3 +130,31 @@ test("modèle actantiel et indice d'arc dans la grille", () => {
   assert.ok(r.revelation && r.revelation.id === 4);
   assert.equal(r.criteria.find(c => c.key === "arc").status, "ok");
 });
+
+test("présence des personnages : un personnage qui AGIT sans parler compte comme présent", () => {
+  const lines = [
+    { type: "heading", text: "INT. SALON – JOUR" }, { type: "action", text: "Léa lit." }, { type: "character", text: "LÉA" }, { type: "dialogue", text: "Bonjour." },
+    { type: "heading", text: "EXT. JARDIN – JOUR" }, { type: "action", text: "Léa arrose les fleurs. Marc la regarde, assis sur un banc." },
+    { type: "heading", text: "INT. CUISINE – NUIT" }, { type: "action", text: "Seul Marc prépare le dîner en silence." }, { type: "character", text: "MARC" }, { type: "dialogue", text: "Tout est prêt." },
+  ];
+  const sc = parseScript(lines);
+  assert.deepEqual([...sc[1].chars.keys()].sort(), ["LÉA", "MARC"]);          // scène 2 : aucun dialogue, mais Léa et Marc agissent
+  assert.equal(sc[1].chars.get("LÉA").lines, 0);
+  assert.ok(sc[1].chars.get("MARC").actions >= 1);
+  const B = breakdown(sc);
+  assert.deepEqual(B.characters.find(c => c.name === "LÉA").scenes, [1, 2]);
+  assert.deepEqual(B.characters.find(c => c.name === "MARC").scenes, [2, 3]);
+  const r = analyze(sc, [], []);
+  const lea = r.characters.find(c => c.name === "LÉA");
+  assert.deepEqual(lea.pres, [1, 1, 0]);
+  assert.deepEqual(lea.cells, [1, 0, 0]);                                     // 1 mot de dialogue, aucune parole en scène 2
+  assert.equal(lea.acts[1], 1);
+});
+
+test("présence : noms courts ou communs ignorés, casse et accents tolérés", () => {
+  const lines = [{ type: "heading", text: "INT. A – JOUR" }, { type: "character", text: "ÉLISE" }, { type: "dialogue", text: "Oui." },
+    { type: "heading", text: "INT. B – JOUR" }, { type: "action", text: "élise entre. Les enfants courent. Tous rient." }];
+  const sc = parseScript(lines);
+  assert.ok(sc[1].chars.has("ÉLISE"));
+  assert.equal(sc[1].chars.size, 1);
+});

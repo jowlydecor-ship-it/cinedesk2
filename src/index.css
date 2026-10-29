@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: ui-rounded, "SF Pro Rounded", "Nunito", -apple-system, system-ui, sans-serif;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --color-ink: #2f2a55;
   --color-ink-soft: #62598f;
   --color-ink-mute: #a49cc8;
@@ -14,13 +14,8 @@
   --color-neutral-700: #c3bde3;
 }
 
-/* ───────── polices ─────────
-   « Crayon Hand » : déposez CrayonHand-Regular.otf et CrayonHand-Bold.otf dans public/fonts/ (voir README).
-   Sans ces fichiers, une police approchante est utilisée avec un effet de grain crayon. */
-@font-face { font-family: "Crayon Hand"; font-weight: 400; src: local("Crayon Hand"), local("CrayonHand-Regular"), local("Crayon Hand Regular"), url("/fonts/CrayonHand-Regular.otf") format("opentype"); }
-@font-face { font-family: "Crayon Hand"; font-weight: 700; src: local("Crayon Hand Bold"), local("CrayonHand-Bold"), url("/fonts/CrayonHand-Bold.otf") format("opentype"); }
-.font-hand { font-family: "Crayon Hand", "Chalkboard SE", "Chalkduster", "Comic Sans MS", cursive; letter-spacing: .01em; }
-.no-crayon-font .font-hand { filter: url(#crayon); }
+/* ───────── police : Helvetica pour tout le logiciel, post-it compris ───────── */
+.font-hand { font-family: var(--font-sans); font-weight: 500; }
 
 /* ───────── textures ───────── */
 :root {
@@ -180,7 +175,6 @@ html[data-theme="clay"] .nav-disc::after { display: none; }
 
 /* ═══════════ THÈME « LIQUID GLASS » ═══════════ */
 html[data-theme="glass"] {
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
   --color-ink: #10244a; --color-ink-soft: #3d5079; --color-ink-mute: #7587ab;
   --color-neutral-100: #10244a; --color-neutral-200: #10244a; --color-neutral-300: #2f4270; --color-neutral-400: #3d5079; --color-neutral-500: #62749d; --color-neutral-600: #7587ab; --color-neutral-700: #aab7d3;
   --line: rgba(255,255,255,.75); --soft: rgba(255,255,255,.38); --soft2: rgba(255,255,255,.55); --accent: #2f6df6; --warn: rgba(255,238,170,.85);
@@ -217,3 +211,68 @@ html[data-theme="glass"] .clay-stitch::after, html[data-theme="glass"] .clay-rin
 html[data-theme="glass"] .nav-item[data-active="true"] { box-shadow: var(--sol-sh), 0 0 0 2px rgba(255,255,255,.9); }
 html[data-theme="glass"] .nav-disc { background: rgba(255,255,255,.55) !important; box-shadow: inset 0 1px 0 #fff !important; }
 html[data-theme="glass"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(20,40,90,.22)) drop-shadow(4px 9px 8px rgba(20,40,90,.25)); }
+
+/* ═══════════ THÈME « STOP MOTION » (par défaut) : plasticine photographiée image par image ═══════════
+   Textures et éléments (fleurs, feuilles, perles, tuiles, repères) issus du pack fourni : public/assets/sm/ */
+html[data-theme="stopmotion"] {
+  --color-ink: #2a2420; --color-ink-soft: #5b4e43; --color-ink-mute: #9d8e7c;
+  --color-neutral-100: #2a2420; --color-neutral-200: #2a2420; --color-neutral-300: #4a3f36; --color-neutral-400: #5b4e43; --color-neutral-500: #85766a; --color-neutral-600: #9d8e7c; --color-neutral-700: #cbbfae;
+  --line: rgba(110,80,50,.3); --soft: #d8c5a0; --soft2: #e6d7b8; --accent: #8a52c8; --warn: #f7e3a6;
+  --frame: #4b3624; --frame-text: #e3d1b4; --overlay: rgba(50,35,20,.45); --dots: rgba(110,80,50,.22); --sb: #8a52c8; --stitch-c: rgba(255,248,232,.85);
+  --sm-paper: url("/assets/sm/tile-paper.jpg"); --sm-peach: url("/assets/sm/tile-peach.jpg"); --sm-wr: url("/assets/sm/tex-wrinkle.png");
+  --card-bg: var(--sm-paper) 0 0 / 360px 360px; --card-bgm: normal; --card-r: 22px; --card-bd: 0 solid transparent; --bf: none;
+  --card-sh: 0 6px 12px rgba(60,40,20,.30), inset 0 2px 2px rgba(255,255,255,.6), inset 0 -3px 6px rgba(110,80,45,.28);
+  --chip-bg: var(--sm-paper) 0 0 / 300px 300px; --chip-bgm: normal; --chip-bd: 0 solid transparent;
+  --chip-sh: 0 3px 6px rgba(60,40,20,.28), inset 0 1.5px 1.5px rgba(255,255,255,.65), inset 0 -2px 4px rgba(110,80,45,.25);
+  --well-bg: linear-gradient(rgba(150,105,60,.38), rgba(150,105,60,.38)), var(--sm-paper) 0 0 / 300px 300px; --well-bgm: multiply, normal; --well-r: 18px; --well-bd: 0 solid transparent;
+  --well-sh: inset 3px 4px 8px rgba(80,50,25,.5), inset -2px -2px 4px rgba(255,255,255,.55);
+  --sol-tex: var(--sm-wr) 0 0 / 256px 256px; --sol-bgm: soft-light, normal; --sol-r: 18px; --sol-ink: #fffaf0; --sol-ts: 0 1px 1px rgba(0,0,0,.38);
+  --sol-sh: 0 4px 8px rgba(60,40,20,.38), inset 0 2px 2px rgba(255,255,255,.5), inset 0 -3px 5px rgba(0,0,0,.25);
+  --btn-c: #e3d3b3; --btn-c2: #f3e8d1; --btn-ink: #2a2420; --btn-sh: var(--chip-sh);
+  --act-c: #ec8a3d; --act-c2: #f5b57a; --act-sh: var(--sol-sh);
+  --paper-bg: var(--sm-paper) 0 0 / 420px 420px; --paper-bgm: normal; --paper-r: 18px; --paper-bd: 0 solid transparent; --paper-bf: none;
+  --paper-sh: 0 8px 16px rgba(60,40,20,.35), inset 0 0 0 1px rgba(255,255,255,.4);
+  --sky-c: #2c7fcf; --sky-c2: #58a6ee; --mint-c: #38a04a; --mint-c2: #66c876; --butter-c: #eeb625; --butter-c2: #f7d263;
+  --peach-c: #ec8a3d; --peach-c2: #f5b57a; --coral-c: #d9475e; --coral-c2: #ee7f90; --lilac-c: #7f48bd; --lilac-c2: #a876d9; --pink-c: #e0629a; --pink-c2: #f093bb;
+  --nav-r: 16px;
+}
+html[data-theme="stopmotion"] body { background: linear-gradient(115deg, #dbe4c6 0%, #cfdcd6 32%, #cdc8e8 70%, #bfa9e0 100%); background-attachment: fixed; }
+html[data-theme="stopmotion"] ::selection { background: #f0c27a; }
+html[data-theme="stopmotion"] ::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #b690e4, #8a52c8); border-radius: 10px; border: 3px solid transparent; background-clip: content-box; }
+html[data-theme="stopmotion"] .clay-stitch::after, html[data-theme="stopmotion"] .clay-ring::after, html[data-theme="stopmotion"] .washi, html[data-theme="stopmotion"] .paper-pin { display: none; }
+/* barre latérale en plasticine pêche ; onglet actif « enfoncé » */
+html[data-theme="stopmotion"] .side-nav { background: var(--sm-peach) 0 0 / 200px 600px; box-shadow: 0 6px 12px rgba(80,45,25,.35), inset 0 2px 2px rgba(255,235,220,.6), inset 0 -3px 6px rgba(130,70,40,.3); }
+html[data-theme="stopmotion"] .nav-item, html[data-theme="stopmotion"] .nav-item[data-active="false"] { background: none; box-shadow: none; color: #2a2420; text-shadow: none; filter: none; }
+html[data-theme="stopmotion"] .nav-item[data-active="true"] { background: rgba(255,238,222,.5); box-shadow: inset 3px 4px 8px rgba(120,66,36,.5), inset -2px -2px 4px rgba(255,240,225,.75); transform: none; }
+html[data-theme="stopmotion"] .nav-item[data-active="false"]:hover { background: rgba(255,238,222,.28); }
+html[data-theme="stopmotion"] .nav-disc { background: none !important; box-shadow: none !important; color: #2a2420 !important; text-shadow: none !important; }
+/* panneau Script Doctor : cadre en branche + intérieur beige-brun */
+html[data-theme="stopmotion"] .doctor-wrap { padding: 15px; }
+html[data-theme="stopmotion"] .doctor-wrap::before {
+  content: ""; position: absolute; inset: 0; border-radius: 30px; z-index: 0; filter: url(#twig);
+  background: var(--sm-wr) 0 0 / 256px 256px, linear-gradient(90deg, #8b4b27 0%, #bd6c3e 35%, #9a5530 65%, #7a3f20 100%); background-blend-mode: soft-light, normal;
+  box-shadow: 0 6px 12px rgba(60,35,15,.4), inset 0 2px 3px rgba(255,200,150,.45);
+}
+html[data-theme="stopmotion"] .doctor-wrap > aside {
+  position: relative; z-index: 1; border-radius: 18px !important;
+  background: linear-gradient(rgba(196,152,96,.5), rgba(196,152,96,.5)), var(--sm-paper) 0 0 / 300px 300px; background-blend-mode: multiply, normal;
+  box-shadow: inset 3px 4px 8px rgba(90,60,30,.45), inset -2px -2px 4px rgba(255,235,200,.45);
+}
+html[data-theme="stopmotion"] .metric-tile { box-shadow: none; color: #fffaf0; text-shadow: 0 1px 1px rgba(0,0,0,.45); padding: 10px 4px !important; background: center / 100% 100% no-repeat; }
+html[data-theme="stopmotion"] .metric-tile * { color: #fffaf0 !important; }
+html[data-theme="stopmotion"] .sm-t-green { background-image: url("/assets/sm/tile-green.png"); }
+html[data-theme="stopmotion"] .sm-t-yellow { background-image: url("/assets/sm/tile-yellow.png"); }
+html[data-theme="stopmotion"] .sm-t-blue { background-image: url("/assets/sm/tile-blue.png"); }
+html[data-theme="stopmotion"] .sm-t-red { background-image: url("/assets/sm/tile-red.png"); }
+html[data-theme="stopmotion"] .sm-slab { border-radius: 16px !important; color: #2a2420; text-shadow: none; border: 0; font-weight: 500;
+  box-shadow: 0 3px 5px rgba(60,40,20,.35), inset 0 2px 2px rgba(255,255,255,.5), inset 0 -3px 5px rgba(0,0,0,.22); }
+html[data-theme="stopmotion"] .sm-green { background: url("/assets/sm/tex-green.jpg") center / cover; }
+html[data-theme="stopmotion"] .sm-orange { background: url("/assets/sm/tex-orange.jpg") center / cover; }
+html[data-theme="stopmotion"] .sm-amber { background: url("/assets/sm/tex-amber.jpg") center / cover; }
+html[data-theme="stopmotion"] .sm-yellow { background: url("/assets/sm/tex-yellow.jpg") center / cover; }
+html[data-theme="stopmotion"] .sm-red { background: url("/assets/sm/tex-red.jpg") center / cover; color: #fffaf0; text-shadow: 0 1px 1px rgba(0,0,0,.4); font-weight: 700; }
+/* champs titre / auteur / contact : liserés colorés en pâte à modeler */
+html[data-theme="stopmotion"] .field-0 { box-shadow: inset 2px 3px 6px rgba(40,70,110,.45), 0 0 0 3px #66aae6, 0 0 0 5px #3b7fbf, 0 3px 5px rgba(0,0,0,.25); }
+html[data-theme="stopmotion"] .field-1 { box-shadow: inset 2px 3px 6px rgba(60,75,100,.4), 0 0 0 3px #b4c1d6, 0 0 0 5px #8797b3, 0 3px 5px rgba(0,0,0,.25); }
+html[data-theme="stopmotion"] .field-2 { box-shadow: inset 2px 3px 6px rgba(70,40,110,.4), 0 0 0 3px #bb94e6, 0 0 0 5px #8f5fc4, 0 3px 5px rgba(0,0,0,.25); }
+html[data-theme="stopmotion"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(40,25,10,.25)) drop-shadow(4px 8px 6px rgba(40,25,10,.28)); }

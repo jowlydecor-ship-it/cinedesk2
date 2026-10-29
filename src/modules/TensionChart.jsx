@@ -8,7 +8,9 @@ export const SEV_COLOR = { high: "#ff6b6b", mid: "#ffb020", low: "#6bb6ff" };
 const RANK = { high: 3, mid: 2, low: 1 };
 const ACT_LABELS = ["Acte I", "Acte II-A", "Acte II-B", "Acte III"];
 const BEADS = ["#35a366", "#f2a71f", "#e8621b", "#7b3bc8"];            // perles : vert, jaune, orange, violet selon l'intensité
-const beadOf = v => (v >= 7 ? 3 : v >= 5 ? 2 : v >= 3 ? 1 : 0);
+const BEADS_SM = ["#2f86d4", "#3fa84e", "#f3c32c", "#ef8a3a", "#e0485e"];     // stop motion : bleu, vert, jaune, orange, rouge
+const beadClay = v => (v >= 7 ? 3 : v >= 5 ? 2 : v >= 3 ? 1 : 0);
+const beadSM = v => (v >= 8 ? 4 : v >= 6 ? 3 : v >= 4 ? 2 : v >= 2 ? 1 : 0);
 
 /* Courbe de tension interactive : survol = scène + justification, clic = sélection.
    Rendu selon le thème : fil de laine et perles (pâte à modeler), trait pastel, ou verre lumineux. */
@@ -36,7 +38,8 @@ export default function TensionChart({ report, height = 150, compact = false, se
   }).join(" ");
   const area = `${line} L${pts.at(-1)[0]},${H - pb} L${pts[0][0]},${H - pb} Z`;
   const gid = compact ? "tcA" : "tcB";
-  const clay = theme === "clay", glass = theme === "glass";
+  const sm = theme === "stopmotion", clay = theme === "clay", glass = theme === "glass", beaded = clay || sm;
+  const beads = sm ? BEADS_SM : BEADS, beadOf = sm ? beadSM : beadClay;
 
   const move = e => {
     const r = wrap.current.getBoundingClientRect();
@@ -53,7 +56,7 @@ export default function TensionChart({ report, height = 150, compact = false, se
         <defs>
           <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={P.fillA} stopOpacity={clay ? 0.28 : 0.5} /><stop offset="100%" stopColor={P.fillB} stopOpacity="0.04" /></linearGradient>
           <linearGradient id={`${gid}g`} x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor={P.line} /><stop offset="100%" stopColor={P.trend} /></linearGradient>
-          {BEADS.map((c, k) => (
+          {beads.map((c, k) => (
             <radialGradient key={k} id={`${gid}b${k}`} cx=".32" cy=".28" r=".95"><stop offset="0" stopColor={shade(c, 0.65)} /><stop offset=".45" stopColor={c} /><stop offset="1" stopColor={shade(c, -0.35)} /></radialGradient>
           ))}
         </defs>
@@ -74,7 +77,12 @@ export default function TensionChart({ report, height = 150, compact = false, se
         <path d={area} fill={`url(#${gid})`} />
         {!compact && <path d={report.trend.map((v, i) => `${i ? "L" : "M"}${x(i)},${y(v)}`).join(" ")} fill="none" stroke={P.trend} strokeWidth="2.5" strokeDasharray="2 7" strokeLinecap="round" />}
 
-        {clay ? (
+        {sm ? (
+          <g>                                                           {/* ficelle fine */}
+            <path d={line} fill="none" stroke="rgba(70,45,20,.3)" strokeWidth={compact ? 3 : 4} strokeLinecap="round" transform="translate(1 2.5)" />
+            <path d={line} fill="none" stroke="#d6c39a" strokeWidth={compact ? 2.2 : 3} strokeLinecap="round" strokeLinejoin="round" />
+          </g>
+        ) : clay ? (
           <g>                                                           {/* fil de laine torsadé */}
             <path d={line} fill="none" stroke="rgba(60,30,10,.28)" strokeWidth={compact ? 7 : 9} strokeLinecap="round" transform="translate(1.5 3.5)" />
             <path d={line} fill="none" stroke="#e8621b" strokeWidth={compact ? 5.5 : 7.5} strokeLinecap="round" strokeLinejoin="round" />
@@ -93,10 +101,10 @@ export default function TensionChart({ report, height = 150, compact = false, se
 
         {pts.map(([px, py], i) => {
           const role = report.scenes[i].role, on = hover?.i === i || selected === i, v = report.curve[i];
-          const r = on ? 10 : role ? 9 : 6.5;
+          const r = sm ? (on ? 8.5 : role ? 7.5 : 5.5) : on ? 10 : role ? 9 : 6.5;
           return (
             <g key={i}>
-              {clay ? (
+              {beaded ? (
                 <g>
                   <ellipse cx={px + 2} cy={py + r * 0.9} rx={r * 0.9} ry={r * 0.35} fill="rgba(60,30,10,.3)" />
                   <circle cx={px} cy={py} r={r} fill={`url(#${gid}b${beadOf(v)})`} stroke={on ? P.sel : "none"} strokeWidth="2.5" />

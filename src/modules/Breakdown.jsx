@@ -34,7 +34,7 @@ export default function Breakdown({ scenes }) {
         <button onClick={csv} className="flex items-center gap-1 rounded clay-btn px-2.5 py-1 text-xs"><Copy size={12} />Copier en CSV</button>
       </div>
 
-      {tab === "Personnages" && <Table head={["Personnage", "Scènes", "Répliques", "Mots"]} rows={B.characters.map(c => [c.name, c.scenes.join(", "), c.lines, c.words])} />}
+      {tab === "Personnages" && <Table head={["Personnage", "Scènes (parole ou action)", "Répliques", "Mots", "Actions"]} rows={B.characters.map(c => [c.name, c.scenes.join(", "), c.lines, c.words, c.actions])} />}
       {tab === "Décors" && <Table head={["Décor", "I/E", "Moments", "Scènes", "Longueur"]} rows={B.locations.map(l => [l.name, l.ie, [...l.times].join(", ") || "-", l.scenes.join(", "), eighths(l.eighths) + " p."])} />}
       {tab === "Accessoires" && <Table head={["Accessoire", "Scènes", "Occurrences"]} rows={B.props.map(p => [p.name, p.scenes.join(", "), p.scenes.length])} />}
       {tab === "Plan de tournage" && (

@@ -53,10 +53,12 @@ export function insights({ scenes, B, vals, infos, beats, flaws, rt, slope10, li
   /* personnages : présence, répliques, mots, part du dialogue */
   const totalWords = B.characters.reduce((a, c) => a + c.words, 0) || 1;
   const characters = B.characters.slice(0, 10).map(c => {
-    const cells = scenes.map(s => (s.chars.has(c.name) ? Math.max(1, s.chars.get(c.name).words) : 0));
+    const cells = scenes.map(s => s.chars.get(c.name)?.words || 0);                 // mots de dialogue
+    const acts = scenes.map(s => s.chars.get(c.name)?.actions || 0);                // mentions dans l'action
+    const pres = scenes.map(s => (s.chars.has(c.name) ? 1 : 0));                    // présence (dialogue OU action)
     let run = 0;
     return { name: c.name, scenes: c.scenes.length, lines: c.lines, words: c.words, total: c.words, share: Math.round((c.words / totalWords) * 100),
-      first: c.scenes[0], last: c.scenes.at(-1), cells, cum: cells.map(w => (run += w)) };
+      first: c.scenes[0], last: c.scenes.at(-1), actions: c.actions, cells, acts, pres, cum: cells.map(w => (run += w)) };
   });
 
   /* traits du récit (cf. « Spécificités du récit » de la grille) */

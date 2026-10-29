@@ -4,6 +4,7 @@ import { TYPES } from "../lib/formats";
 import { parseText } from "../lib/importer";
 import { SEV_COLOR } from "./TensionChart";
 import { SewnButton } from "./Craft";
+import { useSM, FlagSprite } from "./StopMotion";
 
 const NEXT_ENTER = { heading: "action", action: "action", character: "dialogue", dialogue: "action", parenthetical: "dialogue", transition: "heading" };
 const NEXT_TAB = { action: "character", character: "dialogue", dialogue: "character", heading: "action", parenthetical: "dialogue", transition: "heading" };
@@ -28,6 +29,7 @@ const RANK = { high: 3, mid: 2, low: 1 };
 
 export default function ScriptEditor({ lines, setLines, meta, setMeta, jumpTo, onShowNote, flags = {}, onOpenFlaw }) {
   const [hoverFlag, setHoverFlag] = useState(null);
+  const sm = useSM();
   const refs = useRef([]);
   const [focus, setFocus] = useState(null);
 
@@ -102,14 +104,14 @@ export default function ScriptEditor({ lines, setLines, meta, setMeta, jumpTo, o
     setLines(ls => ls.slice(0, ls[i].text.trim() ? i + 1 : i).concat(parsed, ls.slice(i + 1)));
   };
 
-  const field = (k, ph) => (
+  const field = (k, ph, i) => (
     <input value={meta[k] || ""} placeholder={ph} onChange={e => setMeta(m => ({ ...m, [k]: e.target.value }))}
-      className="clay-well px-3 py-1.5 text-xs text-ink outline-none placeholder:text-ink-mute" />
+      className={`field-${i} clay-well px-3 py-1.5 text-xs text-ink outline-none placeholder:text-ink-mute`} />
   );
 
   return (
     <div className="mx-auto my-6 max-w-[800px] px-4">
-      <div className="mb-3 grid grid-cols-3 gap-2">{field("title", "Titre")}{field("author", "Auteur·rice")}{field("contact", "Contact")}</div>
+      <div className="mb-3 grid grid-cols-3 gap-2">{field("title", "Titre", 0)}{field("author", "Auteur·rice", 1)}{field("contact", "Contact", 2)}</div>
       <div className="clay-paper clay-stitch relative px-16 py-12" 
            style={{ fontFamily: "'Courier Prime','Courier New',Courier,monospace", fontSize: "12pt", lineHeight: 1.5, "--stitch": "rgba(205,160,100,.7)", "--r": "30px" }}>
         <SewnButton size={30} color="#ff7a59" className="paper-pin pointer-events-none absolute -top-3 left-14" />
@@ -122,7 +124,7 @@ export default function ScriptEditor({ lines, setLines, meta, setMeta, jumpTo, o
             <div key={i} className="group relative" style={fl ? { borderLeft: `5px solid ${SEV_COLOR[worst]}`, paddingLeft: 8, marginLeft: -13, borderRadius: 8 } : undefined}>
               {fl && (
                 <div className="absolute -right-4 top-1 z-20" onMouseEnter={() => setHoverFlag(i)} onMouseLeave={() => setHoverFlag(null)}>
-                  <button onClick={() => onOpenFlaw?.(fl[0].id)} className="block h-4 w-4 rotate-45 rounded-[4px] border-2 border-white shadow" style={{ background: SEV_COLOR[worst] }} aria-label="Remarque du Script Doctor" />
+                  <button onClick={() => onOpenFlaw?.(fl[0].id)} className={sm ? "block" : "block h-4 w-4 rotate-45 rounded-[4px] border-2 border-white shadow"} style={sm ? undefined : { background: SEV_COLOR[worst] }} aria-label="Remarque du Script Doctor">{sm && <FlagSprite severity={worst} size={20} />}</button>
                   {hoverFlag === i && (
                     <div className="absolute right-0 top-6 z-30 w-72 clay-card p-3 text-left text-xs leading-snug text-ink-soft" style={{ fontFamily: "system-ui" }}>
                       {fl.slice(0, 3).map(f => <div key={f.id} className="mb-2 last:mb-0"><div className="font-extrabold text-ink">{f.title}</div><div>{f.why}</div></div>)}

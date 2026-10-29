@@ -109,7 +109,7 @@ export default function PostItWall({ notes, setNotes, links, setLinks, scenes, f
                        style={{ transform: `rotate(${tilt(n.id)}deg)` }}>
                     {info(n) && <span className="clay-chip absolute -right-2 -top-3 px-2 py-0.5 text-[10px] font-extrabold text-ink">{fmt(info(n).value)}</span>}
                     <div className={`postit ${curlOf(n.id)} px-3 pb-2 pt-3.5`} style={{ backgroundColor: shown(n) }}>
-                    <textarea value={n.text} rows={3} onChange={e => upd(n.id, { text: e.target.value })} className="font-hand w-full resize-none bg-transparent text-[17px] leading-[1.25] text-[#2b2420] outline-none" />
+                    <textarea value={n.text} rows={3} onChange={e => upd(n.id, { text: e.target.value })} className="font-hand w-full resize-none bg-transparent text-[15px] font-medium leading-[1.3] text-[#2b2420] outline-none" />
                     <div className="mt-1 flex items-center gap-1">
                       {Object.entries(COLORS).map(([k, c]) => (
                         <button key={k} onClick={e => { e.stopPropagation(); upd(n.id, { color: k }); }} className="h-3 w-3 rounded-full border border-black/30" style={{ background: c }} />

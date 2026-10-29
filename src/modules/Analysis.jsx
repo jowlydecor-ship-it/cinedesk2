@@ -171,17 +171,17 @@ export default function Analysis({ report, scenes, onJump, ai, focus, gridNotes,
         <div className="mb-1 mt-5 text-xs font-bold text-ink-soft">Parole cumulée des personnages principaux au fil du film (mots)</div>
         <div className="clay-well p-3">
           <LineChart series={top5.map((c, k) => ({ name: c.name, color: CHAR_COLORS[k], values: c.cum }))}
-            tip={i => <>{tipHead(i)}{top5.map((c, k) => <div key={c.name} className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full" style={{ background: CHAR_COLORS[k] }} /><b className="text-ink">{c.name}</b> {c.cum[i]} mots ({c.cells[i] ? `+${c.cells[i]} ici` : "absent"})</div>)}</>} />
+            tip={i => <>{tipHead(i)}{top5.map((c, k) => <div key={c.name} className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full" style={{ background: CHAR_COLORS[k] }} /><b className="text-ink">{c.name}</b> {c.cum[i]} mots ({c.pres[i] ? (c.cells[i] ? `+${c.cells[i]} ici` : "présent·e, sans parole") : "absent"})</div>)}</>} />
           <div className="mt-2 flex flex-wrap gap-3 text-[11px] text-ink-soft">{top5.map((c, k) => <span key={c.name}><b style={{ color: CHAR_COLORS[k] }}>●</b> {c.name}</span>)}</div>
         </div>
-        <div className="mb-1 mt-5 text-xs font-bold text-ink-soft">Apparitions scène par scène (survolez une case)</div>
+        <div className="mb-1 mt-5 text-xs font-bold text-ink-soft">Présence scène par scène : dialogue ou action (survolez une case)</div>
         <div className="overflow-x-auto pb-1">
           <div className="grid gap-[3px]" style={{ gridTemplateColumns: `110px repeat(${n}, 20px)` }}>
             <div />{scenes.map(s => <div key={s.id} className="text-center text-[9px] text-ink-mute">{s.id}</div>)}
             {report.characters.map(c => (
               <div key={c.name} className="contents">
                 <div className="truncate pr-2 text-[11px] font-bold text-ink">{c.name}</div>
-                {c.cells.map((w, i) => <div key={i} title={w ? `${c.name} · scène ${i + 1} · ${w} mot(s)` : ""} className="h-5 rounded-md" style={{ background: w ? `rgba(255,122,89,${Math.min(1, 0.3 + w / 60)})` : "#ece4fb" }} />)}
+                {c.pres.map((on, i) => { const w = c.cells[i], a = c.acts[i]; return <div key={i} title={on ? `${c.name} · scène ${i + 1} · ${w} mot(s) de dialogue · ${a} action(s)` : ""} className="h-5 rounded-md" style={{ background: on ? `rgba(255,122,89,${Math.min(1, 0.35 + (w + a * 4) / 60)})` : "var(--soft)" }} />; })}
               </div>
             ))}
           </div>
