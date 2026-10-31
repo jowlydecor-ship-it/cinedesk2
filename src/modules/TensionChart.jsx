@@ -27,7 +27,7 @@ export default function TensionChart({ report, height = 150, compact = false, se
   }, [report]);
   if (n < 2) return <p className="p-3 text-xs text-ink-mute">Il faut au moins 2 scènes pour tracer la courbe.</p>;
 
-  const W = 640, H = height, pl = compact ? 10 : 34, pr = 12, pt = compact ? 18 : 30, pb = compact ? 16 : 30;
+  const W = 640, H = height, pl = compact ? 10 : 34, pr = 12, pt = compact ? 18 : 44, pb = compact ? 16 : 30;
   const x = i => pl + (i * (W - pl - pr)) / (n - 1);
   const y = v => pt + (1 - v / 10) * (H - pt - pb);
   const pts = report.curve.map((v, i) => [x(i), y(v)]);

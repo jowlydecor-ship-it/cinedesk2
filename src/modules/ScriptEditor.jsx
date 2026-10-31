@@ -106,16 +106,16 @@ export default function ScriptEditor({ lines, setLines, meta, setMeta, jumpTo, o
 
   const field = (k, ph, i) => (
     <input value={meta[k] || ""} placeholder={ph} onChange={e => setMeta(m => ({ ...m, [k]: e.target.value }))}
-      className={`field-${i} clay-well px-3 py-1.5 text-xs text-ink outline-none placeholder:text-ink-mute`} />
+      className={`field-${i} sm-field clay-well min-w-0 px-3 py-1.5 text-xs text-ink outline-none placeholder:text-ink-mute`} />
   );
 
   return (
     <div className="mx-auto my-6 max-w-[800px] px-4">
       <div className="mb-3 grid grid-cols-3 gap-2">{field("title", "Titre", 0)}{field("author", "Auteur·rice", 1)}{field("contact", "Contact", 2)}</div>
-      <div className="clay-paper clay-stitch relative px-16 py-12" 
+      <div className={`${sm ? "sm-paper" : "clay-paper clay-stitch"} relative px-16 py-12`} 
            style={{ fontFamily: "'Courier Prime','Courier New',Courier,monospace", fontSize: "12pt", lineHeight: 1.5, "--stitch": "rgba(205,160,100,.7)", "--r": "30px" }}>
-        <SewnButton size={30} color="#ff7a59" className="paper-pin pointer-events-none absolute -top-3 left-14" />
-        <SewnButton size={30} color="#3aa6ff" holes={2} className="paper-pin pointer-events-none absolute -top-3 right-14" />
+        {!sm && <SewnButton size={30} color="#ff7a59" className="paper-pin pointer-events-none absolute -top-3 left-14" />}
+        {!sm && <SewnButton size={30} color="#3aa6ff" holes={2} className="paper-pin pointer-events-none absolute -top-3 right-14" />}
         {lines.map((l, i) => {
           const sug = suggest(i);
           const fl = flags[i];

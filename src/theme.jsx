@@ -12,7 +12,7 @@ export const THEMES = [
 export const PALETTES = {
   pastel: { grid: "#e3dbf7", label: "#a49cc8", median: "#b9aee6", medianText: "#8a82b3", line: "#ff8a5b", fillA: "#ff9d6b", fillB: "#ffb3d1", trend: "#8d6bff", sel: "#8d6bff", ok: "#2fbf8f", bad: "#ff6b6b", peak: "#ff7a59", valley: "#6bb6ff" },
   clay: { grid: "rgba(110,78,45,.22)", label: "#a08d76", median: "#b79f82", medianText: "#8a755c", line: "#e8621b", fillA: "#f2a71f", fillB: "#e8621b", trend: "#7b3bc8", sel: "#7b3bc8", ok: "#2f9e5b", bad: "#d94a2a", peak: "#e8621b", valley: "#35a366" },
-  stopmotion: { grid: "rgba(110,80,50,.25)", label: "#8a7a68", median: "#a8926f", medianText: "#6f5d48", line: "#c9b48a", fillA: "#e9c98a", fillB: "#d9a58a", trend: "#8a52c8", sel: "#8a52c8", ok: "#3fa84e", bad: "#d9475e", peak: "#d9475e", valley: "#2f86d4" },
+  stopmotion: { grid: "rgba(60,35,15,.35)", label: "#3d2c1c", median: "#5f452b", medianText: "#3d2c1c", line: "#c9b48a", fillA: "#e9c98a", fillB: "#d9a58a", trend: "#7a42b8", sel: "#7a42b8", ok: "#1d6f2b", bad: "#b3243a", peak: "#d9475e", valley: "#2f86d4" },
   glass: { grid: "rgba(255,255,255,.85)", label: "#6c7fa6", median: "#8aa0cc", medianText: "#5c7099", line: "#3d7cf0", fillA: "#7fb4ff", fillB: "#c8a6ff", trend: "#b06bff", sel: "#2f6df6", ok: "#1fa97a", bad: "#f0555a", peak: "#ff7a59", valley: "#3d9bff" },
 };
 
@@ -20,7 +20,7 @@ const KEY = "cinedesk.theme", VER = "cinedesk.theme.ver";
 /* Stop motion est le thème par défaut : à la première ouverture de cette version, il remplace l'ancien choix. */
 const read = () => {
   try {
-    if (localStorage.getItem(VER) !== "3") { localStorage.setItem(VER, "3"); localStorage.setItem(KEY, "stopmotion"); return "stopmotion"; }
+    if (localStorage.getItem(VER) !== "4") { localStorage.setItem(VER, "4"); localStorage.setItem(KEY, "stopmotion"); return "stopmotion"; }
     const v = localStorage.getItem(KEY);
     return THEMES.some(t => t.id === v) ? v : "stopmotion";
   } catch { return "stopmotion"; }

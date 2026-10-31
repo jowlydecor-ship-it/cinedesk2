@@ -212,23 +212,24 @@ html[data-theme="glass"] .nav-item[data-active="true"] { box-shadow: var(--sol-s
 html[data-theme="glass"] .nav-disc { background: rgba(255,255,255,.55) !important; box-shadow: inset 0 1px 0 #fff !important; }
 html[data-theme="glass"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(20,40,90,.22)) drop-shadow(4px 9px 8px rgba(20,40,90,.25)); }
 
-/* ═══════════ THÈME « STOP MOTION » (par défaut) : plasticine photographiée image par image ═══════════
-   Textures et éléments (fleurs, feuilles, perles, tuiles, repères) issus du pack fourni : public/assets/sm/ */
+/* ═══════════ THÈME « STOP MOTION » (par défaut) ═══════════
+   Tout vient de la planche d'éléments fournie (public/assets/sm/) : barre, menu pêche, feuille, cadre en branche,
+   bandeaux, tuiles, pastilles, fleurs et feuilles. Le bois de la table est généré (wood.jpg). */
 html[data-theme="stopmotion"] {
-  --color-ink: #2a2420; --color-ink-soft: #5b4e43; --color-ink-mute: #9d8e7c;
-  --color-neutral-100: #2a2420; --color-neutral-200: #2a2420; --color-neutral-300: #4a3f36; --color-neutral-400: #5b4e43; --color-neutral-500: #85766a; --color-neutral-600: #9d8e7c; --color-neutral-700: #cbbfae;
+  --color-ink: #2a2420; --color-ink-soft: #5b4e43; --color-ink-mute: #8f8070;
+  --color-neutral-100: #2a2420; --color-neutral-200: #2a2420; --color-neutral-300: #4a3f36; --color-neutral-400: #5b4e43; --color-neutral-500: #85766a; --color-neutral-600: #9d8e7c; --color-neutral-700: #b9ab98;
   --line: rgba(110,80,50,.3); --soft: #d8c5a0; --soft2: #e6d7b8; --accent: #8a52c8; --warn: #f7e3a6;
-  --frame: #4b3624; --frame-text: #e3d1b4; --overlay: rgba(50,35,20,.45); --dots: rgba(110,80,50,.22); --sb: #8a52c8; --stitch-c: rgba(255,248,232,.85);
-  --sm-paper: url("/assets/sm/tile-paper.jpg"); --sm-peach: url("/assets/sm/tile-peach.jpg"); --sm-wr: url("/assets/sm/tex-wrinkle.png");
-  --card-bg: var(--sm-paper) 0 0 / 360px 360px; --card-bgm: normal; --card-r: 22px; --card-bd: 0 solid transparent; --bf: none;
-  --card-sh: 0 6px 12px rgba(60,40,20,.30), inset 0 2px 2px rgba(255,255,255,.6), inset 0 -3px 6px rgba(110,80,45,.28);
-  --chip-bg: var(--sm-paper) 0 0 / 300px 300px; --chip-bgm: normal; --chip-bd: 0 solid transparent;
-  --chip-sh: 0 3px 6px rgba(60,40,20,.28), inset 0 1.5px 1.5px rgba(255,255,255,.65), inset 0 -2px 4px rgba(110,80,45,.25);
-  --well-bg: linear-gradient(rgba(150,105,60,.38), rgba(150,105,60,.38)), var(--sm-paper) 0 0 / 300px 300px; --well-bgm: multiply, normal; --well-r: 18px; --well-bd: 0 solid transparent;
-  --well-sh: inset 3px 4px 8px rgba(80,50,25,.5), inset -2px -2px 4px rgba(255,255,255,.55);
-  --sol-tex: var(--sm-wr) 0 0 / 256px 256px; --sol-bgm: soft-light, normal; --sol-r: 18px; --sol-ink: #fffaf0; --sol-ts: 0 1px 1px rgba(0,0,0,.38);
-  --sol-sh: 0 4px 8px rgba(60,40,20,.38), inset 0 2px 2px rgba(255,255,255,.5), inset 0 -3px 5px rgba(0,0,0,.25);
-  --btn-c: #e3d3b3; --btn-c2: #f3e8d1; --btn-ink: #2a2420; --btn-sh: var(--chip-sh);
+  --frame: #4b3624; --frame-text: #e3d1b4; --overlay: rgba(50,35,20,.45); --dots: rgba(110,80,50,.22); --sb: #b690e4; --stitch-c: rgba(255,248,232,.85);
+  --sm-paper: url("/assets/sm/tex-paper.jpg"); --sm-tan: url("/assets/sm/tex-tan.jpg");
+  --card-bg: var(--sm-paper) 0 0 / 260px 260px; --card-bgm: normal; --card-r: 22px; --card-bd: 0 solid transparent; --bf: none;
+  --card-sh: 0 5px 10px rgba(60,40,20,.34), inset 0 2px 2px rgba(255,255,255,.65), inset 0 -3px 6px rgba(110,80,45,.28);
+  --chip-bg: var(--sm-paper) 0 0 / 220px 220px; --chip-bgm: normal; --chip-bd: 0 solid transparent;
+  --chip-sh: 0 3px 6px rgba(60,40,20,.3), inset 0 1.5px 1.5px rgba(255,255,255,.7), inset 0 -2px 4px rgba(110,80,45,.26);
+  --well-bg: linear-gradient(rgba(150,100,55,.5), rgba(150,100,55,.5)), var(--sm-tan) 0 0 / 260px 260px; --well-bgm: multiply, normal; --well-r: 20px; --well-bd: 0 solid transparent;
+  --well-sh: inset 3px 4px 8px rgba(80,48,22,.55), inset -2px -2px 4px rgba(255,240,215,.6);
+  --sol-tex: var(--sm-paper) 0 0 / 220px 220px; --sol-bgm: soft-light, normal; --sol-r: 18px; --sol-ink: #fffaf0; --sol-ts: 0 1px 1px rgba(0,0,0,.4);
+  --sol-sh: 0 4px 7px rgba(60,40,20,.4), inset 0 2px 2px rgba(255,255,255,.5), inset 0 -3px 5px rgba(0,0,0,.25);
+  --btn-c: #e6d6b6; --btn-c2: #f4ead3; --btn-ink: #2a2420; --btn-sh: var(--chip-sh);
   --act-c: #ec8a3d; --act-c2: #f5b57a; --act-sh: var(--sol-sh);
   --paper-bg: var(--sm-paper) 0 0 / 420px 420px; --paper-bgm: normal; --paper-r: 18px; --paper-bd: 0 solid transparent; --paper-bf: none;
   --paper-sh: 0 8px 16px rgba(60,40,20,.35), inset 0 0 0 1px rgba(255,255,255,.4);
@@ -236,43 +237,58 @@ html[data-theme="stopmotion"] {
   --peach-c: #ec8a3d; --peach-c2: #f5b57a; --coral-c: #d9475e; --coral-c2: #ee7f90; --lilac-c: #7f48bd; --lilac-c2: #a876d9; --pink-c: #e0629a; --pink-c2: #f093bb;
   --nav-r: 16px;
 }
-html[data-theme="stopmotion"] body { background: linear-gradient(115deg, #dbe4c6 0%, #cfdcd6 32%, #cdc8e8 70%, #bfa9e0 100%); background-attachment: fixed; }
+html[data-theme="stopmotion"] body { background: url("/assets/sm/wood.jpg") 0 0 / 1024px 512px #b08a5c; background-attachment: fixed; }
 html[data-theme="stopmotion"] ::selection { background: #f0c27a; }
-html[data-theme="stopmotion"] ::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #b690e4, #8a52c8); border-radius: 10px; border: 3px solid transparent; background-clip: content-box; }
+html[data-theme="stopmotion"] ::-webkit-scrollbar { width: 16px; height: 16px; }
+html[data-theme="stopmotion"] ::-webkit-scrollbar-track { background: transparent; }
+html[data-theme="stopmotion"] ::-webkit-scrollbar-thumb { background: url("/assets/sm/scroll-v.png") center / 100% 100% no-repeat; border: 0; border-radius: 0; min-height: 40px; }
 html[data-theme="stopmotion"] .clay-stitch::after, html[data-theme="stopmotion"] .clay-ring::after, html[data-theme="stopmotion"] .washi, html[data-theme="stopmotion"] .paper-pin { display: none; }
-/* barre latérale en plasticine pêche ; onglet actif « enfoncé » */
-html[data-theme="stopmotion"] .side-nav { background: var(--sm-peach) 0 0 / 200px 600px; box-shadow: 0 6px 12px rgba(80,45,25,.35), inset 0 2px 2px rgba(255,235,220,.6), inset 0 -3px 6px rgba(130,70,40,.3); }
-html[data-theme="stopmotion"] .nav-item, html[data-theme="stopmotion"] .nav-item[data-active="false"] { background: none; box-shadow: none; color: #2a2420; text-shadow: none; filter: none; }
-html[data-theme="stopmotion"] .nav-item[data-active="true"] { background: rgba(255,238,222,.5); box-shadow: inset 3px 4px 8px rgba(120,66,36,.5), inset -2px -2px 4px rgba(255,240,225,.75); transform: none; }
-html[data-theme="stopmotion"] .nav-item[data-active="false"]:hover { background: rgba(255,238,222,.28); }
-html[data-theme="stopmotion"] .nav-disc { background: none !important; box-shadow: none !important; color: #2a2420 !important; text-shadow: none !important; }
-/* panneau Script Doctor : cadre en branche + intérieur beige-brun */
-html[data-theme="stopmotion"] .doctor-wrap { padding: 15px; }
-html[data-theme="stopmotion"] .doctor-wrap::before {
-  content: ""; position: absolute; inset: 0; border-radius: 30px; z-index: 0; filter: url(#twig);
-  background: var(--sm-wr) 0 0 / 256px 256px, linear-gradient(90deg, #8b4b27 0%, #bd6c3e 35%, #9a5530 65%, #7a3f20 100%); background-blend-mode: soft-light, normal;
-  box-shadow: 0 6px 12px rgba(60,35,15,.4), inset 0 2px 3px rgba(255,200,150,.45);
-}
-html[data-theme="stopmotion"] .doctor-wrap > aside {
-  position: relative; z-index: 1; border-radius: 18px !important;
-  background: linear-gradient(rgba(196,152,96,.5), rgba(196,152,96,.5)), var(--sm-paper) 0 0 / 300px 300px; background-blend-mode: multiply, normal;
-  box-shadow: inset 3px 4px 8px rgba(90,60,30,.45), inset -2px -2px 4px rgba(255,235,200,.45);
-}
-html[data-theme="stopmotion"] .metric-tile { box-shadow: none; color: #fffaf0; text-shadow: 0 1px 1px rgba(0,0,0,.45); padding: 10px 4px !important; background: center / 100% 100% no-repeat; }
-html[data-theme="stopmotion"] .metric-tile * { color: #fffaf0 !important; }
-html[data-theme="stopmotion"] .sm-t-green { background-image: url("/assets/sm/tile-green.png"); }
-html[data-theme="stopmotion"] .sm-t-yellow { background-image: url("/assets/sm/tile-yellow.png"); }
-html[data-theme="stopmotion"] .sm-t-blue { background-image: url("/assets/sm/tile-blue.png"); }
-html[data-theme="stopmotion"] .sm-t-red { background-image: url("/assets/sm/tile-red.png"); }
-html[data-theme="stopmotion"] .sm-slab { border-radius: 16px !important; color: #2a2420; text-shadow: none; border: 0; font-weight: 500;
-  box-shadow: 0 3px 5px rgba(60,40,20,.35), inset 0 2px 2px rgba(255,255,255,.5), inset 0 -3px 5px rgba(0,0,0,.22); }
-html[data-theme="stopmotion"] .sm-green { background: url("/assets/sm/tex-green.jpg") center / cover; }
-html[data-theme="stopmotion"] .sm-orange { background: url("/assets/sm/tex-orange.jpg") center / cover; }
-html[data-theme="stopmotion"] .sm-amber { background: url("/assets/sm/tex-amber.jpg") center / cover; }
-html[data-theme="stopmotion"] .sm-yellow { background: url("/assets/sm/tex-yellow.jpg") center / cover; }
-html[data-theme="stopmotion"] .sm-red { background: url("/assets/sm/tex-red.jpg") center / cover; color: #fffaf0; text-shadow: 0 1px 1px rgba(0,0,0,.4); font-weight: 700; }
-/* champs titre / auteur / contact : liserés colorés en pâte à modeler */
-html[data-theme="stopmotion"] .field-0 { box-shadow: inset 2px 3px 6px rgba(40,70,110,.45), 0 0 0 3px #66aae6, 0 0 0 5px #3b7fbf, 0 3px 5px rgba(0,0,0,.25); }
-html[data-theme="stopmotion"] .field-1 { box-shadow: inset 2px 3px 6px rgba(60,75,100,.4), 0 0 0 3px #b4c1d6, 0 0 0 5px #8797b3, 0 3px 5px rgba(0,0,0,.25); }
-html[data-theme="stopmotion"] .field-2 { box-shadow: inset 2px 3px 6px rgba(70,40,110,.4), 0 0 0 3px #bb94e6, 0 0 0 5px #8f5fc4, 0 3px 5px rgba(0,0,0,.25); }
 html[data-theme="stopmotion"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(40,25,10,.25)) drop-shadow(4px 8px 6px rgba(40,25,10,.28)); }
+
+/* ── barre du haut : matière de la planche, extrémités arrondies conservées ── */
+html[data-theme="stopmotion"] .sm-bar {
+  background: none; box-shadow: none; border-radius: 0 !important; border-style: solid; border-color: transparent; border-width: 0 26px;
+  border-image: url("/assets/sm/bar.png") 0 30 0 30 fill / 0 26px 0 26px stretch; filter: drop-shadow(0 4px 4px rgba(50,30,10,.45));
+}
+/* ── titre en lettres de pâte à modeler : le cadre déborde, rien n'est rogné ── */
+html[data-theme="stopmotion"] .clay-letter { display: inline-block; line-height: 1.3; padding: .08em .01em .16em; background-size: 64px 64px; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 0 var(--ld)) drop-shadow(0 2px 0 var(--ld)) drop-shadow(0 3px 2px rgba(40,20,0,.4)); }
+
+/* ── menu latéral pêche : image 9 tranches posée en fond, contenu indépendant ── */
+html[data-theme="stopmotion"] .side-nav { position: relative; isolation: isolate; background: none; box-shadow: none; border-radius: 0 !important; padding: 26px 20px 22px; filter: drop-shadow(0 5px 5px rgba(50,30,10,.4)); }
+html[data-theme="stopmotion"] .side-nav::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 40px solid transparent; border-image: url("/assets/sm/sidebar.png") 46 fill / 40px stretch; }
+html[data-theme="stopmotion"] .nav-item, html[data-theme="stopmotion"] .nav-item[data-active="false"] { background: none; box-shadow: none; color: #2a2420; text-shadow: none; filter: none; border-radius: 0 !important; min-height: 54px; padding: 4px 8px !important; font-weight: 600; transform: none; }
+html[data-theme="stopmotion"] .nav-item[data-active="true"] { background: url("/assets/sm/nav-well.png") 0 0 / 100% 100% no-repeat; }
+html[data-theme="stopmotion"] .nav-item[data-active="false"]:hover { background: rgba(255,238,222,.22); border-radius: 26px !important; }
+html[data-theme="stopmotion"] .nav-disc { background: none !important; box-shadow: none !important; width: 44px !important; height: 44px !important; flex: none; }
+
+/* ── champs titre / auteur / contact : pastilles bleue, grise, violette de la planche ── */
+html[data-theme="stopmotion"] .sm-field::placeholder { color: rgba(42,36,32,.55) !important; font-weight: 500; }
+html[data-theme="stopmotion"] .sm-field { background: none; box-shadow: none; border-radius: 0 !important; border: 2px solid transparent; height: 40px; line-height: 20px; padding: 0 24px 4px !important; font-size: 13px; font-weight: 600; color: #2a2420; }
+html[data-theme="stopmotion"] .field-0 { border-image: url("/assets/sm/pill-blue.png") 24 fill / 20px stretch; }
+html[data-theme="stopmotion"] .field-1 { border-image: url("/assets/sm/pill-slate.png") 24 fill / 20px stretch; }
+html[data-theme="stopmotion"] .field-2 { border-image: url("/assets/sm/pill-purple.png") 24 fill / 20px stretch; }
+
+/* ── feuille de scénario : papier crème de la planche ── */
+html[data-theme="stopmotion"] .sm-paper { position: relative; isolation: isolate; background: var(--sm-paper) 0 0 / 260px 260px; box-shadow: none; border-radius: 24px !important; }
+html[data-theme="stopmotion"] .sm-paper::before { content: ""; position: absolute; inset: -6px; z-index: -1; border: 34px solid transparent; border-image: url("/assets/sm/paper.png") 60 / 34px stretch; filter: drop-shadow(0 6px 6px rgba(50,30,10,.42)); }
+
+/* ── panneau Script Doctor : cadre en branche + intérieur sable ── */
+html[data-theme="stopmotion"] .doctor-wrap { padding: 9px; margin: 6px 8px 6px 4px; }
+html[data-theme="stopmotion"] .doctor-wrap::before { content: ""; position: absolute; inset: 0; z-index: 6; pointer-events: none; border-style: solid; border-color: transparent; border-width: 35px 29px 35px 30px; border-image: url("/assets/sm/frame.png") 46 38 46 40 / 35px 29px 35px 30px stretch; filter: drop-shadow(0 4px 4px rgba(50,30,10,.4)); }
+html[data-theme="stopmotion"] .doctor-wrap > aside { position: relative; z-index: 1; border-radius: 18px !important; border: 0; background: var(--sm-tan) 0 0 / 260px 260px; box-shadow: inset 2px 3px 6px rgba(90,55,25,.35); padding: 30px 28px 30px 28px !important; }
+html[data-theme="stopmotion"] .metric-tile { background: none; box-shadow: none; border-radius: 0 !important; border: 1px solid transparent; color: #fffaf0; text-shadow: 0 1px 1px rgba(0,0,0,.45); padding: 9px 2px !important; }
+html[data-theme="stopmotion"] .metric-tile * { color: #fffaf0 !important; }
+html[data-theme="stopmotion"] .sm-t-green { border-image: url("/assets/sm/ctile-green.png") 20 fill / 16px stretch; }
+html[data-theme="stopmotion"] .sm-t-yellow { border-image: url("/assets/sm/ctile-yellow.png") 20 fill / 16px stretch; }
+html[data-theme="stopmotion"] .sm-t-blue { border-image: url("/assets/sm/ctile-blue.png") 20 fill / 16px stretch; }
+html[data-theme="stopmotion"] .sm-t-red { border-image: url("/assets/sm/ctile-red.png") 20 fill / 16px stretch; }
+html[data-theme="stopmotion"] .sm-slab { background: none; box-shadow: none; border-radius: 0 !important; border: 1px solid transparent; border-image: var(--slab) 28 fill / 18px stretch; color: #2a2420; text-shadow: none; font-weight: 500; padding: 9px 13px !important; filter: drop-shadow(0 2px 2px rgba(60,35,15,.3)); }
+html[data-theme="stopmotion"] .sm-green { --slab: url("/assets/sm/slab-green.png"); }
+html[data-theme="stopmotion"] .sm-orange { --slab: url("/assets/sm/slab-orange.png"); }
+html[data-theme="stopmotion"] .sm-amber { --slab: url("/assets/sm/slab-amber.png"); }
+html[data-theme="stopmotion"] .sm-yellow { --slab: url("/assets/sm/slab-yellow.png"); }
+html[data-theme="stopmotion"] .sm-red { --slab: url("/assets/sm/slab-red.png"); color: #fffaf0; text-shadow: 0 1px 1px rgba(0,0,0,.45); font-weight: 700; }
+html[data-theme="stopmotion"] .doctor-wrap > aside { scrollbar-width: none; }
+html[data-theme="stopmotion"] .doctor-wrap > aside::-webkit-scrollbar { display: none; }
+html[data-theme="stopmotion"] .sm-surface { background: var(--sm-paper) 0 0 / 260px 260px; box-shadow: 0 6px 10px rgba(50,30,10,.4), inset 0 2px 2px rgba(255,255,255,.6), inset 0 -3px 6px rgba(110,80,45,.28); border-radius: 26px; }

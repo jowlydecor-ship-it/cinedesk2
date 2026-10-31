@@ -55,6 +55,10 @@ test("le thème stop motion référence uniquement des fichiers du pack qui exis
   for (const m of srcAll.matchAll(/"(ball-[a-z]+)"/g)) used.add(m[1]);
   for (const c of ["green", "blue", "yellow", "pink", "purple"]) used.add(`ball-${c}`);
   for (const sev of ["diamond-red", "diamond-yellow", "circle-green"]) used.add(sev);
-  assert.ok(used.size >= 15);
+  for (const m of srcAll.matchAll(/"(d-[a-z0-9]+)":/g)) used.add(m[1]);            // décor du panneau
+  for (let i = 0; i < 6; i++) used.add(`disc${i}`);                                 // disques du menu
+  for (const m of srcAll.matchAll(/\/assets\/sm\/([\w-]+)\.png/g)) used.add(m[1]);  // références directes
+  assert.ok(used.size >= 25);
   for (const nme of used) assert.ok(fs.existsSync(new URL(`../public/assets/sm/${nme}.png`, import.meta.url)), nme);
+  for (const t of srcAll.matchAll(/"(tex-[a-z0-9]+)"/g)) assert.ok(fs.existsSync(new URL(`../public/assets/sm/${t[1]}.jpg`, import.meta.url)), t[1]);
 });

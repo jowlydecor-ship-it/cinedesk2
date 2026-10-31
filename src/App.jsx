@@ -20,7 +20,7 @@ import Analysis from "./modules/Analysis";
 import Desk from "./modules/Desk";
 import { SewnButton } from "./modules/Craft";
 import Settings from "./modules/Settings";
-import { Sprite, ClayTitle } from "./modules/StopMotion";
+import { Sprite, ClayTitle, NavDisc } from "./modules/StopMotion";
 import { ThemeProvider, SvgDefs, useTheme } from "./theme";
 import ImportDialog from "./modules/ImportDialog";
 
@@ -45,6 +45,7 @@ const IconBtn = ({ icon: I, label, onClick, disabled }) => (
 
 function AppInner() {
   const { theme } = useTheme();
+  const sm = theme === "stopmotion";
   const [settings, setSettings] = useState(false);
   const [init] = useState(sampleProject);
   const { project, set, undo, redo, load, markSaved, canUndo, canRedo, dirty } = useProject(init);
@@ -171,15 +172,15 @@ function AppInner() {
 
   return (
     <div className="flex h-screen flex-col gap-3 p-3">
-      <header data-tauri-drag-region className="flex h-14 shrink-0 items-center gap-1 clay-card pl-24 pr-4">
+      <header data-tauri-drag-region className={`flex h-14 shrink-0 items-center gap-1 pl-[88px] pr-4 ${sm ? "sm-bar" : "clay-card"}`}>
         <IconBtn icon={PanelLeft} label="Afficher / masquer la barre latérale" onClick={() => setSidebar(s => !s)} />
-        {theme === "stopmotion" ? <Sprite n="tree" className="mx-1 h-8 w-auto" /> : <SewnButton size={34} color="#ff9d6b" className="mx-1" />}
-        {theme === "stopmotion"
-          ? <span data-tauri-drag-region className="mr-3 flex max-w-[240px] items-center gap-1 overflow-hidden"><ClayTitle text={(meta.title || "Sans titre").toUpperCase().slice(0, 14)} />{dirty && <b className="text-ink">•</b>}</span>
+        {sm ? <Sprite n="tree" className="mx-1 h-9 w-auto shrink-0" style={{ filter: "drop-shadow(0 2px 2px rgba(50,30,10,.35))" }} /> : <SewnButton size={34} color="#ff9d6b" className="mx-1" />}
+        {sm
+          ? <span data-tauri-drag-region className="mr-3 flex shrink-0 items-center gap-1"><ClayTitle text={(meta.title || "Sans titre").toUpperCase()} />{dirty && <b className="text-ink">•</b>}</span>
           : <span data-tauri-drag-region className="mr-3 max-w-[220px] truncate text-sm font-extrabold text-ink">{meta.title || "Sans titre"}{dirty ? " •" : ""}</span>}
         <IconBtn icon={FilePlus2} label="Nouveau (⌘N)" onClick={newDoc} />
         <IconBtn icon={FolderOpen} label="Ouvrir un projet ou un scénario (⌘O)" onClick={openDoc} />
-        <button onClick={() => setImp({ open: true, file: null })} className="clay-solid clay-peach flex items-center gap-1.5 px-3 py-1.5 text-xs"><FileUp size={14} />Importer un scénario</button>
+        <button onClick={() => setImp({ open: true, file: null })} className={sm ? "mx-1 flex shrink-0 items-center gap-1.5 whitespace-nowrap px-4 py-2 text-xs font-bold text-ink" : "clay-solid clay-peach flex items-center gap-1.5 px-3 py-1.5 text-xs"} style={sm ? { background: "url(/assets/sm/pill-orange.png) 0 0 / 100% 100% no-repeat", filter: "drop-shadow(0 2px 2px rgba(50,30,10,.35))" } : undefined}><FileUp size={14} />Importer un scénario</button>
         <IconBtn icon={Save} label="Enregistrer (⌘S)" onClick={() => save(false)} />
         <div className="relative">
           <IconBtn icon={Download} label="Exporter" onClick={() => setMenu(m => !m)} />
@@ -199,30 +200,32 @@ function AppInner() {
         <IconBtn icon={Redo2} label="Rétablir (⇧⌘Z)" onClick={redo} disabled={!canRedo} />
         <IconBtn icon={GearIcon} label="Réglages (thème)" onClick={() => setSettings(true)} />
         <div data-tauri-drag-region className="h-full flex-1" />
-        {theme === "stopmotion" && <span className="mr-4 flex items-center gap-1.5">{["green", "blue", "yellow", "pink", "purple"].map(c => <Sprite key={c} n={`ball-${c}`} className="h-6 w-6" />)}</span>}
-        <span className="mr-3 text-[11px] font-semibold text-ink-soft">{scenes.length} scènes · ≈ {stats.pages} p.</span>
-        <Sparkles size={15} className={ai ? "text-[#ff8a5b]" : "text-ink-mute"} />
-        <span className="mx-2 text-xs font-bold text-ink-soft">Script Doctor</span>
-        <button role="switch" aria-checked={ai} onClick={() => setAi(a => !a)} className={`relative h-7 w-12 rounded-full transition ${ai ? "bg-[#7fe0b8]" : "bg-[var(--line)]"}`} style={{ boxShadow: "inset 3px 3px 6px rgba(0,0,0,.15), inset -2px -2px 5px rgba(255,255,255,.7)" }}>
-          <span className={`absolute top-0.5 transition-all ${ai ? "left-[22px]" : "left-0.5"}`}><SewnButton size={24} color="#fff2c4" holes={2} /></span>
-        </button>
-      </header>
+        {sm && <span className="mr-3 flex shrink-0 items-center gap-1.5">{["green", "blue", "yellow", "pink", "purple"].map(c => <Sprite key={c} n={`ball-${c}`} className="h-6 w-6" style={{ filter: "drop-shadow(0 2px 2px rgba(50,30,10,.35))" }} />)}</span>}
+        <span className="mr-3 shrink-0 whitespace-nowrap text-[11px] font-semibold text-ink-soft">{scenes.length} scènes · ≈ {stats.pages} p.</span>
+        <Sparkles size={15} className={`shrink-0 ${ai ? "text-[#ff8a5b]" : "text-ink-mute"}`} />
+        <span className="mx-2 shrink-0 whitespace-nowrap text-xs font-bold text-ink-soft">Script Doctor</span>
+        {sm
+          ? <button role="switch" aria-checked={ai} onClick={() => setAi(a => !a)} className="shrink-0" aria-label="Script Doctor"><img src={`/assets/sm/toggle-${ai ? "on" : "off"}.png`} alt="" draggable={false} className="h-8 w-auto" style={{ filter: "drop-shadow(0 2px 2px rgba(50,30,10,.35))" }} /></button>
+          : <button role="switch" aria-checked={ai} onClick={() => setAi(a => !a)} className={`relative h-7 w-12 shrink-0 rounded-full transition ${ai ? "bg-[#7fe0b8]" : "bg-[var(--line)]"}`} style={{ boxShadow: "inset 3px 3px 6px rgba(0,0,0,.15), inset -2px -2px 5px rgba(255,255,255,.7)" }}>
+              <span className={`absolute top-0.5 transition-all ${ai ? "left-[22px]" : "left-0.5"}`}><SewnButton size={24} color="#fff2c4" holes={2} /></span>
+            </button>}
+        </header>
 
       <div className="flex min-h-0 flex-1 gap-3">
         {sidebar && (
-          <nav className="side-nav flex w-56 shrink-0 flex-col gap-2 clay-card clay-stitch p-3">
-            {NAV.filter(n => !n.doctor || ai).map(({ id, label, icon: I, c }) => (
+          <nav className={`side-nav flex w-56 shrink-0 flex-col gap-2 ${sm ? "" : "clay-card clay-stitch"} p-3`}>
+            {NAV.filter(n => !n.doctor || ai).map(({ id, label, icon: I, c }, k) => (
               <button key={id} data-active={current === id} onClick={() => setView(id)} className={`nav-item clay-solid ${c} flex w-full items-center gap-3 px-3 py-2.5 text-sm`}>
-                <span className={`nav-disc clay-solid clay-ring ${c} flex h-8 w-8 items-center justify-center !rounded-full`}><I size={16} /></span>{label}
+                {sm ? <span className="nav-disc flex items-center justify-center"><NavDisc i={NAV.findIndex(n => n.id === id)} /></span> : <span className={`nav-disc clay-solid clay-ring ${c} flex h-8 w-8 items-center justify-center !rounded-full`}><I size={16} /></span>}{label}
               </button>
             ))}
             <div className="mt-auto flex items-center justify-center gap-2 pt-4">
-              {theme === "stopmotion" ? ["ball-pink", "ball-green", "ball-blue"].map(n => <Sprite key={n} n={n} className="h-6 w-6" />)
+              {sm ? ["ball-pink", "ball-green", "ball-blue"].map(n => <Sprite key={n} n={n} className="h-7 w-7" style={{ filter: "drop-shadow(0 2px 2px rgba(50,30,10,.35))" }} />)
                 : (theme === "clay" ? [["#f2a71f", 0], ["#e8621b", 0], ["#7b3bc8", 0]] : [["#ff9d9d", 4], ["#8fe8c2", 2], ["#9fd4ff", 4]]).map(([c, h], i) => <SewnButton key={i} size={26} color={c} holes={h} />)}
             </div>
           </nav>
         )}
-        <main className={`min-w-0 flex-1 overflow-auto rounded-[28px] ${current === "script" ? "desk-main" : ""}`}>
+        <main className={`min-w-0 flex-1 overflow-auto rounded-[28px] ${sm && current !== "script" ? "sm-surface" : ""}`}>
           {current === "script" && <ScriptEditor lines={lines} setLines={set.lines} meta={meta} setMeta={set.meta} jumpTo={jumpTo} onShowNote={showNote} flags={report?.flags || {}} onOpenFlaw={id => openAnalysis({ flaw: id })} />}
           {current === "wall" && <PostItWall report={report} notes={notes} setNotes={set.notes} links={links} setLinks={set.links} scenes={scenes} filter={filter} setFilter={setFilter} highlight={highlight} onOpenScene={jump} onSync={sync} />}
           {current === "board" && <Storyboard scenes={scenes} panels={panels} setPanels={set.panels} />}

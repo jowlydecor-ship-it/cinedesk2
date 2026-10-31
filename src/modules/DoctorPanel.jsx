@@ -15,7 +15,7 @@ export default function DoctorPanel({ report, onOpenAnalysis }) {
   return (
     <div className="doctor-wrap relative w-[340px] shrink-0">
       {sm && <PanelDecor />}
-      <aside className="h-full overflow-y-auto clay-card clay-stitch p-5">
+      <aside className={`h-full overflow-y-auto ${sm ? "" : "clay-card clay-stitch"} p-5`}>
         <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-ink"><Sparkles size={16} className="text-[#ff8a5b]" />Script Doctor</h2>
         <div className="mb-3 grid grid-cols-4 gap-2 text-center text-[11px] text-ink-soft">
           {[["scènes", m.scenes], ["durée", fmtDur(report.runtime.total)], ["perso.", m.characters], ["dial. %", m.dialoguePct]].map(([l, v], i) => (
