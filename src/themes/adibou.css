@@ -1,0 +1,79 @@
+/* ═══════════ THÈME « ADIBOU » (atelier jeunesse) ═══════════
+   Cabane en bois : mur bleu, cadres de bois orange, parchemin, boutons-bonbons brillants, jouets en décor.
+   Éléments détourés des planches du pack (public/assets/adibou/) — cadre, planches, jouets. Personnages et logo non utilisés. */
+html[data-theme="adibou"] {
+  color-scheme: light;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --a-frame: url("/assets/adibou/frame-wood.png"); --a-plank: url("/assets/adibou/plank-tile.jpg");
+  --color-ink: #33200C; --color-ink-soft: #5E3F18; --color-ink-mute: #77551F;
+  --color-neutral-100: #33200C; --color-neutral-200: #33200C; --color-neutral-300: #4A3112; --color-neutral-400: #5E3F18; --color-neutral-500: #77551F; --color-neutral-600: #8E6A2C; --color-neutral-700: #C79A4A;
+  --line: rgba(160, 96, 20, .38); --soft: #F6E2A8; --soft2: #FBEDC2; --accent: #2A6BD9; --warn: #FFE48A;
+  --frame: #3A230B; --frame-text: #FBE6B0; --overlay: rgba(20, 28, 90, .5); --dots: rgba(160, 96, 20, .25); --sb: #E39A33; --stitch-c: transparent;
+  --card-bg: linear-gradient(#FDF2D0, #F7E3AB); --card-bgm: normal; --card-r: 12px; --card-bd: 12px solid transparent; --bf: none; --card-sh: 0 6px 0 rgba(70, 36, 6, .28), 0 10px 18px rgba(10, 20, 80, .3);
+  --chip-bg: linear-gradient(#FFF7DA, #FBE9B4); --chip-bgm: normal; --chip-bd: 2px solid #D9972F; --chip-sh: 0 2px 0 rgba(150, 85, 10, .35), inset 0 1px 0 rgba(255, 255, 255, .8);
+  --well-bg: #F5E4B0; --well-bgm: normal; --well-r: 10px; --well-bd: 2px solid #D39A40; --well-sh: inset 0 3px 5px rgba(120, 70, 10, .28);
+  --sol-tex: linear-gradient(180deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 52%); --sol-bgm: normal; --sol-r: 999px; --sol-bd: 2px solid rgba(8, 20, 90, .38); --sol-ink: #FFFFFF; --sol-ts: 0 1px 1px rgba(0, 0, 0, .5);
+  --sol-sh: 0 3px 0 rgba(0, 0, 0, .3), inset 0 2px 0 rgba(255, 255, 255, .5);
+  --btn-c: #F2B45A; --btn-c2: #FFDC96; --btn-ink: #4A2C0C; --btn-sh: 0 3px 0 rgba(120, 66, 8, .45), inset 0 2px 0 rgba(255, 255, 255, .6);
+  --act-c: #FFC21F; --act-c2: #FFE46E; --act-sh: 0 3px 0 rgba(130, 80, 0, .45), inset 0 2px 0 rgba(255, 255, 255, .65);
+  --paper-bg: linear-gradient(#FFF8E0, #FBEDC4); --paper-bgm: normal; --paper-r: 10px; --paper-bd: 16px solid transparent; --paper-bf: none; --paper-sh: 0 7px 0 rgba(70, 36, 6, .3), 0 14px 22px rgba(10, 20, 80, .35);
+  --sky-c: #1E9AD8; --sky-c2: #62CBF6; --peach-c: #2A68DB; --peach-c2: #5DA6FF; --mint-c: #1F9A3A; --mint-c2: #5CCF6C;
+  --lilac-c: #6A2BD0; --lilac-c2: #A276F4; --butter-c: #F0B000; --butter-c2: #FFE366; --coral-c: #D42B2B; --coral-c2: #FF6E60; --pink-c: #E7701A; --pink-c2: #FFB35C;
+  --nav-r: 999px;
+}
+html[data-theme="adibou"] body { background: linear-gradient(180deg, #3D5BDB 0%, #2C45BB 100%); background-attachment: fixed; }
+html[data-theme="adibou"] ::selection { background: #FFD45C; color: #33200C; }
+html[data-theme="adibou"] ::-webkit-scrollbar-thumb { background-color: #E39A33; border-color: #FBE6B0; }
+html[data-theme="adibou"] :where(button, a, [tabindex]):focus-visible { outline: 3px solid #FFE046; outline-offset: 2px; }
+html[data-theme="adibou"] :where(input, textarea, select):focus { outline: 3px solid #5DA6FF; outline-offset: 0; }
+html[data-theme="adibou"] .clay-stitch::after, html[data-theme="adibou"] .clay-ring::after, html[data-theme="adibou"] .washi, html[data-theme="adibou"] .paper-pin { display: none; }
+
+/* cartes et feuille : parchemin dans un cadre de bois (image du pack en 9 tranches, bords seulement) */
+html[data-theme="adibou"] .clay-card, html[data-theme="adibou"] .clay-paper { background-clip: padding-box; border-image: var(--a-frame) 22 / 12px stretch; }
+html[data-theme="adibou"] .clay-paper { border-image-width: 16px; }
+html[data-theme="adibou"] .clay-card .clay-card { border-image: none; border: 2px solid #D9972F; }
+/* barre du haut : planche de bois */
+html[data-theme="adibou"] header.clay-card { border: 3px solid #8A4A12; border-image: none; background: var(--a-plank) 0 0 / auto 100% repeat-x, #D98A38; border-radius: 16px !important; box-shadow: 0 5px 0 rgba(70, 36, 6, .45), 0 10px 16px rgba(10, 20, 80, .3); }
+
+/* navigation : pastilles blanches cerclées de couleur, onglet actif en bonbon jaune */
+html[data-theme="adibou"] .nav-item { transform: none; font-weight: 700; }
+html[data-theme="adibou"] .nav-item[data-active="true"] { background: linear-gradient(#FFE46E, #FFC21F); color: #4A2C0C; text-shadow: none; box-shadow: 0 3px 0 rgba(130, 80, 0, .45), inset 0 2px 0 rgba(255, 255, 255, .65); border: 2px solid #C98A00; }
+html[data-theme="adibou"] .nav-item[data-active="false"] { color: #4A2C0C; }
+html[data-theme="adibou"] .nav-item[data-active="false"]:hover { background: rgba(255, 255, 255, .55); box-shadow: none; }
+html[data-theme="adibou"] .nav-disc { background: #FFFFFF !important; color: var(--c); box-shadow: inset 0 0 0 3px var(--c), 0 2px 0 rgba(0, 0, 0, .2) !important; }
+html[data-theme="adibou"] .clay-butter, html[data-theme="adibou"] .clay-butter * { color: #4A2C0C; text-shadow: none; }
+
+/* champs, interrupteur, tuiles, bandeaux */
+html[data-theme="adibou"] .sm-field { border-radius: 999px !important; background: #FFF7DA; }
+html[data-theme="adibou"] button[role="switch"][aria-checked="true"] { background: #2FB24C !important; box-shadow: inset 0 2px 3px rgba(0, 0, 0, .3), 0 2px 0 rgba(0, 0, 0, .25) !important; }
+html[data-theme="adibou"] button[role="switch"][aria-checked="false"] { background: #B9A27A !important; box-shadow: inset 0 2px 3px rgba(0, 0, 0, .3), 0 2px 0 rgba(0, 0, 0, .25) !important; }
+html[data-theme="adibou"] .metric-tile { border: 2px solid rgba(8, 20, 90, .35); color: #FFFFFF; text-shadow: 0 1px 1px rgba(0, 0, 0, .45); box-shadow: 0 3px 0 rgba(0, 0, 0, .28), inset 0 2px 0 rgba(255, 255, 255, .45); }
+html[data-theme="adibou"] .metric-tile * { color: #FFFFFF; }
+html[data-theme="adibou"] .sm-t-green { background: linear-gradient(#62D274, #1F9A3A); }
+html[data-theme="adibou"] .sm-t-yellow { background: linear-gradient(#FFE15A, #F0A800); }
+html[data-theme="adibou"] .sm-t-yellow, html[data-theme="adibou"] .sm-t-yellow * { color: #4A2C0C; text-shadow: none; }
+html[data-theme="adibou"] .sm-t-blue { background: linear-gradient(#62AFFF, #2A68DB); }
+html[data-theme="adibou"] .sm-t-red { background: linear-gradient(#FF7A6B, #D42B2B); }
+html[data-theme="adibou"] .sm-slab { border-width: 2px; border-radius: 14px !important; }
+html[data-theme="adibou"] .sm-green { background: linear-gradient(#D6F0B0, #BDE388); border-color: #7DBA3A; }
+html[data-theme="adibou"] .sm-orange { background: linear-gradient(#FFC9A8, #FFA77C); border-color: #E2763B; }
+html[data-theme="adibou"] .sm-amber { background: linear-gradient(#FFE29A, #FFC85C); border-color: #E0A020; }
+html[data-theme="adibou"] .sm-yellow { background: linear-gradient(#FFF2A8, #FFE371); border-color: #D8B418; }
+html[data-theme="adibou"] .sm-red { background: linear-gradient(#9E6BF0, #6A2BD0); border-color: #4A1AA0; }
+html[data-theme="adibou"] .sm-slab, html[data-theme="adibou"] .sm-slab * { text-shadow: none; }
+html[data-theme="adibou"] .sm-red, html[data-theme="adibou"] .sm-red * { color: #FFFFFF; text-shadow: 0 1px 1px rgba(0, 0, 0, .45); }
+html[data-theme="adibou"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(10, 20, 80, .3)) drop-shadow(4px 8px 6px rgba(10, 20, 80, .35)); }
+
+/* panneau Script Doctor : titres de section lisibles et bouton d'analyse qui masque ce qui défile dessous */
+html[data-theme="adibou"] .text-\[\#1f9b72\] { color: #17702B; }
+html[data-theme="adibou"] .text-\[\#d9800d\] { color: #A24E00; }
+html[data-theme="adibou"] .doctor-wrap > aside { padding-bottom: 0; }
+html[data-theme="adibou"] .doctor-wrap > aside .sticky { margin-inline: -4px; padding: 12px 4px 20px; background: linear-gradient(to bottom, transparent, #F9E8B8 32%); }
+html[data-theme="adibou"] header.clay-card { --color-ink: #2A1806; --color-ink-soft: #3A2208; --color-ink-mute: #4A2D0C; }
+
+/* écrans autres que le scénario : parchemin dans un cadre de bois, jamais directement sur le mur bleu */
+html[data-theme="adibou"] .view-surface { background: var(--card-bg); background-clip: padding-box; border: 12px solid transparent; border-image: var(--a-frame) 22 / 12px stretch; border-radius: 12px; box-shadow: var(--card-sh); }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="adibou"] *, html[data-theme="adibou"] *::before, html[data-theme="adibou"] *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

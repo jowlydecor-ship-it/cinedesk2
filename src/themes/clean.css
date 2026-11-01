@@ -1,0 +1,57 @@
+/* ═══════════ THÈME « SCRIPT STUDIO — CLEAN LIGHT » ═══════════
+   Interface claire et sobre : fond #F4F6FA, surfaces blanches, texte #17233D, bleu #3B82F6 réservé aux actions et aux états actifs.
+   Spécification : DESIGN_SYSTEM.md / theme.json du pack. Aucun dégradé décoratif, aucune ombre lourde, aucun effet 3D. */
+html[data-theme="clean"] {
+  color-scheme: light;
+  --font-sans: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-ink: #17233D; --color-ink-soft: #52627F; --color-ink-mute: #66758F;
+  --color-neutral-100: #17233D; --color-neutral-200: #17233D; --color-neutral-300: #2F3E5C; --color-neutral-400: #52627F; --color-neutral-500: #66758F; --color-neutral-600: #8290A8; --color-neutral-700: #B4BFD1;
+  --line: #E3E9F2; --soft: #F1F5FC; --soft2: #F8FAFD; --accent: #3B82F6; --warn: #FEF3DC;
+  --frame: #17233D; --frame-text: #C9D6EE; --overlay: rgba(23, 35, 61, .35); --dots: #E3E9F2; --sb: #D5DEEC; --stitch-c: transparent;
+  --card-bg: #FFFFFF; --card-bgm: normal; --card-r: 28px; --card-bd: 1px solid #E3E9F2; --bf: none; --card-sh: 0 5px 18px rgba(31, 55, 90, .07);
+  --chip-bg: #FFFFFF; --chip-bgm: normal; --chip-bd: 1px solid #E3E9F2; --chip-sh: 0 2px 10px rgba(31, 55, 90, .05);
+  --well-bg: #F8FAFD; --well-bgm: normal; --well-r: 14px; --well-bd: 1px solid #E3E9F2; --well-sh: none;
+  --sol-tex: linear-gradient(transparent, transparent); --sol-bgm: normal; --sol-r: 999px; --sol-bd: 1px solid transparent; --sol-ink: #17233D; --sol-ts: none;
+  --sol-sh: 0 2px 10px rgba(31, 55, 90, .05);
+  --btn-c: #FFFFFF; --btn-c2: #FFFFFF; --btn-ink: #17233D; --btn-sh: 0 1px 2px rgba(31, 55, 90, .06), inset 0 0 0 1px #D5DEEC;
+  --act-c: #E7F0FF; --act-c2: #E7F0FF; --act-sh: inset 0 0 0 1px #B9D3FB;
+  --paper-bg: #FFFFFF; --paper-bgm: normal; --paper-r: 28px; --paper-bd: 1px solid #E3E9F2; --paper-bf: none; --paper-sh: 0 5px 18px rgba(31, 55, 90, .07);
+  --sky-c: #E7F0FF; --sky-c2: #E7F0FF; --peach-c: #E7F0FF; --peach-c2: #E7F0FF; --mint-c: #E4F6EF; --mint-c2: #E4F6EF;
+  --lilac-c: #ECEFFB; --lilac-c2: #ECEFFB; --butter-c: #FEF3DC; --butter-c2: #FEF3DC; --coral-c: #FDE8EA; --coral-c2: #FDE8EA; --pink-c: #F6E9F3; --pink-c2: #F6E9F3;
+  --nav-r: 20px;
+}
+html[data-theme="clean"] body { background: #F4F6FA; }
+html[data-theme="clean"] ::selection { background: #CFE2FF; }
+html[data-theme="clean"] ::-webkit-scrollbar-thumb { background-color: #D5DEEC; }
+html[data-theme="clean"] .clay-stitch::after, html[data-theme="clean"] .clay-ring::after, html[data-theme="clean"] .washi, html[data-theme="clean"] .paper-pin { display: none; }
+html[data-theme="clean"] :where(button, a, [tabindex]):focus-visible { outline: 3px solid rgba(59, 130, 246, .35); outline-offset: 2px; }
+html[data-theme="clean"] :where(input, textarea, select):focus { border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59, 130, 246, .14); outline: none; }
+
+/* navigation : l'onglet actif est le seul élément bleu pâle de la colonne */
+html[data-theme="clean"] .nav-item { box-shadow: none; transform: none; font-weight: 500; }
+html[data-theme="clean"] .nav-item[data-active="true"] { background: #E7F0FF; color: #17233D; }
+html[data-theme="clean"] .nav-item[data-active="false"] { color: #52627F; }
+html[data-theme="clean"] .nav-item[data-active="false"]:hover { background: #F1F5FC; box-shadow: none; }
+html[data-theme="clean"] .nav-disc { background: #F1F5FC !important; box-shadow: none !important; color: #52627F; }
+html[data-theme="clean"] .nav-item[data-active="true"] .nav-disc { background: #FFFFFF !important; color: #2563EB; }
+
+/* champs en pastille, boutons secondaires et interrupteur */
+html[data-theme="clean"] .sm-field { border-radius: 999px !important; background: #F8FAFD; }
+html[data-theme="clean"] .sm-field:first-child { background: #E7F0FF; border-color: #CFE2FF; }
+html[data-theme="clean"] button[role="switch"][aria-checked="true"] { background: #3B82F6 !important; box-shadow: none !important; }
+html[data-theme="clean"] button[role="switch"][aria-checked="false"] { background: #D5DEEC !important; box-shadow: none !important; }
+
+/* panneau Script Doctor : cartes blanches, filet bleu pour les points forts */
+html[data-theme="clean"] .sm-green { box-shadow: inset 3px 0 0 #93C0FF, 0 2px 10px rgba(31, 55, 90, .05); }
+html[data-theme="clean"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(31, 55, 90, .12)) drop-shadow(0 6px 8px rgba(31, 55, 90, .10)); }
+html[data-theme="clean"] .clay-solid:hover, html[data-theme="clean"] .clay-btn:hover { transform: none; filter: brightness(.98); }
+
+/* panneau Script Doctor : titres de section lisibles et bouton d'analyse qui masque ce qui défile dessous */
+html[data-theme="clean"] .text-\[\#1f9b72\] { color: #0F7F5C; }
+html[data-theme="clean"] .text-\[\#d9800d\] { color: #B45F00; }
+html[data-theme="clean"] .doctor-wrap > aside { padding-bottom: 0; }
+html[data-theme="clean"] .doctor-wrap > aside .sticky { margin-inline: -4px; padding: 12px 4px 20px; background: linear-gradient(to bottom, transparent, #FFFFFF 32%); }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="clean"] *, html[data-theme="clean"] *::before, html[data-theme="clean"] *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

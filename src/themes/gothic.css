@@ -1,0 +1,77 @@
+/* ═══════════ THÈME « AIRBOX — FRANKENWEENIE » ═══════════
+   Gothique artisanal : charbon, métal patiné, parchemin ivoire, vert-de-gris, ambre, rouge d'alerte.
+   Textures du pack (public/assets/gothic/), jamais sous les zones de texte : les surfaces de lecture restent claires et sobres. */
+html[data-theme="gothic"] {
+  color-scheme: light;
+  --g-cloth: url("/assets/gothic/stitched-cloth.jpg"); --g-parch: url("/assets/gothic/parchment-fine.jpg");
+  --g-metal: url("/assets/gothic/aged-metal.jpg"); --g-wood: url("/assets/gothic/dark-wood.jpg");
+  --font-sans: "Helvetica Neue", Helvetica, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --color-ink: #211F1C; --color-ink-soft: #3F3B34; --color-ink-mute: #5A5549;
+  --color-neutral-100: #211F1C; --color-neutral-200: #211F1C; --color-neutral-300: #38342D; --color-neutral-400: #3F3B34; --color-neutral-500: #5A5549; --color-neutral-600: #6E675A; --color-neutral-700: #A9A092;
+  --line: rgba(33, 31, 28, .32); --soft: #D8CFBA; --soft2: #E4DBC6; --accent: #52664C; --warn: #E8D6A6;
+  --frame: #242321; --frame-text: #E7DDC8; --overlay: rgba(20, 19, 17, .62); --dots: rgba(33, 31, 28, .25); --sb: #777168; --stitch-c: rgba(236, 226, 205, .6);
+  --card-bg: linear-gradient(rgba(228, 221, 204, .62), rgba(228, 221, 204, .62)), var(--g-cloth) 0 0 / 512px 512px; --card-bgm: normal;
+  --card-r: 19px; --card-bd: 1px solid #292722; --bf: none;
+  --card-sh: 0 10px 28px rgba(0, 0, 0, .38), inset 0 1px 0 rgba(255, 250, 235, .35), inset 0 -2px 4px rgba(0, 0, 0, .22);
+  --chip-bg: linear-gradient(rgba(243, 235, 218, .55), rgba(243, 235, 218, .55)), var(--g-parch) 0 0 / 512px 512px; --chip-bgm: normal; --chip-bd: 1px solid rgba(41, 39, 34, .6);
+  --chip-sh: 0 2px 5px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .5);
+  --well-bg: linear-gradient(rgba(125, 108, 80, .3), rgba(125, 108, 80, .3)), var(--g-parch) 0 0 / 512px 512px; --well-bgm: normal; --well-r: 12px; --well-bd: 1px solid rgba(41, 39, 34, .6);
+  --well-sh: inset 0 2px 6px rgba(0, 0, 0, .38), 0 1px 0 rgba(255, 250, 235, .35);
+  --sol-tex: var(--g-metal) 0 0 / 512px 512px; --sol-bgm: soft-light, normal; --sol-r: 12px; --sol-bd: 1px solid #1C1B18; --sol-ink: #F4ECDA; --sol-ts: 0 1px 0 rgba(0, 0, 0, .55);
+  --sol-sh: 0 3px 8px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 250, 235, .3), inset 0 -2px 3px rgba(0, 0, 0, .3);
+  --btn-c: #B9B1A1; --btn-c2: #D9D1BE; --btn-ink: #211F1C; --btn-sh: 0 2px 5px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .45);
+  --act-c: #4C6046; --act-c2: #6A8062; --act-sh: var(--sol-sh);
+  --paper-bg: linear-gradient(rgba(246, 239, 222, .38), rgba(246, 239, 222, .38)), var(--g-parch) 0 0 / 640px 640px; --paper-bgm: normal;
+  --paper-r: 10px; --paper-bd: 1px solid #8A7F68; --paper-bf: none; --paper-sh: 0 14px 34px rgba(0, 0, 0, .5), inset 0 0 0 1px rgba(255, 250, 235, .45);
+  --sky-c: #4F6578; --sky-c2: #6A8093; --peach-c: #4C6046; --peach-c2: #6A8062; --mint-c: #566C50; --mint-c2: #6F8767;
+  --lilac-c: #66596F; --lilac-c2: #807389; --butter-c: #B9893D; --butter-c2: #D4A659; --coral-c: #94453A; --coral-c2: #B05E50; --pink-c: #85505B; --pink-c2: #A06873;
+  --nav-r: 12px;
+}
+html[data-theme="gothic"] body { background: linear-gradient(rgba(36, 35, 33, .3), rgba(36, 35, 33, .3)), var(--g-wood) 0 0 / 512px 512px, #242321; background-attachment: fixed; }
+html[data-theme="gothic"] ::selection { background: #C99A50; color: #211F1C; }
+html[data-theme="gothic"] ::-webkit-scrollbar-thumb { background-color: #777168; border-color: #242321; }
+html[data-theme="gothic"] :where(h1, h2, h3) { font-family: Georgia, "Times New Roman", serif; letter-spacing: .01em; }
+html[data-theme="gothic"] :where(button, a, [tabindex]):focus-visible { outline: 3px solid #C99A50; outline-offset: 2px; }
+html[data-theme="gothic"] :where(input, textarea, select):focus { outline: 2px solid #C99A50; outline-offset: 1px; }
+html[data-theme="gothic"] .clay-stitch::after { border-width: 1.5px; border-color: var(--stitch-c); filter: none; }
+html[data-theme="gothic"] .clay-paper.clay-stitch::after { border-color: rgba(106, 92, 66, .45); }
+html[data-theme="gothic"] .clay-ring::after, html[data-theme="gothic"] .washi, html[data-theme="gothic"] .paper-pin { display: none; }
+
+/* navigation : pastille parchemin pour l'onglet actif, disque sombre pour les icônes */
+html[data-theme="gothic"] .nav-item[data-active="true"] { background: var(--chip-bg); color: #211F1C; box-shadow: var(--chip-sh); border: 1px solid rgba(41, 39, 34, .6); text-shadow: none; transform: none; }
+html[data-theme="gothic"] .nav-item[data-active="false"] { color: #211F1C; font-weight: 500; }
+html[data-theme="gothic"] .nav-item[data-active="false"]:hover { background: rgba(243, 235, 218, .45); box-shadow: none; }
+html[data-theme="gothic"] .nav-disc { background: #2A2825 !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14) !important; color: #F1E8D7; }
+html[data-theme="gothic"] .clay-solid:not(.nav-item) { color: #F4ECDA; }
+html[data-theme="gothic"] .clay-butter, html[data-theme="gothic"] .clay-butter * { color: #211F1C; text-shadow: none; }
+
+/* champs : parchemin clair, encre foncée, bord métal */
+html[data-theme="gothic"] .sm-field { background: #F1E8D7; border: 1px solid #555149; border-radius: 8px !important; box-shadow: inset 0 1px 3px rgba(0, 0, 0, .25); }
+html[data-theme="gothic"] button[role="switch"][aria-checked="true"] { background: #82927A !important; box-shadow: inset 0 2px 4px rgba(0, 0, 0, .45) !important; }
+html[data-theme="gothic"] button[role="switch"][aria-checked="false"] { background: #3A372F !important; box-shadow: inset 0 2px 4px rgba(0, 0, 0, .55) !important; }
+
+/* panneau Script Doctor : tuiles de métal sombre, cartes parchemin à filet d'état */
+html[data-theme="gothic"] .metric-tile { background: var(--g-metal) 0 0 / 512px 512px, #34322E; background-blend-mode: soft-light, normal; border: 1px solid #1C1B18; box-shadow: inset 0 1px 0 rgba(255, 250, 235, .2), 0 2px 4px rgba(0, 0, 0, .35); }
+html[data-theme="gothic"] .metric-tile, html[data-theme="gothic"] .metric-tile * { color: #F1E8D7; }
+html[data-theme="gothic"] .metric-tile.sm-t-green { background-color: #52664C; }
+html[data-theme="gothic"] .sm-slab { border-left: 5px solid #5A5549; }
+html[data-theme="gothic"] .sm-green { border-left-color: #52664C; }
+html[data-theme="gothic"] .sm-orange { border-left-color: #A94D40; }
+html[data-theme="gothic"] .sm-amber { border-left-color: #C99A50; }
+html[data-theme="gothic"] .sm-yellow { border-left-color: #71889A; }
+html[data-theme="gothic"] .sm-red { border-left-width: 1px; }
+html[data-theme="gothic"] .clay-solid:hover, html[data-theme="gothic"] .clay-btn:hover { transform: translateY(-1px); filter: brightness(1.06); }
+html[data-theme="gothic"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .35)) drop-shadow(4px 9px 8px rgba(0, 0, 0, .4)); }
+
+/* panneau Script Doctor : titres de section lisibles et bouton d'analyse qui masque ce qui défile dessous */
+html[data-theme="gothic"] .text-\[\#1f9b72\] { color: #1E4420; }
+html[data-theme="gothic"] .text-\[\#d9800d\] { color: #5E3300; }
+html[data-theme="gothic"] .doctor-wrap > aside { padding-bottom: 0; }
+html[data-theme="gothic"] .doctor-wrap > aside .sticky { margin-inline: -4px; padding: 12px 4px 20px; background: linear-gradient(to bottom, transparent, #BDB5A6 32%); }
+
+/* écrans autres que le scénario : posés sur une surface parchemin, jamais directement sur le fond sombre */
+html[data-theme="gothic"] .view-surface { background: var(--chip-bg); border: 1px solid #292722; box-shadow: var(--card-sh); }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="gothic"] *, html[data-theme="gothic"] *::before, html[data-theme="gothic"] *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

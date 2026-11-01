@@ -17,7 +17,7 @@ export default function DoctorPanel({ report, onOpenAnalysis }) {
       {sm && <PanelDecor />}
       <aside className={`h-full overflow-y-auto ${sm ? "" : "clay-card clay-stitch"} p-5`}>
         <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-ink"><Sparkles size={16} className="text-[#ff8a5b]" />Script Doctor</h2>
-        <div className="mb-3 grid grid-cols-4 gap-2 text-center text-[11px] text-ink-soft">
+        <div className="mb-2 grid grid-cols-4 gap-2 text-center text-[11px] text-ink-soft">
           {[["scènes", m.scenes], ["durée", fmtDur(report.runtime.total)], ["perso.", m.characters], ["dial. %", m.dialoguePct]].map(([l, v], i) => (
             <div key={l} className={`metric-tile ${TILE[i]} clay-chip !rounded-2xl py-1.5`}><div className="text-base font-extrabold text-ink">{v}</div>{l}</div>
           ))}
@@ -34,7 +34,7 @@ export default function DoctorPanel({ report, onOpenAnalysis }) {
         )}
 
         <div className="mb-1.5 text-xs font-extrabold text-[#d9800d]">Failles ({report.flaws.length})</div>
-        <ul className="mb-4 space-y-2">
+        <ul className="mb-3 space-y-2">
           {report.flaws.slice(0, 4).map(f => (
             <li key={f.id}>
               <button onClick={() => onOpenAnalysis({ flaw: f.id })} className={`sm-slab ${SLAB[f.severity]} clay-chip !rounded-2xl w-full p-2.5 text-left text-[12px] text-ink-soft hover:brightness-95`}>
@@ -48,7 +48,7 @@ export default function DoctorPanel({ report, onOpenAnalysis }) {
           {!report.flaws.length && <li className="text-[12px] text-ink-mute">Aucune faille détectée.</li>}
         </ul>
 
-        <button onClick={() => onOpenAnalysis({})} className="sm-slab sm-red clay-solid clay-peach flex w-full items-center justify-center gap-2 py-2.5 text-sm"><Activity size={16} />Ouvrir l'analyse complète</button>
+        <div className={sm ? "sticky bottom-0 z-10 -mx-7 px-7 pb-6 pt-2" : "sticky bottom-0 -mx-1 pt-2"} style={sm ? { background: "linear-gradient(rgba(207,194,171,0), #cfc2ab 22%, #cfc2ab)" } : undefined}><button onClick={() => onOpenAnalysis({})} className="sm-slab sm-red clay-solid clay-peach flex w-full items-center justify-center gap-2 py-2.5 text-sm"><Activity size={16} />Ouvrir l'analyse complète</button></div>
         <p className="mt-3 text-[10px] text-ink-mute">Tout est calculé sur votre Mac. Le Script Doctor ne modifie jamais votre texte. Médiane de tension : {fmt(report.median)}/10.</p>
       </aside>
     </div>

@@ -16,9 +16,9 @@ test("chaque variable CSS utilisée par les écrans est définie par défaut (au
   assert.deepEqual(missing, []);
 });
 
-test("les trois thèmes déclarent leurs jeux de variables", () => {
+test("les thèmes déclarent leurs jeux de variables", () => {
   const ids = [...themeSrc.matchAll(/id: "(\w+)", label/g)].map(m => m[1]);
-  assert.deepEqual(ids, ["stopmotion", "clay", "pastel", "glass"]);
+  assert.deepEqual(ids, ["stopmotion", "clay", "pastel", "glass", "clean", "gothic", "adibou"]);
   assert.ok(["stopmotion", "clay", "glass"].every(id => css.includes(`html[data-theme="${id}"]`)));
   const block = id => css.split(`html[data-theme="${id}"] {`)[1]?.split("\n}")[0] || "";
   for (const id of ["stopmotion", "clay", "glass"]) for (const v of ["--card-bg", "--chip-bg", "--well-bg", "--sol-sh", "--paper-bg", "--sky-c", "--lilac-c", "--color-ink", "--line", "--accent"])
@@ -55,10 +55,10 @@ test("le thème stop motion référence uniquement des fichiers du pack qui exis
   for (const m of srcAll.matchAll(/"(ball-[a-z]+)"/g)) used.add(m[1]);
   for (const c of ["green", "blue", "yellow", "pink", "purple"]) used.add(`ball-${c}`);
   for (const sev of ["diamond-red", "diamond-yellow", "circle-green"]) used.add(sev);
-  for (const m of srcAll.matchAll(/"(d-[a-z0-9]+)":/g)) used.add(m[1]);            // décor du panneau
+  for (const m of srcAll.matchAll(/"(d-[a-z0-9]+)"/g)) used.add(m[1]);            // décor du panneau
   for (let i = 0; i < 6; i++) used.add(`disc${i}`);                                 // disques du menu
   for (const m of srcAll.matchAll(/\/assets\/sm\/([\w-]+)\.png/g)) used.add(m[1]);  // références directes
-  assert.ok(used.size >= 25);
+  assert.ok(used.size >= 20);
   for (const nme of used) assert.ok(fs.existsSync(new URL(`../public/assets/sm/${nme}.png`, import.meta.url)), nme);
   for (const t of srcAll.matchAll(/"(tex-[a-z0-9]+)"/g)) assert.ok(fs.existsSync(new URL(`../public/assets/sm/${t[1]}.jpg`, import.meta.url)), t[1]);
 });

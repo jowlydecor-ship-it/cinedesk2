@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* thèmes récents : un fichier par thème */
+@import "./themes/clean.css";
+@import "./themes/gothic.css";
+@import "./themes/adibou.css";
+
 @theme {
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --color-ink: #2f2a55;
@@ -216,7 +221,7 @@ html[data-theme="glass"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(20,
    Tout vient de la planche d'éléments fournie (public/assets/sm/) : barre, menu pêche, feuille, cadre en branche,
    bandeaux, tuiles, pastilles, fleurs et feuilles. Le bois de la table est généré (wood.jpg). */
 html[data-theme="stopmotion"] {
-  --color-ink: #2a2420; --color-ink-soft: #5b4e43; --color-ink-mute: #8f8070;
+  --color-ink: #2a2420; --color-ink-soft: #5b4e43; --color-ink-mute: #6c5d4d;
   --color-neutral-100: #2a2420; --color-neutral-200: #2a2420; --color-neutral-300: #4a3f36; --color-neutral-400: #5b4e43; --color-neutral-500: #85766a; --color-neutral-600: #9d8e7c; --color-neutral-700: #b9ab98;
   --line: rgba(110,80,50,.3); --soft: #d8c5a0; --soft2: #e6d7b8; --accent: #8a52c8; --warn: #f7e3a6;
   --frame: #4b3624; --frame-text: #e3d1b4; --overlay: rgba(50,35,20,.45); --dots: rgba(110,80,50,.22); --sb: #b690e4; --stitch-c: rgba(255,248,232,.85);
@@ -250,40 +255,38 @@ html[data-theme="stopmotion"] .sm-bar {
   background: none; box-shadow: none; border-radius: 0 !important; border-style: solid; border-color: transparent; border-width: 0 26px;
   border-image: url("/assets/sm/bar.png") 0 30 0 30 fill / 0 26px 0 26px stretch; filter: drop-shadow(0 4px 4px rgba(50,30,10,.45));
 }
-/* ── titre en lettres de pâte à modeler : le cadre déborde, rien n'est rogné ── */
-html[data-theme="stopmotion"] .clay-letter { display: inline-block; line-height: 1.3; padding: .08em .01em .16em; background-size: 64px 64px; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 1px 0 var(--ld)) drop-shadow(0 2px 0 var(--ld)) drop-shadow(0 3px 2px rgba(40,20,0,.4)); }
+/* ── titre en lettres de pâte à modeler pastel : le cadre déborde, rien n'est rogné ── */
+html[data-theme="stopmotion"] .clay-letter { display: inline-block; line-height: 1.35; padding: .05em .01em .18em; color: var(--lc); font-weight: 800;
+  text-shadow: 0 1px 0 var(--ld), 0 2px 0 var(--ld), 0 3px 2px rgba(60,40,20,.3); }
 
 /* ── menu latéral pêche : image 9 tranches posée en fond, contenu indépendant ── */
-html[data-theme="stopmotion"] .side-nav { position: relative; isolation: isolate; background: none; box-shadow: none; border-radius: 0 !important; padding: 26px 20px 22px; filter: drop-shadow(0 5px 5px rgba(50,30,10,.4)); }
+html[data-theme="stopmotion"] .side-nav { position: relative; isolation: isolate; background: none; box-shadow: none; border-radius: 0 !important; padding: 24px 18px 20px; filter: drop-shadow(0 5px 5px rgba(50,30,10,.4)); }
 html[data-theme="stopmotion"] .side-nav::before { content: ""; position: absolute; inset: 0; z-index: -1; border: 40px solid transparent; border-image: url("/assets/sm/sidebar.png") 46 fill / 40px stretch; }
-html[data-theme="stopmotion"] .nav-item, html[data-theme="stopmotion"] .nav-item[data-active="false"] { background: none; box-shadow: none; color: #2a2420; text-shadow: none; filter: none; border-radius: 0 !important; min-height: 54px; padding: 4px 8px !important; font-weight: 600; transform: none; }
+html[data-theme="stopmotion"] .nav-item, html[data-theme="stopmotion"] .nav-item[data-active="false"] { background: none; box-shadow: none; color: #2a2420; text-shadow: none; filter: none; border-radius: 0 !important; min-height: 52px; padding: 4px 8px !important; font-weight: 400; font-size: 15px; transform: none; }
 html[data-theme="stopmotion"] .nav-item[data-active="true"] { background: url("/assets/sm/nav-well.png") 0 0 / 100% 100% no-repeat; }
 html[data-theme="stopmotion"] .nav-item[data-active="false"]:hover { background: rgba(255,238,222,.22); border-radius: 26px !important; }
-html[data-theme="stopmotion"] .nav-disc { background: none !important; box-shadow: none !important; width: 44px !important; height: 44px !important; flex: none; }
+html[data-theme="stopmotion"] .nav-disc { background: none !important; box-shadow: none !important; width: 38px !important; height: 38px !important; flex: none; }
 
-/* ── champs titre / auteur / contact : pastilles bleue, grise, violette de la planche ── */
-html[data-theme="stopmotion"] .sm-field::placeholder { color: rgba(42,36,32,.55) !important; font-weight: 500; }
-html[data-theme="stopmotion"] .sm-field { background: none; box-shadow: none; border-radius: 0 !important; border: 2px solid transparent; height: 40px; line-height: 20px; padding: 0 24px 4px !important; font-size: 13px; font-weight: 600; color: #2a2420; }
-html[data-theme="stopmotion"] .field-0 { border-image: url("/assets/sm/pill-blue.png") 24 fill / 20px stretch; }
-html[data-theme="stopmotion"] .field-1 { border-image: url("/assets/sm/pill-slate.png") 24 fill / 20px stretch; }
-html[data-theme="stopmotion"] .field-2 { border-image: url("/assets/sm/pill-purple.png") 24 fill / 20px stretch; }
+/* ── champs titre / auteur / contact : rainures creusées dans le bois ── */
+html[data-theme="stopmotion"] .sm-field { background: rgba(120,78,38,.28); border: 0; border-radius: 999px !important; height: 30px; line-height: 30px; padding: 0 16px !important; font-size: 14px; font-weight: 400; color: #2a2420;
+  box-shadow: inset 0 3px 5px rgba(60,35,15,.6), inset 0 -1px 1px rgba(255,235,200,.3), 0 1px 0 rgba(255,238,205,.6); }
+html[data-theme="stopmotion"] .sm-field::placeholder { color: rgba(42,36,32,.75) !important; font-weight: 400; }
 
-/* ── feuille de scénario : papier crème de la planche ── */
-html[data-theme="stopmotion"] .sm-paper { position: relative; isolation: isolate; background: var(--sm-paper) 0 0 / 260px 260px; box-shadow: none; border-radius: 24px !important; }
-html[data-theme="stopmotion"] .sm-paper::before { content: ""; position: absolute; inset: -6px; z-index: -1; border: 34px solid transparent; border-image: url("/assets/sm/paper.png") 60 / 34px stretch; filter: drop-shadow(0 6px 6px rgba(50,30,10,.42)); }
+/* ── feuille de scénario : papier fibreux aux bords déchirés ── */
+html[data-theme="stopmotion"] .sm-paper { position: relative; isolation: isolate; background: none; box-shadow: none; border-radius: 0 !important; }
+html[data-theme="stopmotion"] .sm-paper::before { content: ""; position: absolute; inset: -3px; z-index: -1; background: var(--sm-paper) 0 0 / 260px 260px; filter: url(#torn) drop-shadow(0 5px 5px rgba(50,30,10,.4)); }
 
 /* ── panneau Script Doctor : cadre en branche + intérieur sable ── */
-html[data-theme="stopmotion"] .doctor-wrap { padding: 9px; margin: 6px 8px 6px 4px; }
-html[data-theme="stopmotion"] .doctor-wrap::before { content: ""; position: absolute; inset: 0; z-index: 6; pointer-events: none; border-style: solid; border-color: transparent; border-width: 35px 29px 35px 30px; border-image: url("/assets/sm/frame.png") 46 38 46 40 / 35px 29px 35px 30px stretch; filter: drop-shadow(0 4px 4px rgba(50,30,10,.4)); }
-html[data-theme="stopmotion"] .doctor-wrap > aside { position: relative; z-index: 1; border-radius: 18px !important; border: 0; background: var(--sm-tan) 0 0 / 260px 260px; box-shadow: inset 2px 3px 6px rgba(90,55,25,.35); padding: 30px 28px 30px 28px !important; }
-html[data-theme="stopmotion"] .metric-tile { background: none; box-shadow: none; border-radius: 0 !important; border: 1px solid transparent; color: #fffaf0; text-shadow: 0 1px 1px rgba(0,0,0,.45); padding: 9px 2px !important; }
+html[data-theme="stopmotion"] .doctor-wrap { padding: 5px; margin: 6px 8px 6px 4px; }
+html[data-theme="stopmotion"] .doctor-wrap::before { content: ""; position: absolute; inset: 0; z-index: 6; pointer-events: none; border-style: solid; border-color: transparent; border-width: 24px 21px 24px 21px; border-image: url("/assets/sm/frame.png") 46 38 46 38 / 24px 21px 24px 21px stretch; filter: drop-shadow(0 4px 4px rgba(50,30,10,.4)); }
+html[data-theme="stopmotion"] .doctor-wrap > aside { position: relative; z-index: 1; border-radius: 14px !important; border: 0; background: var(--sm-tan) 0 0 / 260px 260px; box-shadow: inset 2px 3px 6px rgba(90,55,25,.35); padding: 26px 26px 0 26px !important; }
+html[data-theme="stopmotion"] .metric-tile { background: none; box-shadow: none; border-radius: 0 !important; border: 1px solid transparent; color: #fffaf0; text-shadow: 0 1px 1px rgba(0,0,0,.45); padding: 9px 2px !important; line-height: 1.2; }
 html[data-theme="stopmotion"] .metric-tile * { color: #fffaf0 !important; }
 html[data-theme="stopmotion"] .sm-t-green { border-image: url("/assets/sm/ctile-green.png") 20 fill / 16px stretch; }
 html[data-theme="stopmotion"] .sm-t-yellow { border-image: url("/assets/sm/ctile-yellow.png") 20 fill / 16px stretch; }
 html[data-theme="stopmotion"] .sm-t-blue { border-image: url("/assets/sm/ctile-blue.png") 20 fill / 16px stretch; }
 html[data-theme="stopmotion"] .sm-t-red { border-image: url("/assets/sm/ctile-red.png") 20 fill / 16px stretch; }
-html[data-theme="stopmotion"] .sm-slab { background: none; box-shadow: none; border-radius: 0 !important; border: 1px solid transparent; border-image: var(--slab) 28 fill / 18px stretch; color: #2a2420; text-shadow: none; font-weight: 500; padding: 9px 13px !important; filter: drop-shadow(0 2px 2px rgba(60,35,15,.3)); }
+html[data-theme="stopmotion"] .sm-slab { background: none; box-shadow: none; border-radius: 0 !important; border: 1px solid transparent; border-image: var(--slab) 28 fill / 18px stretch; color: #2a2420; text-shadow: none; font-weight: 500; padding: 8px 14px 9px !important; font-size: 12.5px; line-height: 1.3; filter: drop-shadow(0 2px 2px rgba(60,35,15,.3)); }
 html[data-theme="stopmotion"] .sm-green { --slab: url("/assets/sm/slab-green.png"); }
 html[data-theme="stopmotion"] .sm-orange { --slab: url("/assets/sm/slab-orange.png"); }
 html[data-theme="stopmotion"] .sm-amber { --slab: url("/assets/sm/slab-amber.png"); }
@@ -292,3 +295,5 @@ html[data-theme="stopmotion"] .sm-red { --slab: url("/assets/sm/slab-red.png"); 
 html[data-theme="stopmotion"] .doctor-wrap > aside { scrollbar-width: none; }
 html[data-theme="stopmotion"] .doctor-wrap > aside::-webkit-scrollbar { display: none; }
 html[data-theme="stopmotion"] .sm-surface { background: var(--sm-paper) 0 0 / 260px 260px; box-shadow: 0 6px 10px rgba(50,30,10,.4), inset 0 2px 2px rgba(255,255,255,.6), inset 0 -3px 6px rgba(110,80,45,.28); border-radius: 26px; }
+html[data-theme="stopmotion"] .sm-slab.sm-red { padding: 12px 14px !important; font-size: 14.5px; border-image-slice: 30 fill; }
+html[data-theme="stopmotion"] .metric-tile > div:first-child { font-size: 18px; }

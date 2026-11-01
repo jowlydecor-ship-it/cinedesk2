@@ -7,8 +7,31 @@ export const shade = (hex, k) => {
   return "#" + [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(f).map(v => v.toString(16).padStart(2, "0")).join("");
 };
 
+/* Pastilles décoratives des thèmes récents (« clean », « gothic », « adibou ») : mêmes emplacements que les boutons cousus. */
+const BEAD_COLORS = {
+  clean: { "#ff9d9d": "#3B82F6", "#8fe8c2": "#E3E9F2", "#9fd4ff": "#E3E9F2", "#ff9d6b": "#E7F0FF", "#fff2c4": "#FFFFFF" },
+  gothic: { "#ff9d9d": "#8F8A7F", "#8fe8c2": "#8F8A7F", "#9fd4ff": "#8F8A7F", "#ff9d6b": "#8F8A7F", "#fff2c4": "#F1E8D7" },
+};
+const TOYS = { "#ff9d9d": "toy-ball", "#8fe8c2": "toy-flower", "#9fd4ff": "star", "#ff9d6b": "toy-balls" };
+function Bead({ theme, size, color, className, style }) {
+  if (theme === "adibou" && TOYS[color]) {
+    return <img src={`/assets/adibou/${TOYS[color]}.png`} width={size} height={size} alt="" draggable={false} className={`object-contain ${className}`} style={{ filter: "drop-shadow(0 2px 1px rgba(40,20,0,.35))", flexShrink: 0, ...style }} />;
+  }
+  const fill = theme === "adibou" ? "#FFFFFF" : BEAD_COLORS[theme]?.[color] || color;
+  const rivet = theme === "gothic" && color !== "#fff2c4";
+  const ring = theme === "clean" ? "#D5DEEC" : theme === "gothic" ? "#3A372F" : "#E39A33";
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" className={className} style={{ flexShrink: 0, ...style }} aria-hidden="true">
+      <circle cx="24" cy="24" r="21" fill={fill} stroke={ring} strokeWidth="2.5" />
+      {rivet && <path d="M15 24h18" stroke="#3A372F" strokeWidth="3" strokeLinecap="round" />}
+      {theme === "adibou" && <ellipse cx="17" cy="15" rx="7" ry="4" fill="#fff" opacity=".7" />}
+    </svg>
+  );
+}
+
 export function SewnButton({ size = 32, color = "#ff9d9d", holes = 4, thread = "#fff4d6", className = "", style }) {
   const { theme } = useTheme();
+  if (theme === "clean" || theme === "gothic" || theme === "adibou") return <Bead theme={theme} size={size} color={color} className={className} style={style} />;
   const id = `sb${color.slice(1)}${holes}${theme}`;
   const dark = shade(color, -0.3), light = shade(color, 0.6);
   const shadow = "drop-shadow(2px 4px 3px rgba(70,40,20,.35))";

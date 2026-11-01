@@ -200,7 +200,7 @@ function AppInner() {
         <IconBtn icon={Redo2} label="Rétablir (⇧⌘Z)" onClick={redo} disabled={!canRedo} />
         <IconBtn icon={GearIcon} label="Réglages (thème)" onClick={() => setSettings(true)} />
         <div data-tauri-drag-region className="h-full flex-1" />
-        {sm && <span className="mr-3 flex shrink-0 items-center gap-1.5">{["green", "blue", "yellow", "pink", "purple"].map(c => <Sprite key={c} n={`ball-${c}`} className="h-6 w-6" style={{ filter: "drop-shadow(0 2px 2px rgba(50,30,10,.35))" }} />)}</span>}
+        {sm && <span className="mr-3 flex shrink-0 items-center gap-1.5">{["green", "blue", "yellow", "pink", "purple"].map(c => <Sprite key={c} n={`ball-${c}`} className="h-8 w-8" style={{ filter: "drop-shadow(0 2px 2px rgba(50,30,10,.35))" }} />)}</span>}
         <span className="mr-3 shrink-0 whitespace-nowrap text-[11px] font-semibold text-ink-soft">{scenes.length} scènes · ≈ {stats.pages} p.</span>
         <Sparkles size={15} className={`shrink-0 ${ai ? "text-[#ff8a5b]" : "text-ink-mute"}`} />
         <span className="mx-2 shrink-0 whitespace-nowrap text-xs font-bold text-ink-soft">Script Doctor</span>
@@ -213,7 +213,7 @@ function AppInner() {
 
       <div className="flex min-h-0 flex-1 gap-3">
         {sidebar && (
-          <nav className={`side-nav flex w-56 shrink-0 flex-col gap-2 ${sm ? "" : "clay-card clay-stitch"} p-3`}>
+          <nav className={`side-nav flex w-52 shrink-0 flex-col gap-2 ${sm ? "" : "clay-card clay-stitch"} p-3`}>
             {NAV.filter(n => !n.doctor || ai).map(({ id, label, icon: I, c }, k) => (
               <button key={id} data-active={current === id} onClick={() => setView(id)} className={`nav-item clay-solid ${c} flex w-full items-center gap-3 px-3 py-2.5 text-sm`}>
                 {sm ? <span className="nav-disc flex items-center justify-center"><NavDisc i={NAV.findIndex(n => n.id === id)} /></span> : <span className={`nav-disc clay-solid clay-ring ${c} flex h-8 w-8 items-center justify-center !rounded-full`}><I size={16} /></span>}{label}
@@ -225,7 +225,7 @@ function AppInner() {
             </div>
           </nav>
         )}
-        <main className={`min-w-0 flex-1 overflow-auto rounded-[28px] ${sm && current !== "script" ? "sm-surface" : ""}`}>
+        <main className={`min-w-0 flex-1 overflow-auto rounded-[28px] ${current !== "script" ? "view-surface" : ""} ${sm && current !== "script" ? "sm-surface" : ""}`}>
           {current === "script" && <ScriptEditor lines={lines} setLines={set.lines} meta={meta} setMeta={set.meta} jumpTo={jumpTo} onShowNote={showNote} flags={report?.flags || {}} onOpenFlaw={id => openAnalysis({ flaw: id })} />}
           {current === "wall" && <PostItWall report={report} notes={notes} setNotes={set.notes} links={links} setLinks={set.links} scenes={scenes} filter={filter} setFilter={setFilter} highlight={highlight} onOpenScene={jump} onSync={sync} />}
           {current === "board" && <Storyboard scenes={scenes} panels={panels} setPanels={set.panels} />}
