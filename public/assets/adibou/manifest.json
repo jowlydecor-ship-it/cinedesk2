@@ -1,0 +1,60 @@
+{
+ "pack": "Adibou graphic assets v3 (extraits)",
+ "note": "Éléments sans texte ni personnage, détourés depuis les planches 01 et 03 (cadre, planche de bois, jouets décoratifs). Les personnages, le logo et les planches complètes ne sont pas utilisés.",
+ "assets": [
+  {
+   "name": "toy-balls",
+   "path": "assets/adibou/toy-balls.png",
+   "width": 71,
+   "height": 71,
+   "format": "png",
+   "category": "decor",
+   "used_for": "pastilles décoratives"
+  },
+  {
+   "name": "toy-ball",
+   "path": "assets/adibou/toy-ball.png",
+   "width": 55,
+   "height": 57,
+   "format": "png",
+   "category": "decor",
+   "used_for": "pastilles décoratives"
+  },
+  {
+   "name": "toy-flower",
+   "path": "assets/adibou/toy-flower.png",
+   "width": 42,
+   "height": 57,
+   "format": "png",
+   "category": "decor",
+   "used_for": "pastilles décoratives"
+  },
+  {
+   "name": "star",
+   "path": "assets/adibou/star.png",
+   "width": 41,
+   "height": 39,
+   "format": "png",
+   "category": "decor",
+   "used_for": "pastilles décoratives"
+  },
+  {
+   "name": "frame-wood",
+   "path": "assets/adibou/frame-wood.png",
+   "width": 157,
+   "height": 211,
+   "format": "png",
+   "category": "cadre",
+   "used_for": "cadres des cartes et de la feuille"
+  },
+  {
+   "name": "plank-tile",
+   "path": "assets/adibou/plank-tile.jpg",
+   "width": 470,
+   "height": 37,
+   "format": "jpg",
+   "category": "texture",
+   "used_for": "barre du haut (motif répétable)"
+  }
+ ]
+}
