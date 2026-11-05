@@ -1,79 +1,181 @@
-/* ═══════════ THÈME « ADIBOU » (atelier jeunesse) ═══════════
-   Cabane en bois : mur bleu, cadres de bois orange, parchemin, boutons-bonbons brillants, jouets en décor.
-   Éléments détourés des planches du pack (public/assets/adibou/) — cadre, planches, jouets. Personnages et logo non utilisés. */
+/* ═══════════ THÈME « ADIBOU » (chambre, rondins, parchemin) ═══════════
+   Reproduit la maquette Adibou : barre d'outils grise pleine largeur, chambre bleue en fond avec la mascotte, le logo, l'avion,
+   le tableau et la grenouille, panneaux et feuille cadrés de rondins de bois, onglets en bois, pastilles vitrifiées.
+   Assets (public/assets/adibou/), tous découpés par alpha dans « Kit d'interface cartoon Adibou sur fond transparent » :
+   mascotte, logo, avion, tableau, grenouille, tapis, croix rouge, et trois cadres en bordure (9 tranches).
+   Les icônes du menu et le décor de chambre viennent de la planche « 01-atlas-ui-general » du pack d'origine.
+   Les textes, compteurs et boutons restent des composants natifs (CSS) : rien de ce qui est affiché n'est une image de texte. */
+
 html[data-theme="adibou"] {
   color-scheme: light;
-  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --a-frame: url("/assets/adibou/frame-wood.png"); --a-plank: url("/assets/adibou/plank-tile.jpg");
-  --color-ink: #33200C; --color-ink-soft: #5E3F18; --color-ink-mute: #77551F;
-  --color-neutral-100: #33200C; --color-neutral-200: #33200C; --color-neutral-300: #4A3112; --color-neutral-400: #5E3F18; --color-neutral-500: #77551F; --color-neutral-600: #8E6A2C; --color-neutral-700: #C79A4A;
-  --line: rgba(160, 96, 20, .38); --soft: #F6E2A8; --soft2: #FBEDC2; --accent: #2A6BD9; --warn: #FFE48A;
-  --frame: #3A230B; --frame-text: #FBE6B0; --overlay: rgba(20, 28, 90, .5); --dots: rgba(160, 96, 20, .25); --sb: #E39A33; --stitch-c: transparent;
-  --card-bg: linear-gradient(#FDF2D0, #F7E3AB); --card-bgm: normal; --card-r: 12px; --card-bd: 12px solid transparent; --bf: none; --card-sh: 0 6px 0 rgba(70, 36, 6, .28), 0 10px 18px rgba(10, 20, 80, .3);
-  --chip-bg: linear-gradient(#FFF7DA, #FBE9B4); --chip-bgm: normal; --chip-bd: 2px solid #D9972F; --chip-sh: 0 2px 0 rgba(150, 85, 10, .35), inset 0 1px 0 rgba(255, 255, 255, .8);
-  --well-bg: #F5E4B0; --well-bgm: normal; --well-r: 10px; --well-bd: 2px solid #D39A40; --well-sh: inset 0 3px 5px rgba(120, 70, 10, .28);
-  --sol-tex: linear-gradient(180deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 52%); --sol-bgm: normal; --sol-r: 999px; --sol-bd: 2px solid rgba(8, 20, 90, .38); --sol-ink: #FFFFFF; --sol-ts: 0 1px 1px rgba(0, 0, 0, .5);
-  --sol-sh: 0 3px 0 rgba(0, 0, 0, .3), inset 0 2px 0 rgba(255, 255, 255, .5);
-  --btn-c: #F2B45A; --btn-c2: #FFDC96; --btn-ink: #4A2C0C; --btn-sh: 0 3px 0 rgba(120, 66, 8, .45), inset 0 2px 0 rgba(255, 255, 255, .6);
-  --act-c: #FFC21F; --act-c2: #FFE46E; --act-sh: 0 3px 0 rgba(130, 80, 0, .45), inset 0 2px 0 rgba(255, 255, 255, .65);
-  --paper-bg: linear-gradient(#FFF8E0, #FBEDC4); --paper-bgm: normal; --paper-r: 10px; --paper-bd: 16px solid transparent; --paper-bf: none; --paper-sh: 0 7px 0 rgba(70, 36, 6, .3), 0 14px 22px rgba(10, 20, 80, .35);
-  --sky-c: #1E9AD8; --sky-c2: #62CBF6; --peach-c: #2A68DB; --peach-c2: #5DA6FF; --mint-c: #1F9A3A; --mint-c2: #5CCF6C;
-  --lilac-c: #6A2BD0; --lilac-c2: #A276F4; --butter-c: #F0B000; --butter-c2: #FFE366; --coral-c: #D42B2B; --coral-c2: #FF6E60; --pink-c: #E7701A; --pink-c2: #FFB35C;
+  --font-sans: "Comic Sans MS", "Comic Sans", "Trebuchet MS", system-ui, sans-serif;
+  --ad-blue: #2F5BD7; --ad-yellow: #F7D94B; --ad-wood: #DBA45E; --ad-green: #3FAE3A; --ad-red: #E53935; --ad-purple: #7B4BD6;
+  --ad-wood-hi: #F2C782; --ad-wood-lo: #B8782F; --ad-outline: #7A4318;
+  --ad-cream: #FAE5BE; --ad-paper: #FAECC8; --ad-tan: #E3B26F; --ad-navy: #1B2A6B; --ad-blue-d: #1F3FA8;
+  --ad-room: url("/assets/adibou/room.jpg");
+  --ad-f-paper: url("/assets/adibou/frame-paper.png"); --ad-f-cream: url("/assets/adibou/frame-cream.png"); --ad-f-tan: url("/assets/adibou/frame-tan.png");
+
+  --color-ink: #1B2A6B; --color-ink-soft: #2C3F94; --color-ink-mute: #6B4A1E;
+  --color-neutral-100: #1B2A6B; --color-neutral-200: #1B2A6B; --color-neutral-300: #2A3A82; --color-neutral-400: #2C3F94;
+  --color-neutral-500: #55427A; --color-neutral-600: #6B4A1E; --color-neutral-700: #9B7A45;
+  --line: rgba(122,67,24,.38); --soft: #F1D58F; --soft2: #F8E6B0; --accent: #1F3FA8; --warn: #FFE9A0;
+  --frame: #1B2A6B; --frame-text: #F5DFA2; --overlay: rgba(14,22,90,.55); --dots: rgba(255,255,255,.16); --sb: #DBA45E; --stitch-c: transparent;
+
+  --card-bg: var(--ad-cream); --card-bgm: normal; --card-r: 20px; --card-bd: 4px solid var(--ad-wood); --bf: none;
+  --card-sh: 0 0 0 2px var(--ad-outline), 0 8px 14px rgba(8,16,80,.4);
+  --chip-bg: linear-gradient(180deg, #FFFBEA, #F8E7B6); --chip-bgm: normal; --chip-bd: 2px solid var(--ad-wood-lo);
+  --chip-sh: 0 2px 0 var(--ad-outline), inset 0 1px 0 #fff;
+  --well-bg: #FBE7B0; --well-bgm: normal; --well-r: 14px; --well-bd: 2px solid var(--ad-wood-lo);
+  --well-sh: inset 0 3px 6px rgba(122,67,24,.28);
+  --sol-tex: linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,0) 52%); --sol-bgm: normal; --sol-r: 999px; --sol-bd: 2px solid rgba(27,42,107,.55);
+  --sol-ink: #fff; --sol-ts: 0 1px 1px rgba(0,0,0,.45);
+  --sol-sh: 0 3px 0 rgba(27,42,107,.45), inset 0 -3px 0 rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.6);
+  --btn-c: #F8E7B6; --btn-c2: #FFFBEA; --btn-ink: #1B2A6B; --btn-sh: var(--chip-sh);
+  --act-c: #F7D94B; --act-c2: #FFEB8A; --act-sh: var(--sol-sh);
+  --paper-bg: var(--ad-paper); --paper-bgm: normal; --paper-r: 8px; --paper-bd: 22px solid transparent; --paper-bf: none;
+  --paper-sh: 0 10px 18px rgba(8,16,80,.45);
+
+  /* boutons vitrifiés : principal violet, normal bleu, secondaire jaune, succès vert, danger rouge */
+  --sky-c: #2F5BD7; --sky-c2: #6C93F2;       --peach-c: #7B4BD6; --peach-c2: #A27CEE;
+  --mint-c: #3E9A1F; --mint-c2: #7CD64B;     --lilac-c: #7B4BD6; --lilac-c2: #A27CEE;
+  --butter-c: #F7D94B; --butter-c2: #FFEB8A; --coral-c: #E53935; --coral-c2: #F47B77;
+  --pink-c: #C93A80; --pink-c2: #EE7FB2;
   --nav-r: 999px;
 }
-html[data-theme="adibou"] body { background: linear-gradient(180deg, #3D5BDB 0%, #2C45BB 100%); background-attachment: fixed; }
-html[data-theme="adibou"] ::selection { background: #FFD45C; color: #33200C; }
-html[data-theme="adibou"] ::-webkit-scrollbar-thumb { background-color: #E39A33; border-color: #FBE6B0; }
-html[data-theme="adibou"] :where(button, a, [tabindex]):focus-visible { outline: 3px solid #FFE046; outline-offset: 2px; }
-html[data-theme="adibou"] :where(input, textarea, select):focus { outline: 3px solid #5DA6FF; outline-offset: 0; }
-html[data-theme="adibou"] .clay-stitch::after, html[data-theme="adibou"] .clay-ring::after, html[data-theme="adibou"] .washi, html[data-theme="adibou"] .paper-pin { display: none; }
 
-/* cartes et feuille : parchemin dans un cadre de bois (image du pack en 9 tranches, bords seulement) */
-html[data-theme="adibou"] .clay-card, html[data-theme="adibou"] .clay-paper { background-clip: padding-box; border-image: var(--a-frame) 22 / 12px stretch; }
-html[data-theme="adibou"] .clay-paper { border-image-width: 16px; }
-html[data-theme="adibou"] .clay-card .clay-card { border-image: none; border: 2px solid #D9972F; }
-/* barre du haut : planche de bois */
-html[data-theme="adibou"] header.clay-card { border: 3px solid #8A4A12; border-image: none; background: var(--a-plank) 0 0 / auto 100% repeat-x, #D98A38; border-radius: 16px !important; box-shadow: 0 5px 0 rgba(70, 36, 6, .45), 0 10px 16px rgba(10, 20, 80, .3); }
+/* ── décor : la chambre, la mascotte, le logo, l'avion, le tableau, la grenouille, le tapis (dimensionnés sur la fenêtre) ── */
+html[data-theme="adibou"] body {
+  color: var(--ad-navy);
+  background:
+    url("/assets/adibou/carpet.png") center bottom -1vh / 42vw auto no-repeat,
+    url("/assets/adibou/kid.png") left 3.4vw bottom 0.6vh / auto 41vh no-repeat,
+    url("/assets/adibou/frog.png") right 0.2vw top 48vh / 4.8vw auto no-repeat,
+    url("/assets/adibou/plane.png") right 6vw top 5.4vh / 9.4vw auto no-repeat,
+    url("/assets/adibou/picture.png") left 27.4vw top 6.6vh / 7.4vw auto no-repeat,
+    url("/assets/adibou/logo.png") left 0.8vw top 6vh / 14.4vw auto no-repeat,
+    var(--ad-room) center / cover no-repeat, var(--ad-blue);
+  background-attachment: fixed;
+}
+@media (max-height: 820px) {   /* fenêtre basse : la mascotte laisse la place au menu */
+  html[data-theme="adibou"] body {
+    background:
+      url("/assets/adibou/carpet.png") center bottom -1vh / 42vw auto no-repeat,
+      url("/assets/adibou/frog.png") right 0.2vw top 48vh / 4.8vw auto no-repeat,
+      url("/assets/adibou/plane.png") right 6vw top 5.4vh / 9.4vw auto no-repeat,
+      url("/assets/adibou/picture.png") left 27.4vw top 6.6vh / 7.4vw auto no-repeat,
+      url("/assets/adibou/logo.png") left 0.8vw top 6vh / 14.4vw auto no-repeat,
+      var(--ad-room) center / cover no-repeat, var(--ad-blue);
+    background-attachment: fixed;
+  }
+}
+html[data-theme="adibou"] ::selection { background: var(--ad-yellow); }
+html[data-theme="adibou"] ::-webkit-scrollbar-thumb { background: var(--ad-wood); border-radius: 8px; border: 2px solid var(--ad-wood-lo); }
+html[data-theme="adibou"] .clay-stitch::after, html[data-theme="adibou"] .clay-ring::after,
+html[data-theme="adibou"] .washi, html[data-theme="adibou"] .paper-pin { display: none !important; }
+html[data-theme="adibou"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(20,16,70,.4)) drop-shadow(3px 7px 6px rgba(20,16,70,.35)); }
 
-/* navigation : pastilles blanches cerclées de couleur, onglet actif en bonbon jaune */
-html[data-theme="adibou"] .nav-item { transform: none; font-weight: 700; }
-html[data-theme="adibou"] .nav-item[data-active="true"] { background: linear-gradient(#FFE46E, #FFC21F); color: #4A2C0C; text-shadow: none; box-shadow: 0 3px 0 rgba(130, 80, 0, .45), inset 0 2px 0 rgba(255, 255, 255, .65); border: 2px solid #C98A00; }
-html[data-theme="adibou"] .nav-item[data-active="false"] { color: #4A2C0C; }
-html[data-theme="adibou"] .nav-item[data-active="false"]:hover { background: rgba(255, 255, 255, .55); box-shadow: none; }
-html[data-theme="adibou"] .nav-disc { background: #FFFFFF !important; color: var(--c); box-shadow: inset 0 0 0 3px var(--c), 0 2px 0 rgba(0, 0, 0, .2) !important; }
-html[data-theme="adibou"] .clay-butter, html[data-theme="adibou"] .clay-butter * { color: #4A2C0C; text-shadow: none; }
+/* ── barre du haut : barre d'outils grise, pleine largeur ── */
+html[data-theme="adibou"] header.clay-card {
+  margin: -12px -12px 0; border: 0; border-bottom: 1px solid #8D8B85; border-radius: 0; padding-right: 28px;
+  background: linear-gradient(180deg, #F8F8F6, #D9D8D3); box-shadow: 0 2px 6px rgba(0,0,0,.4); --color-ink: #1B2A6B; --color-ink-soft: #1B2A6B;
+}
+html[data-theme="adibou"] header .hdr-left > span[class*="font-extrabold"] {
+  font-size: 19px; letter-spacing: .1em; text-transform: uppercase; max-width: 260px;
+  background: linear-gradient(90deg, #2F5BD7, #E53935 28%, #F2A900 52%, #3E9A1F 76%, #7B4BD6); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+html[data-theme="adibou"] header .clay-peach { background: linear-gradient(180deg, #FFFFFF, #EEF3FF); color: var(--ad-blue-d); text-shadow: none; border: 2px solid var(--ad-blue-d); box-shadow: 0 3px 0 rgba(30,63,168,.45); }
+html[data-theme="adibou"] header .clay-solid { white-space: nowrap; }
+html[data-theme="adibou"] header .clay-solid:not(.clay-peach) { border-color: rgba(27,42,107,.45); }
+html[data-theme="adibou"] header .ss-dot { display: none; }
+html[data-theme="adibou"] .ss-dot { display: block; flex: none; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FFF3A0, #F7D94B 55%, #B8860B); box-shadow: 0 2px 2px rgba(0,0,0,.35); }
+html[data-theme="adibou"] button[role="switch"] { background: #A9895A !important; border: 2px solid var(--ad-outline); box-shadow: inset 0 2px 3px rgba(0,0,0,.3) !important; }
+html[data-theme="adibou"] button[role="switch"][aria-checked="true"] { background: var(--ad-green) !important; }
+html[data-theme="adibou"] button[role="switch"] .ss-dot { display: block; background: radial-gradient(circle at 35% 30%, #fff, #E9E1CC 75%); }
+html[data-theme="adibou"] header [class*="text-[#ff8a5b]"] { color: #F2A900 !important; }
 
-/* champs, interrupteur, tuiles, bandeaux */
-html[data-theme="adibou"] .sm-field { border-radius: 999px !important; background: #FFF7DA; }
-html[data-theme="adibou"] button[role="switch"][aria-checked="true"] { background: #2FB24C !important; box-shadow: inset 0 2px 3px rgba(0, 0, 0, .3), 0 2px 0 rgba(0, 0, 0, .25) !important; }
-html[data-theme="adibou"] button[role="switch"][aria-checked="false"] { background: #B9A27A !important; box-shadow: inset 0 2px 3px rgba(0, 0, 0, .3), 0 2px 0 rgba(0, 0, 0, .25) !important; }
-html[data-theme="adibou"] .metric-tile { border: 2px solid rgba(8, 20, 90, .35); color: #FFFFFF; text-shadow: 0 1px 1px rgba(0, 0, 0, .45); box-shadow: 0 3px 0 rgba(0, 0, 0, .28), inset 0 2px 0 rgba(255, 255, 255, .45); }
-html[data-theme="adibou"] .metric-tile * { color: #FFFFFF; }
-html[data-theme="adibou"] .sm-t-green { background: linear-gradient(#62D274, #1F9A3A); }
-html[data-theme="adibou"] .sm-t-yellow { background: linear-gradient(#FFE15A, #F0A800); }
-html[data-theme="adibou"] .sm-t-yellow, html[data-theme="adibou"] .sm-t-yellow * { color: #4A2C0C; text-shadow: none; }
-html[data-theme="adibou"] .sm-t-blue { background: linear-gradient(#62AFFF, #2A68DB); }
-html[data-theme="adibou"] .sm-t-red { background: linear-gradient(#FF7A6B, #D42B2B); }
-html[data-theme="adibou"] .sm-slab { border-width: 2px; border-radius: 14px !important; }
-html[data-theme="adibou"] .sm-green { background: linear-gradient(#D6F0B0, #BDE388); border-color: #7DBA3A; }
-html[data-theme="adibou"] .sm-orange { background: linear-gradient(#FFC9A8, #FFA77C); border-color: #E2763B; }
-html[data-theme="adibou"] .sm-amber { background: linear-gradient(#FFE29A, #FFC85C); border-color: #E0A020; }
-html[data-theme="adibou"] .sm-yellow { background: linear-gradient(#FFF2A8, #FFE371); border-color: #D8B418; }
-html[data-theme="adibou"] .sm-red { background: linear-gradient(#9E6BF0, #6A2BD0); border-color: #4A1AA0; }
-html[data-theme="adibou"] .sm-slab, html[data-theme="adibou"] .sm-slab * { text-shadow: none; }
-html[data-theme="adibou"] .sm-red, html[data-theme="adibou"] .sm-red * { color: #FFFFFF; text-shadow: 0 1px 1px rgba(0, 0, 0, .45); }
-html[data-theme="adibou"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(10, 20, 80, .3)) drop-shadow(4px 8px 6px rgba(10, 20, 80, .35)); }
+/* ── grands cadres : rondins de bois en bordure (9 tranches), intérieur de la même couleur que le fond ── */
+html[data-theme="adibou"] .clay-paper, html[data-theme="adibou"] main:not(:has(.clay-paper)) {
+  border: solid transparent; border-width: 22px; border-image: var(--ad-f-paper) 28 / 22px stretch; border-radius: 8px; background-clip: padding-box;
+  background: radial-gradient(ellipse at 50% 35%, #FDF3D8 0, var(--ad-paper) 75%); box-shadow: 0 10px 18px rgba(8,16,80,.45);
+}
+html[data-theme="adibou"] .doctor-wrap > aside, html[data-theme="adibou"] .side-nav {
+  border: solid transparent; border-width: 24px; border-image: var(--ad-f-cream) 30 / 24px stretch; border-radius: 24px; background-clip: padding-box;
+  background: var(--ad-cream); box-shadow: 0 10px 18px rgba(8,16,80,.45);
+}
+html[data-theme="adibou"] .side-nav { border-image-source: var(--ad-f-tan); background: var(--ad-tan); }
 
-/* panneau Script Doctor : titres de section lisibles et bouton d'analyse qui masque ce qui défile dessous */
-html[data-theme="adibou"] .text-\[\#1f9b72\] { color: #17702B; }
-html[data-theme="adibou"] .text-\[\#d9800d\] { color: #A24E00; }
-html[data-theme="adibou"] .doctor-wrap > aside { padding-bottom: 0; }
-html[data-theme="adibou"] .doctor-wrap > aside .sticky { margin-inline: -4px; padding: 12px 4px 20px; background: linear-gradient(to bottom, transparent, #F9E8B8 32%); }
-html[data-theme="adibou"] header.clay-card { --color-ink: #2A1806; --color-ink-soft: #3A2208; --color-ink-mute: #4A2D0C; }
+/* ── place pour le décor : le menu, l'éditeur et le panneau Script Doctor démarrent sous l'avion, le logo et le tableau ── */
+html[data-theme="adibou"] .side-nav { margin: clamp(40px, 8.4vh, 100px) 0 0 clamp(0px, 2.2vw, 40px); width: clamp(196px, 13vw, 232px); align-self: flex-start; padding: 2px 0; gap: 2px; }
+html[data-theme="adibou"] main { margin: clamp(24px, 5.6vh, 70px) 0 clamp(20px, 7.5vh, 90px) clamp(0px, 2vw, 34px); }
+html[data-theme="adibou"] .doctor-wrap { margin: clamp(30px, 7.4vh, 90px) clamp(0px, 4.6vw, 76px) clamp(16px, 5vh, 60px) 0; }
+html[data-theme="adibou"] .doctor-wrap > aside { padding: 4px 6px 4px 8px !important; }
 
-/* écrans autres que le scénario : parchemin dans un cadre de bois, jamais directement sur le mur bleu */
-html[data-theme="adibou"] .view-surface { background: var(--card-bg); background-clip: padding-box; border: 12px solid transparent; border-image: var(--a-frame) 22 / 12px stretch; border-radius: 12px; box-shadow: var(--card-sh); }
+/* ── boutons ── */
+html[data-theme="adibou"] .clay-solid, html[data-theme="adibou"] .clay-btn, html[data-theme="adibou"] .clay-btn-active { font-weight: 700; }
+html[data-theme="adibou"] .clay-butter { color: var(--ad-navy); text-shadow: 0 1px 0 rgba(255,255,255,.5); }
+html[data-theme="adibou"] .clay-solid:hover, html[data-theme="adibou"] .clay-btn:hover { filter: brightness(1.07); }
+html[data-theme="adibou"] .clay-solid:active, html[data-theme="adibou"] .clay-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(27,42,107,.45), inset 0 -2px 0 rgba(0,0,0,.12); }
+html[data-theme="adibou"] .hover\:clay-chip:hover { background: #FFF1C4; }
 
+/* ── menu : icônes illustrées, entrée active entourée de bois ── */
+html[data-theme="adibou"] .side-nav > div:last-child { display: none; }
+html[data-theme="adibou"] .nav-item, html[data-theme="adibou"] .nav-item[data-active="false"] {
+  background: transparent; border: 2px solid transparent; box-shadow: none; filter: none; text-shadow: none; transform: none;
+  color: var(--ad-navy); font-weight: 800; font-size: 14px; min-height: 52px; padding: 4px 8px; gap: 6px;
+}
+@media (max-width: 1300px) { html[data-theme="adibou"] .nav-item { font-size: 13px; } }
+html[data-theme="adibou"] .nav-item[data-active="false"]:hover { background: rgba(255,244,214,.45); border-color: rgba(122,67,24,.45); }
+html[data-theme="adibou"] .nav-item[data-active="true"] { background: rgba(255,246,222,.62); border-color: var(--ad-outline); box-shadow: inset 0 1px 0 #fff, 0 2px 0 rgba(122,67,24,.5); }
+html[data-theme="adibou"] .nav-disc { flex: none; width: 40px; height: 40px; border: 0; border-radius: 0 !important; background: center / contain no-repeat; box-shadow: none !important; filter: drop-shadow(0 2px 1px rgba(60,30,0,.35)); }
+html[data-theme="adibou"] .nav-disc > svg { display: none; }
+html[data-theme="adibou"] .side-nav .nav-item:nth-of-type(1) .nav-disc { background-image: url("/assets/adibou/nav-scenario.png"); }
+html[data-theme="adibou"] .side-nav .nav-item:nth-of-type(2) .nav-disc { background-image: url("/assets/adibou/nav-postit.png"); }
+html[data-theme="adibou"] .side-nav .nav-item:nth-of-type(3) .nav-disc { background-image: url("/assets/adibou/nav-storyboard.png"); }
+html[data-theme="adibou"] .side-nav .nav-item:nth-of-type(4) .nav-disc { background-image: url("/assets/adibou/nav-depouillement.png"); }
+html[data-theme="adibou"] .side-nav .nav-item:nth-of-type(5) .nav-disc { background-image: url("/assets/adibou/nav-bureau.png"); }
+html[data-theme="adibou"] .side-nav .nav-item:nth-of-type(6) .nav-disc { background-image: url("/assets/adibou/nav-analyse.png"); }
+
+/* ── onglets de bois : titre, auteur·rice, contact ── */
+html[data-theme="adibou"] .sm-field {
+  background: linear-gradient(180deg, #F6CB88, #E0963F); border: 2px solid var(--ad-outline); border-bottom: 0; border-radius: 22px 22px 0 0 !important;
+  text-align: center; font-weight: 800; font-size: 16px; color: var(--ad-blue-d); text-shadow: 0 1px 0 rgba(255,240,200,.7);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.55), 0 -2px 4px rgba(0,0,0,.2);
+}
+html[data-theme="adibou"] .sm-field::placeholder { color: #6B3E0E; opacity: .9; font-weight: 700; }
+html[data-theme="adibou"] .sm-field:focus { background: linear-gradient(180deg, #FFE2AE, #F2B45E); outline: 3px solid var(--ad-blue); outline-offset: 2px; box-shadow: inset 0 2px 0 rgba(255,255,255,.55); }
+html[data-theme="adibou"] .clay-well:focus-within:not(.sm-field) { box-shadow: 0 0 0 3px rgba(47,91,215,.4); }
+
+/* ── panneau Script Doctor : croix rouge, pastilles de mesure vitrifiées, bandeaux ── */
+html[data-theme="adibou"] .doctor-wrap h2, html[data-theme="adibou"] .doctor-wrap h3 { color: var(--ad-blue-d); font-weight: 800; }
+html[data-theme="adibou"] .doctor-wrap h2 { font-size: 1.25em; }
+html[data-theme="adibou"] .doctor-wrap svg[class*="text-[#ff8a5b]"] { width: 32px; height: 32px; stroke: transparent !important; color: transparent !important; background: url("/assets/adibou/cross.png") center / contain no-repeat; }
+html[data-theme="adibou"] .metric-tile { border-radius: 14px !important; border: 2px solid rgba(20,24,70,.6); box-shadow: 0 3px 0 rgba(20,24,70,.4), inset 0 1px 0 rgba(255,255,255,.6); }
+html[data-theme="adibou"] .metric-tile, html[data-theme="adibou"] .metric-tile * { color: #fff !important; text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+html[data-theme="adibou"] .sm-t-green { background: linear-gradient(180deg, #5FD04A, #2E9E2A); }
+html[data-theme="adibou"] .sm-t-yellow { background: linear-gradient(180deg, #FFE27A, #F2B90F); }
+html[data-theme="adibou"] .sm-t-yellow, html[data-theme="adibou"] .sm-t-yellow * { color: #3B2A00 !important; text-shadow: none; }
+html[data-theme="adibou"] .sm-t-blue { background: linear-gradient(180deg, #4EA0F5, #1F6FD6); }
+html[data-theme="adibou"] .sm-t-red { background: linear-gradient(180deg, #F2616A, #D92231); }
+html[data-theme="adibou"] .sm-slab { border-radius: 14px !important; border: 2px solid; box-shadow: 0 2px 0 rgba(27,42,107,.25); }
+html[data-theme="adibou"] .sm-slab.sm-green { background: linear-gradient(#B8E88C, #8CD05E); border-color: #4E9E2E; }
+html[data-theme="adibou"] .sm-slab.sm-orange { background: linear-gradient(#F9B596, #F0906A); border-color: #C9602E; }
+html[data-theme="adibou"] .sm-slab.sm-amber { background: linear-gradient(#FFE060, #F6C21C); border-color: #C99A10; }
+html[data-theme="adibou"] .sm-slab.sm-yellow { background: linear-gradient(#FFF0A0, #FBD94A); border-color: #D2AE18; }
+html[data-theme="adibou"] button.sm-slab:hover { filter: brightness(1.05); }
+html[data-theme="adibou"] .sm-slab.sm-red { background: linear-gradient(180deg, #A27CEE, #6A3AC4); border-color: #3F1F8E; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,.45); border-radius: 999px !important; }
+html[data-theme="adibou"] .doctor-wrap .sticky { background: linear-gradient(rgba(250,229,190,0), var(--ad-cream) 40%); }
+html[data-theme="adibou"] .doctor-wrap [class*="text-[#1f9b72]"] { color: #1F6F1C; }
+html[data-theme="adibou"] .doctor-wrap [class*="text-[#d9800d]"] { color: #B3270A; }
+
+/* ── accents codés en dur ── */
+html[data-theme="adibou"] [class*="text-[#ff7a59]"] { color: #D9361F; }
+html[data-theme="adibou"] [class*="ring-[#ff8a5b]"], html[data-theme="adibou"] [class*="ring-[#9fd4ff]"] { --tw-ring-color: rgba(47,91,215,.65); }
+html[data-theme="adibou"] thead { background: var(--soft2); }
+
+/* ── accessibilité ── */
+html[data-theme="adibou"] :where(button, a, [tabindex], [role="switch"], input, textarea, select):focus-visible { outline: 3px solid var(--ad-blue); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) {
-  html[data-theme="adibou"] *, html[data-theme="adibou"] *::before, html[data-theme="adibou"] *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  html[data-theme="adibou"] *, html[data-theme="adibou"] *::before, html[data-theme="adibou"] *::after {
+    scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important;
+  }
 }

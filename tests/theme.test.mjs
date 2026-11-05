@@ -3,7 +3,9 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 
-const css = fs.readFileSync(new URL("../src/index.css", import.meta.url), "utf8");
+const base = fs.readFileSync(new URL("../src/index.css", import.meta.url), "utf8");
+const themeFiles = ["clean", "airbox", "adibou", "coccoloba"].map(n => fs.readFileSync(new URL(`../src/themes/${n}.css`, import.meta.url), "utf8"));
+const css = [base, ...themeFiles].join("\n");                       // thèmes de index.css + thèmes de src/themes/
 const walk = d => fs.readdirSync(d, { withFileTypes: true }).flatMap(e => (e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]));
 const src = walk(new URL("../src", import.meta.url).pathname).filter(f => /\.(jsx?|css)$/.test(f));
 const themeSrc = fs.readFileSync(new URL("../src/theme.jsx", import.meta.url), "utf8");
@@ -16,12 +18,12 @@ test("chaque variable CSS utilisée par les écrans est définie par défaut (au
   assert.deepEqual(missing, []);
 });
 
-test("les thèmes déclarent leurs jeux de variables", () => {
+test("chaque thème déclare son jeu de variables", () => {
   const ids = [...themeSrc.matchAll(/id: "(\w+)", label/g)].map(m => m[1]);
-  assert.deepEqual(ids, ["stopmotion", "clay", "pastel", "glass", "clean", "gothic", "adibou"]);
-  assert.ok(["stopmotion", "clay", "glass"].every(id => css.includes(`html[data-theme="${id}"]`)));
+  assert.deepEqual(ids, ["stopmotion", "clay", "pastel", "glass", "clean", "airbox", "adibou", "coccoloba"]);
+  assert.ok(["stopmotion", "clay", "glass", "clean", "airbox", "adibou", "coccoloba"].every(id => css.includes(`html[data-theme="${id}"]`)));
   const block = id => css.split(`html[data-theme="${id}"] {`)[1]?.split("\n}")[0] || "";
-  for (const id of ["stopmotion", "clay", "glass"]) for (const v of ["--card-bg", "--chip-bg", "--well-bg", "--sol-sh", "--paper-bg", "--sky-c", "--lilac-c", "--color-ink", "--line", "--accent"])
+  for (const id of ["stopmotion", "clay", "glass", "clean", "airbox", "adibou", "coccoloba"]) for (const v of ["--card-bg", "--chip-bg", "--well-bg", "--sol-sh", "--paper-bg", "--sky-c", "--lilac-c", "--color-ink", "--line", "--accent"])
     assert.ok(block(id).includes(v + ":"), `${id} : ${v}`);
 });
 
@@ -30,6 +32,7 @@ test("les palettes de graphiques ont les mêmes clés dans chaque thème", () =>
   assert.equal(keys("pastel"), keys("clay"));
   assert.equal(keys("pastel"), keys("glass"));
   assert.equal(keys("pastel"), keys("stopmotion"));
+  for (const id of ["clean", "airbox", "adibou", "coccoloba"]) assert.equal(keys("pastel"), keys(id), id);
 });
 
 test("les couleurs de post-it reprennent le bloc de référence (6 couleurs)", async () => {
@@ -40,13 +43,13 @@ test("les couleurs de post-it reprennent le bloc de référence (6 couleurs)", a
 });
 
 test("police : Helvetica partout, plus de police crayon", () => {
-  assert.match(css, /--font-sans:\s*"Helvetica Neue", Helvetica, Arial, sans-serif/);
+  assert.match(base, /--font-sans:\s*"Helvetica Neue", Helvetica, Arial, sans-serif/);
   assert.ok(!/Crayon|Chalkboard|Marker Felt/i.test(css));
   assert.ok(!/ui-rounded|SF Pro/i.test(css));
 });
 
 test("le thème stop motion référence uniquement des fichiers du pack qui existent", () => {
-  const refs = [...css.matchAll(/\/assets\/sm\/([\w-]+\.(?:png|jpg))/g)].map(m => m[1]);
+  const refs = [...base.matchAll(/\/assets\/sm\/([\w-]+\.(?:png|jpg))/g)].map(m => m[1]);
   assert.ok(refs.length > 8);
   for (const f of new Set(refs)) assert.ok(fs.existsSync(new URL(`../public/assets/sm/${f}`, import.meta.url)), f);
   const srcAll = src.filter(f => /\.jsx$/.test(f)).map(f => fs.readFileSync(f, "utf8")).join("\n");
@@ -61,4 +64,22 @@ test("le thème stop motion référence uniquement des fichiers du pack qui exis
   assert.ok(used.size >= 20);
   for (const nme of used) assert.ok(fs.existsSync(new URL(`../public/assets/sm/${nme}.png`, import.meta.url)), nme);
   for (const t of srcAll.matchAll(/"(tex-[a-z0-9]+)"/g)) assert.ok(fs.existsSync(new URL(`../public/assets/sm/${t[1]}.jpg`, import.meta.url)), t[1]);
+});
+
+test("les thèmes AIRBOX référencent uniquement des textures présentes", () => {
+  const refs = [...css.matchAll(/\/assets\/airbox\/([\w\/-]+\.(?:jpg|svg))/g)].map(m => m[1]);
+  assert.ok(refs.length >= 8);
+  for (const f of new Set(refs)) assert.ok(fs.existsSync(new URL(`../public/assets/airbox/${f}`, import.meta.url)), f);
+});
+
+test("le thème Adibou référence uniquement des images présentes", () => {
+  const refs = [...css.matchAll(/\/assets\/adibou\/([\w-]+\.(?:jpg|png))/g)].map(m => m[1]);
+  assert.ok(refs.length >= 3);
+  for (const f of new Set(refs)) assert.ok(fs.existsSync(new URL(`../public/assets/adibou/${f}`, import.meta.url)), f);
+});
+
+test("le thème Coccoloba référence uniquement des images présentes", () => {
+  const refs = [...css.matchAll(/\/assets\/coccoloba\/([\w-]+\.png)/g)].map(m => m[1]);
+  assert.ok(refs.length >= 8);
+  for (const f of new Set(refs)) assert.ok(fs.existsSync(new URL(`../public/assets/coccoloba/${f}`, import.meta.url)), f);
 });

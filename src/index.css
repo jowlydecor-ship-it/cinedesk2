@@ -1,9 +1,11 @@
 @import "tailwindcss";
-
-/* thèmes récents : un fichier par thème */
 @import "./themes/clean.css";
-@import "./themes/gothic.css";
+@import "./themes/airbox.css";
 @import "./themes/adibou.css";
+@import "./themes/coccoloba.css";
+
+/* groupes gauche/droite de la barre du haut : transparents pour la mise en page (les thèmes peuvent en faire des capsules) */
+.hdr-group { display: contents; }
 
 @theme {
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;

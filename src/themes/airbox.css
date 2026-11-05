@@ -1,0 +1,138 @@
+/* ═══════════ THÈME « AIRBOX » (gothique artisanal, monochrome) ═══════════
+   Reproduit la maquette « editor-main-reference » : tout en niveaux de gris (cuir cousu, métal patiné, papier gris),
+   seuls le vert de laboratoire et les pastilles d'alerte portent de la couleur. Polices condensées, titres francs.
+   Assets (public/assets/airbox/) : textures du pack (passées en gris), icônes SVG du pack pour le menu, et un décor nocturne,
+   des tuyaux et une fiole dessinés pour le thème. Aucun personnage ni illustration du film n'est repris. */
+
+html[data-theme="airbox"] {
+  color-scheme: light;
+  --font-sans: "Avenir Next Condensed", "Helvetica Neue Condensed", "Arial Narrow", "Roboto Condensed", "Helvetica Neue", sans-serif;
+  --ab-ink: #1c1b19; --ab-leather: #34332f; --ab-metal-hi: #bdb9af; --ab-metal-lo: #98948a; --ab-paper: #d9d4c7; --ab-cream: #ece8dc;
+  --ab-green: #4f7a48; --ab-green-hi: #7fae73; --ab-red: #b9473f; --ab-amber: #c9a24a;
+  --ab-tex-cloth: url("/assets/airbox/cloth.jpg"); --ab-tex-metal: url("/assets/airbox/metal.jpg"); --ab-tex-paper: url("/assets/airbox/parchment.jpg");
+  --ab-scene: url("/assets/airbox/scene.svg"); --ab-pipes: url("/assets/airbox/pipes.svg"); --ab-flask: url("/assets/airbox/flask.svg");
+
+  --color-ink: #1c1b19; --color-ink-soft: #35332e; --color-ink-mute: #4f4c44;
+  --color-neutral-100: #1c1b19; --color-neutral-200: #1c1b19; --color-neutral-300: #34322d; --color-neutral-400: #35332e;
+  --color-neutral-500: #4f4c44; --color-neutral-600: #67645a; --color-neutral-700: #858175;
+  --line: rgba(28,27,25,.38); --soft: #c9c5ba; --soft2: #d9d5ca; --accent: #2f4a2a; --warn: #e3d9b5;
+  --frame: #262523; --frame-text: #d6d1c4; --overlay: rgba(10,10,9,.66); --dots: rgba(236,232,220,.12); --sb: #77746d; --stitch-c: rgba(236,232,220,.78);
+
+  --card-bg: var(--ab-tex-cloth) 0 0 / 320px 320px, linear-gradient(160deg, var(--ab-metal-hi), var(--ab-metal-lo)); --card-bgm: overlay, normal;
+  --card-r: 20px; --card-bd: 5px solid var(--ab-leather); --bf: none;
+  --card-sh: 0 12px 26px rgba(0,0,0,.5), inset 0 0 0 1px #77746d, inset 0 2px 10px rgba(0,0,0,.25);
+  --chip-bg: var(--ab-tex-paper) 0 0 / 256px 256px, linear-gradient(#e2ded2, #c7c3b8); --chip-bgm: multiply, normal; --chip-bd: 1px solid #3a3936;
+  --chip-sh: 0 2px 4px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.6);
+  --well-bg: #cbc7bc; --well-bgm: normal; --well-r: 10px; --well-bd: 1px solid #77736a;
+  --well-sh: inset 0 2px 5px rgba(40,36,28,.35), inset 0 -1px 0 rgba(255,255,255,.4);
+  --sol-tex: var(--ab-tex-metal) 0 0 / 256px 256px; --sol-bgm: overlay, normal; --sol-r: 10px; --sol-bd: 1px solid #1f1e1c;
+  --sol-ink: #1c1b19; --sol-ts: 0 1px 0 rgba(255,255,255,.35);
+  --sol-sh: 0 3px 5px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 3px rgba(0,0,0,.18);
+  --btn-c: #c9c5ba; --btn-c2: #e2ded2; --btn-ink: #1c1b19; --btn-sh: var(--chip-sh);
+  --act-c: #d6d1c2; --act-c2: #efebdf; --act-sh: var(--sol-sh);
+  --paper-bg: var(--ab-tex-paper) 0 0 / 512px 512px, linear-gradient(#dfdacd, #d1ccbe); --paper-bgm: multiply, normal;
+  --paper-r: 10px 16px 12px 18px; --paper-bd: 1px solid #8f8a7c; --paper-bf: none;
+  --paper-sh: 0 14px 34px rgba(0,0,0,.6), inset 0 0 0 2px rgba(60,55,45,.28), inset 0 0 44px rgba(60,52,40,.28);
+
+  /* teintes : gris ardoise, vert de laboratoire, rouge d'alerte ; le reste reste neutre */
+  --sky-c: #8c9096; --sky-c2: #b0b4b9;       --peach-c: #c9c5ba; --peach-c2: #e2ded2;
+  --mint-c: #4f7a48; --mint-c2: #7fae73;     --lilac-c: #8b8793; --lilac-c2: #aaa6b0;
+  --butter-c: #bda868; --butter-c2: #d9c78f; --coral-c: #a2423b; --coral-c2: #c4655d;
+  --pink-c: #9a7a82; --pink-c2: #b99ba2;
+  --nav-r: 12px;
+}
+
+html[data-theme="airbox"] body { background: var(--ab-scene) center / cover no-repeat fixed, #1c1c1b; color: var(--ab-ink); }
+html[data-theme="airbox"] ::selection { background: #d6d1c2; }
+html[data-theme="airbox"] ::-webkit-scrollbar-thumb { background: var(--sb); border-radius: 8px; }
+html[data-theme="airbox"] h1, html[data-theme="airbox"] h2, html[data-theme="airbox"] h3 { font-weight: 700; letter-spacing: .01em; }
+
+/* ── décors du pack inutiles ici ── */
+html[data-theme="airbox"] .washi, html[data-theme="airbox"] .paper-pin, html[data-theme="airbox"] .clay-ring::after { display: none !important; }
+html[data-theme="airbox"] .clay-stitch::after { opacity: .9; }
+html[data-theme="airbox"] .clay-paper.clay-stitch::after { border-color: rgba(70,64,52,.5); border-width: 1px; }
+html[data-theme="airbox"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(0,0,0,.4)) drop-shadow(3px 7px 6px rgba(0,0,0,.45)); }
+
+/* ── vues sans feuille de scénario : même cuir cousu que les panneaux ── */
+html[data-theme="airbox"] main:not(:has(.clay-paper)) {
+  background: var(--card-bg); background-blend-mode: var(--card-bgm); border: var(--card-bd); border-radius: 22px; box-shadow: var(--card-sh);
+}
+
+/* ── barre du haut : métal gris, rivets ── */
+html[data-theme="airbox"] header.clay-card { background: var(--ab-tex-metal) 0 0 / 256px 256px, linear-gradient(#b9b5ab, #8c887e); background-blend-mode: overlay, normal; border-width: 4px; border-radius: 18px; --color-ink-soft: #1c1b19; }
+html[data-theme="airbox"] header .clay-solid { border-color: #1c1b19; }
+html[data-theme="airbox"] header [class*="text-[#ff8a5b]"], html[data-theme="airbox"] .doctor-wrap [class*="text-[#ff8a5b]"] { color: #1c1b19 !important; }
+html[data-theme="airbox"] .ss-dot { display: block; flex: none; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #d9d5ca, #6b685f 70%); box-shadow: 0 1px 2px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.3); }
+html[data-theme="airbox"] button[role="switch"] { background: #4a4944 !important; border: 1px solid #141412; box-shadow: inset 0 2px 4px rgba(0,0,0,.55) !important; }
+html[data-theme="airbox"] button[role="switch"][aria-checked="true"] { background: var(--ab-green) !important; }
+html[data-theme="airbox"] button[role="switch"] .ss-dot { background: radial-gradient(circle at 35% 30%, #fbf8ee, #cfc9b8 75%); }
+
+/* ── menu : cuir cousu, entrées sans cadre, icônes du pack dans un disque noir, entrée active = bande crème ── */
+html[data-theme="airbox"] .side-nav { padding: 12px 10px; gap: 4px; }
+html[data-theme="airbox"] .nav-item, html[data-theme="airbox"] .nav-item[data-active="false"] {
+  background: transparent; border: 1px solid transparent; box-shadow: none; filter: none; text-shadow: none; transform: none;
+  color: var(--ab-ink); font-weight: 700; font-size: 18px; min-height: 56px; padding: 6px 8px; gap: 10px;
+}
+html[data-theme="airbox"] .nav-item[data-active="false"]:hover { background: rgba(255,255,255,.2); }
+html[data-theme="airbox"] .nav-item[data-active="true"] { background: linear-gradient(#f1eee3, #d4d0c3); border-color: #f7f4eb; box-shadow: 0 3px 6px rgba(0,0,0,.45), inset 0 1px 0 #fff; }
+html[data-theme="airbox"] .nav-disc { position: relative; flex: none; width: 36px; height: 36px; border: 0; border-radius: 50% !important; background: #1d1c1a; box-shadow: inset 0 1px 2px rgba(255,255,255,.22), 0 1px 2px rgba(0,0,0,.4) !important; }
+html[data-theme="airbox"] .nav-disc > svg { display: none; }
+html[data-theme="airbox"] .nav-disc::before { content: ""; position: absolute; inset: 8px; background: var(--ab-cream); -webkit-mask: var(--ico) center / contain no-repeat; mask: var(--ico) center / contain no-repeat; }
+html[data-theme="airbox"] .side-nav .nav-item:nth-of-type(1) { --ico: url("/assets/airbox/icons/scenario.svg"); }
+html[data-theme="airbox"] .side-nav .nav-item:nth-of-type(2) { --ico: url("/assets/airbox/icons/postit.svg"); }
+html[data-theme="airbox"] .side-nav .nav-item:nth-of-type(3) { --ico: url("/assets/airbox/icons/storyboard.svg"); }
+html[data-theme="airbox"] .side-nav .nav-item:nth-of-type(4) { --ico: url("/assets/airbox/icons/breakdown.svg"); }
+html[data-theme="airbox"] .side-nav .nav-item:nth-of-type(5) { --ico: url("/assets/airbox/icons/office.svg"); }
+html[data-theme="airbox"] .side-nav .nav-item:nth-of-type(6) { --ico: url("/assets/airbox/icons/analysis.svg"); }
+
+/* ── onglets en papier cousu : titre, auteur·rice, contact ── */
+html[data-theme="airbox"] .sm-field {
+  background: var(--ab-tex-paper) 0 0 / 256px 256px, linear-gradient(#e6e2d6, #cbc7ba); background-blend-mode: multiply, normal;
+  border: 1px solid #3a3936; border-bottom: 0; border-radius: 16px 16px 0 0 !important; text-align: center; font-size: 18px; font-weight: 700; color: var(--ab-ink);
+  box-shadow: inset 0 1px 0 #fff, 0 -3px 8px rgba(0,0,0,.3); outline: 1px dashed rgba(60,58,52,.5); outline-offset: -5px;
+}
+html[data-theme="airbox"] .sm-field::placeholder { color: #4f4c44; opacity: 1; }
+html[data-theme="airbox"] .sm-field:focus { background-color: #fff; outline: 2px solid var(--ab-green-hi); outline-offset: -3px; box-shadow: inset 0 1px 0 #fff, 0 -3px 8px rgba(0,0,0,.3); }
+html[data-theme="airbox"] .clay-well:focus-within:not(.sm-field) { box-shadow: 0 0 0 3px rgba(127,174,115,.45), inset 0 2px 4px rgba(40,36,28,.25); }
+
+/* ── panneau Script Doctor : métal gris, rivet, tuyaux et fiole sur le bord droit ── */
+html[data-theme="airbox"] .doctor-wrap > aside {
+  padding-right: 50px !important; border-radius: 26px;
+  background: radial-gradient(circle at 50% 50%, #0f0f0e 0 3px, #bdb9ad 4px 7px, #5b5850 8px 9.5px, transparent 10.5px) right 14px top 14px / 22px 22px no-repeat,
+              var(--ab-pipes) right 6px top 56px / 34px 156px repeat-y,
+              var(--ab-flask) right 2px bottom 80px / 38px 94px no-repeat,
+              var(--ab-tex-cloth) 0 0 / 320px 320px, linear-gradient(160deg, var(--ab-metal-hi), var(--ab-metal-lo));
+  background-blend-mode: normal, normal, normal, overlay, normal;
+}
+html[data-theme="airbox"] .doctor-wrap h2, html[data-theme="airbox"] .doctor-wrap h3 { font-size: 1.12em; }
+html[data-theme="airbox"] .metric-tile { background: linear-gradient(#5b5a54, #2f2e2b); border: 1px solid #121211; border-radius: 14px !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -3px 6px rgba(0,0,0,.35), 0 2px 4px rgba(0,0,0,.4); }
+html[data-theme="airbox"] .metric-tile, html[data-theme="airbox"] .metric-tile * { color: #ece8dc !important; }
+html[data-theme="airbox"] .metric-tile > div:first-child { font-size: 19px; font-weight: 700; }
+html[data-theme="airbox"] .sm-t-green { background: linear-gradient(#648a5c, #3b5a36); }
+html[data-theme="airbox"] .sm-slab { background: linear-gradient(#dfdbcf, #c3bfb3) !important; border: 1px solid #3f3d38; border-radius: 14px !important; box-shadow: inset 0 1px 0 #fff, inset 0 0 0 3px rgba(255,255,255,.14), 0 2px 5px rgba(0,0,0,.35); }
+html[data-theme="airbox"] button.sm-slab:hover { filter: brightness(1.06); }
+html[data-theme="airbox"] .sm-slab.sm-red { background: linear-gradient(#3b3a36, #191816) !important; color: #ece8dc; border-color: #0c0c0b; text-shadow: none; }
+html[data-theme="airbox"] .doctor-wrap .sticky { background: linear-gradient(rgba(152,148,138,0), #98948a 40%); }
+html[data-theme="airbox"] .doctor-wrap [class*="text-[#1f9b72]"] { color: #2f5a2a; }
+html[data-theme="airbox"] .doctor-wrap [class*="text-[#d9800d]"] { color: #6b4a0a; }
+
+/* ── boutons : le vert et le rouge gardent un texte clair ── */
+html[data-theme="airbox"] .clay-mint, html[data-theme="airbox"] .clay-coral { color: #f4f1e6; text-shadow: 0 1px 1px rgba(0,0,0,.5); }
+html[data-theme="airbox"] .clay-solid { font-weight: 700; }
+
+/* ── graphiques : panneau charbon, ligne ivoire (palette « airbox ») ── */
+html[data-theme="airbox"] .clay-well:has(> div.relative > svg) { background: #2a2927; border-color: #121211; box-shadow: inset 0 2px 7px rgba(0,0,0,.7); }
+
+/* ── accents codés en dur ── */
+html[data-theme="airbox"] [class*="text-[#ff7a59]"] { color: #8a2f28; }
+html[data-theme="airbox"] [class*="from-[#ffb98f]"] { background-image: none; background-color: #55524a; }
+html[data-theme="airbox"] [class*="ring-[#ff8a5b]"], html[data-theme="airbox"] [class*="ring-[#9fd4ff]"] { --tw-ring-color: rgba(236,232,220,.8); }
+html[data-theme="airbox"] thead { background: var(--soft2); }
+
+/* ── accessibilité ── */
+html[data-theme="airbox"] :where(button, a, [tabindex], [role="switch"], input, textarea, select):focus-visible { outline: 3px solid #f0ecde; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="airbox"] *, html[data-theme="airbox"] *::before, html[data-theme="airbox"] *::after {
+    scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important;
+  }
+}

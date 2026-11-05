@@ -1,0 +1,149 @@
+/* ═══════════ THÈME « COCCOLOBA » (jungle cartoon, clair) ═══════════
+   Reproduit la maquette Coccoloba et son guide (INTERFACE_MASTER_SPEC) : fond turquoise → menthe, panneaux crème aux coins
+   très ronds, onglet actif vert tendre, CTA orange, personnages en périphérie, centre lisible.
+   Assets (public/assets/coccoloba/) : sprites découpés par alpha dans l'atlas fourni (logo, giraffe, panda, tigre, palmier,
+   plantes, fleur). Les personnages et décors du dossier « assets » du kit ne sont pas utilisés : ce sont des recadrages
+   opaques d'une autre image (découpes polygonales, mention tierce) ; la tortue y est un fichier PNG corrompu.
+   Boutons, pastilles et cartes : CSS pur. Le texte du scénario garde la police machine à écrire de l'éditeur. */
+
+html[data-theme="coccoloba"] {
+  color-scheme: light;
+  --font-sans: "Nunito", "Varela Round", "Avenir Next", "Trebuchet MS", sans-serif;
+  --co-turquoise: #72CEC7; --co-sky: #8ADBE7; --co-mint: #B8E9D1; --co-grass: #76C95B; --co-leaf: #3B9B61;
+  --co-cream: #FFF8E7; --co-paper: #FFFEF9; --co-ink: #172F58; --co-ink-soft: #425C80; --co-muted: #5C7390; --co-line: #E9DFC8;
+  --co-orange: #FFB32F; --co-coral: #F36C60; --co-pink: #F2A0B9; --co-blue: #42B7D8; --co-purple: #A98AD0; --co-success: #31A86B;
+  --co-shadow-card: 0 4px 12px rgba(30,65,65,.10); --co-shadow-panel: 0 8px 24px rgba(30,65,65,.13); --co-shadow-float: 0 16px 40px rgba(30,65,65,.18);
+
+  --color-ink: #172F58; --color-ink-soft: #425C80; --color-ink-mute: #5C7390;
+  --color-neutral-100: #263C67; --color-neutral-200: #263C67; --color-neutral-300: #33497A; --color-neutral-400: #425C80;
+  --color-neutral-500: #5C7390; --color-neutral-600: #6B8199; --color-neutral-700: #8FA2B4;
+  --line: var(--co-line); --soft: #F3EAD2; --soft2: #FFF3D6; --accent: #1F7F9A; --warn: #FFF0C9;
+  --frame: #172F58; --frame-text: #FFF8E7; --overlay: rgba(23,47,88,.38); --dots: rgba(23,47,88,.10); --sb: #B9D9CF; --stitch-c: transparent;
+
+  --card-bg: var(--co-cream); --card-bgm: normal; --card-r: 22px; --card-bd: 1px solid #fff; --bf: none; --card-sh: var(--co-shadow-card);
+  --chip-bg: #FFFDF7; --chip-bgm: normal; --chip-bd: 1px solid var(--co-line); --chip-sh: var(--co-shadow-card);
+  --well-bg: #FFFDF7; --well-bgm: normal; --well-r: 16px; --well-bd: 1px solid #fff; --well-sh: 0 2px 8px rgba(30,65,65,.09), inset 0 1px 3px rgba(30,65,65,.05);
+  --sol-tex: linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,0) 55%); --sol-bgm: normal; --sol-r: 999px; --sol-bd: 1px solid #fff;
+  --sol-ink: #172F58; --sol-ts: none; --sol-sh: 0 4px 12px rgba(30,65,65,.18);
+  --btn-c: #FFF8E7; --btn-c2: #FFFFFF; --btn-ink: #172F58; --btn-sh: var(--co-shadow-card);
+  --act-c: #9BE36D; --act-c2: #D2F4A7; --act-sh: 0 4px 10px rgba(118,201,91,.3);
+  --paper-bg: var(--co-paper); --paper-bgm: normal; --paper-r: 34px; --paper-bd: 1px solid #fff; --paper-bf: none; --paper-sh: var(--co-shadow-panel);
+
+  /* boutons : orange (principal), bleu ciel, vert herbe, violet, jaune, corail, rose */
+  --sky-c: #42B7D8; --sky-c2: #8ADBE7;       --peach-c: #FFA51F; --peach-c2: #FFD16A;
+  --mint-c: #76C95B; --mint-c2: #B8E9D1;     --lilac-c: #A98AD0; --lilac-c2: #D3C3EA;
+  --butter-c: #FFD16A; --butter-c2: #FFE9A8; --coral-c: #F36C60; --coral-c2: #F9A39B;
+  --pink-c: #F2A0B9; --pink-c2: #F9CBD9;
+  --nav-r: 999px;
+}
+
+/* ── fond : illustration de jungle (jungle.webp) + logo, giraffe, panda, maison et plantes, dimensionnés sur la fenêtre ── */
+html[data-theme="coccoloba"] body {
+  color: var(--co-ink);
+  background:
+    url("/assets/coccoloba/plant-c.png") left 11vw bottom -1vh / auto 12vh no-repeat,
+    url("/assets/coccoloba/plant-a.png") left -3vw bottom -3vh / auto 19vh no-repeat,
+    url("/assets/coccoloba/flower.png") left 2.4vw top 34vh / 5.6vw auto no-repeat,
+    url("/assets/coccoloba/panda.png") left 2.4vw bottom 5vh / auto 31vh no-repeat,
+    url("/assets/coccoloba/logo.png") left 7.2vw top 10vh / 12.8vw auto no-repeat,
+    url("/assets/coccoloba/giraffe.png") left 1.2vw top 6vh / auto 35vh no-repeat,
+    url("/assets/coccoloba/house.png") right -8vw top 34vh / auto 38vh no-repeat,
+    url("/assets/coccoloba/jungle.webp") center / cover no-repeat,
+    #A8E4EA;
+  background-attachment: fixed;
+}
+@media (max-height: 800px) {   /* fenêtre basse : le panda et les plantes du bas laissent la place au menu */
+  html[data-theme="coccoloba"] body {
+    background:
+      url("/assets/coccoloba/logo.png") left 7.2vw top 10vh / 12.8vw auto no-repeat,
+      url("/assets/coccoloba/giraffe.png") left 1.2vw top 6vh / auto 35vh no-repeat,
+      url("/assets/coccoloba/house.png") right -8vw top 34vh / auto 38vh no-repeat,
+      url("/assets/coccoloba/jungle.webp") center / cover no-repeat,
+      #A8E4EA;
+    background-attachment: fixed;
+  }
+}
+html[data-theme="coccoloba"] ::selection { background: #BDEFA0; }
+html[data-theme="coccoloba"] ::-webkit-scrollbar-thumb { background: var(--sb); border-width: 4px; }
+html[data-theme="coccoloba"] .clay-stitch::after, html[data-theme="coccoloba"] .clay-ring::after,
+html[data-theme="coccoloba"] .washi, html[data-theme="coccoloba"] .paper-pin { display: none !important; }
+html[data-theme="coccoloba"] .postit-shadow { filter: drop-shadow(0 1px 1px rgba(30,65,65,.25)) drop-shadow(0 6px 8px rgba(30,65,65,.18)); }
+
+/* ── grands panneaux : crème, liseré blanc, ombre douce ── */
+html[data-theme="coccoloba"] .side-nav, html[data-theme="coccoloba"] .doctor-wrap > aside { border-radius: 30px !important; box-shadow: var(--co-shadow-panel); background: rgba(255,248,231,.97); }
+html[data-theme="coccoloba"] main:not(:has(.clay-paper)) { background: rgba(255,254,249,.72); border: 1px solid #fff; border-radius: 34px; box-shadow: var(--co-shadow-panel); }
+
+/* ── barre du haut : deux capsules crème (outils à gauche, état à droite) sur le décor, et une pilule derrière les boutons macOS ── */
+html[data-theme="coccoloba"] header.clay-card { background: none; border: 0; box-shadow: none; border-radius: 0; padding: 0; gap: 0;
+  margin-left: clamp(210px, 16.6vw, 330px); margin-right: clamp(0px, 5.4vw, 78px); }
+@media (max-width: 1439px) { html[data-theme="coccoloba"] header.clay-card { margin-left: 96px; } }   /* fenêtre étroite : la barre démarre juste après les boutons macOS */
+html[data-theme="coccoloba"] header .hdr-group { display: flex; align-items: center; gap: 4px; height: 56px; padding: 0 16px; background: rgba(255,248,231,.97); border: 1px solid #fff; border-radius: 30px; box-shadow: var(--co-shadow-panel); }
+html[data-theme="coccoloba"] header .hdr-right { padding: 0 18px; }
+html[data-theme="coccoloba"] header .hdr-right > svg { border-left: 1px solid var(--co-line); box-sizing: content-box; padding-left: 12px; margin-left: 4px; }
+html[data-theme="coccoloba"] header::before { content: ""; position: fixed; left: 6px; top: 8px; width: 76px; height: 32px; border-radius: 18px; background: rgba(255,248,231,.97); border: 1px solid #fff; box-shadow: var(--co-shadow-card); pointer-events: none; }
+html[data-theme="coccoloba"] header .ss-dot { width: 38px !important; height: 38px !important; display: block; flex: none; border-radius: 50%; border: 2px solid #fff; background: radial-gradient(circle at 35% 30%, #FFD16A, #FFA51F); box-shadow: var(--co-shadow-card); }
+html[data-theme="coccoloba"] .ss-dot { display: block; flex: none; border-radius: 50%; background: #72CEC7; box-shadow: 0 2px 4px rgba(30,65,65,.25), inset 0 0 0 2px #fff; }
+html[data-theme="coccoloba"] header .hdr-left > span[class*="font-extrabold"] { font-size: 15px; font-weight: 900; }
+html[data-theme="coccoloba"] header .clay-solid { border-color: #fff; white-space: nowrap; }
+html[data-theme="coccoloba"] button[role="switch"] { background: #C9D9D6 !important; border: 1px solid #fff; box-shadow: inset 0 1px 3px rgba(30,65,65,.2) !important; }
+html[data-theme="coccoloba"] button[role="switch"][aria-checked="true"] { background: var(--co-success) !important; }
+html[data-theme="coccoloba"] header button[role="switch"] .ss-dot { width: 24px !important; height: 24px !important; border: 0; background: #fff; box-shadow: 0 1px 3px rgba(30,65,65,.3); }
+
+/* ── menu : raccourci sous le logo pour laisser voir le panda ; entrée active vert tendre ── */
+html[data-theme="coccoloba"] .side-nav { margin: 107px 0 0 clamp(0px, 6vw, 92px); width: 11.5rem; align-self: flex-start; padding: 14px 12px; gap: 3px; }
+html[data-theme="coccoloba"] .nav-item, html[data-theme="coccoloba"] .nav-item[data-active="false"] {
+  background: transparent; border: 1px solid transparent; box-shadow: none; filter: none; text-shadow: none; transform: none;
+  color: var(--co-ink); font-weight: 900; font-size: 14px; min-height: 46px; padding: 5px 10px;
+  transition: background-color .15s ease, transform .15s ease;
+}
+html[data-theme="coccoloba"] .nav-item[data-active="false"]:hover { background: #EEF8E0; transform: translateX(2px); }
+html[data-theme="coccoloba"] .nav-item[data-active="true"] { background: linear-gradient(#D2F4A7, #9BE36D); border-color: #fff; box-shadow: 0 4px 10px rgba(118,201,91,.32); }
+html[data-theme="coccoloba"] .nav-disc { flex: none; width: 34px; height: 34px; border: 0; background: #FFFDF7; color: var(--co-ink); box-shadow: 0 1px 3px rgba(30,65,65,.18) !important; }
+html[data-theme="coccoloba"] .side-nav > div:last-child { position: fixed; left: 4.4vw; bottom: 3.4vh; margin: 0; padding: 9px 18px; border-radius: 999px; background: rgba(255,248,231,.97); border: 1px solid #fff; box-shadow: var(--co-shadow-panel); width: max-content; }
+html[data-theme="coccoloba"] .side-nav > div:last-child .ss-dot:nth-child(1) { background: radial-gradient(circle at 35% 30%, #D2F4A7, #76C95B); }
+html[data-theme="coccoloba"] .side-nav > div:last-child .ss-dot:nth-child(2) { background: radial-gradient(circle at 35% 30%, #FFE3A0, #FFA51F); }
+html[data-theme="coccoloba"] .side-nav > div:last-child .ss-dot:nth-child(3) { background: radial-gradient(circle at 35% 30%, #BFEAF5, #42B7D8); }
+
+/* ── onglets en pilules, champs ── */
+html[data-theme="coccoloba"] .sm-field { border-radius: 999px !important; background: #FFFDF7; border: 1px solid #fff; padding: 0 20px !important; min-height: 44px; color: var(--co-ink); font-weight: 700; box-shadow: var(--co-shadow-card); }
+html[data-theme="coccoloba"] .sm-field::placeholder { color: var(--co-muted); font-weight: 600; opacity: 1; }
+html[data-theme="coccoloba"] .sm-field:focus, html[data-theme="coccoloba"] .clay-well:focus-within { border-color: var(--co-blue); box-shadow: 0 0 0 3px rgba(66,183,216,.3); background: #fff; }
+
+html[data-theme="coccoloba"] .sm-field:first-of-type { background: linear-gradient(#EAF7FC, #D3EDF7); }
+
+/* ── boutons ── */
+html[data-theme="coccoloba"] .clay-solid, html[data-theme="coccoloba"] .clay-btn, html[data-theme="coccoloba"] .clay-btn-active { font-weight: 800; }
+html[data-theme="coccoloba"] .clay-peach { box-shadow: 0 4px 12px rgba(215,132,20,.28); }
+html[data-theme="coccoloba"] .clay-solid:hover, html[data-theme="coccoloba"] .clay-btn:hover { filter: brightness(1.04); }
+html[data-theme="coccoloba"] .hover\:clay-chip:hover { background: #E4F6EA; }
+
+/* ── panneau Script Doctor : tigre en haut à droite, cartes blanches, CTA orange ── */
+html[data-theme="coccoloba"] .doctor-wrap { margin-right: clamp(0px, 5.4vw, 78px); }
+html[data-theme="coccoloba"] .doctor-wrap::before { content: ""; position: absolute; top: -12px; right: -76px; width: 100px; height: 162px; z-index: 3; pointer-events: none; background: url("/assets/coccoloba/tiger.png") center / contain no-repeat; }
+@media (max-width: 1240px) { html[data-theme="coccoloba"] .doctor-wrap::before { display: none; } }
+html[data-theme="coccoloba"] .doctor-wrap h2, html[data-theme="coccoloba"] .doctor-wrap h3 { color: var(--co-ink); font-weight: 900; }
+html[data-theme="coccoloba"] .metric-tile { border-radius: 21px !important; border: 1px solid var(--co-line); background: #FFFDF7; box-shadow: var(--co-shadow-card); }
+html[data-theme="coccoloba"] .metric-tile > div:first-child { font-size: 20px; font-weight: 900; }
+html[data-theme="coccoloba"] .sm-slab { border-radius: 20px !important; border: 1px solid var(--co-line); background: #FFFDF7; box-shadow: var(--co-shadow-card); }
+html[data-theme="coccoloba"] .sm-slab.sm-green { background: #F3FAE8; border-color: #DCEEC2; }
+html[data-theme="coccoloba"] .sm-slab.sm-orange { background: #FFF0EC; border-color: #F9D2CB; }
+html[data-theme="coccoloba"] .sm-slab.sm-amber { background: #FFF6E0; border-color: #F7E2AE; }
+html[data-theme="coccoloba"] .sm-slab.sm-yellow { background: #FFFBE6; border-color: #F3EAB8; }
+html[data-theme="coccoloba"] button.sm-slab:hover { filter: brightness(.985); }
+html[data-theme="coccoloba"] .sm-slab.sm-red { background: linear-gradient(#FFD16A, #FFA51F); border: 1px solid #fff; color: var(--co-ink); border-radius: 999px !important; font-weight: 900; box-shadow: 0 4px 12px rgba(215,132,20,.28); }
+html[data-theme="coccoloba"] .doctor-wrap .sticky { background: linear-gradient(rgba(255,248,231,0), #FFF8E7 40%); }
+html[data-theme="coccoloba"] .doctor-wrap [class*="text-[#1f9b72]"] { color: #12807A; }
+html[data-theme="coccoloba"] .doctor-wrap [class*="text-[#d9800d]"] { color: #C23B30; }
+
+/* ── accents codés en dur ── */
+html[data-theme="coccoloba"] [class*="text-[#ff7a59]"] { color: #E85B58; }
+html[data-theme="coccoloba"] [class*="ring-[#ff8a5b]"], html[data-theme="coccoloba"] [class*="ring-[#9fd4ff]"] { --tw-ring-color: rgba(66,183,216,.6); }
+html[data-theme="coccoloba"] thead { background: var(--soft2); }
+
+/* ── accessibilité ── */
+html[data-theme="coccoloba"] :where(button, a, [tabindex], [role="switch"], input, textarea, select):focus-visible { outline: 3px solid var(--co-blue); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="coccoloba"] *, html[data-theme="coccoloba"] *::before, html[data-theme="coccoloba"] *::after {
+    scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important;
+  }
+}

@@ -7,10 +7,7 @@ Logiciel macOS tout-en-un pour réalisateurs et scénaristes (Tauri 2 + React + 
 - **Pâte à modeler** : beige chaud, plasticine texturée, feuille aux bords déchirés sur une table en bois, fil de laine et perles.
 - **Pastel craft** (le thème d'avant) : lavande douce, coutures, boutons cousus.
 - **Liquid Glass** : verre dépoli translucide façon Apple, reflets et reliefs lumineux.
-- **Script Studio — Clean Light** : clair et sobre (fond `#F4F6FA`, surfaces blanches, texte bleu nuit, bleu `#3B82F6` réservé aux actions et à l'onglet actif). Feuille de style : `src/themes/clean.css`.
-- **AIRBOX — Frankenweenie** : gothique artisanal (charbon, métal patiné, parchemin, surpiqûres, vert-de-gris, ambre). Les textures du pack sont dans `public/assets/gothic/` ; elles ne passent jamais sous les zones de texte. Feuille de style : `src/themes/gothic.css`.
-- **Adibou** : cabane en bois (mur bleu, cadres orange, parchemin, boutons-bonbons, jouets en décor). Éléments détourés du pack dans `public/assets/adibou/` (cadre, planche, jouets, avec `manifest.json`) ; les personnages et le logo ne sont pas utilisés. Feuille de style : `src/themes/adibou.css`.
-Chaque thème récent vit dans son propre fichier `src/themes/*.css`, branché dans le même système de variables que les autres : aucune fonction du logiciel n'est touchée. Le choix est mémorisé. Les **post-it** ont l'aspect de vrais post-it (papier plat, ombre douce, coin corné, six couleurs) dans tous les thèmes.
+Le choix est mémorisé. Les **post-it** ont l'aspect de vrais post-it (papier plat, ombre douce, coin corné, six couleurs) dans tous les thèmes.
 
 ## Police
 **Helvetica** (Helvetica Neue sur Mac) pour tout le logiciel, post-it compris. Seule la feuille de scénario reste en Courier, la norme du scénario.

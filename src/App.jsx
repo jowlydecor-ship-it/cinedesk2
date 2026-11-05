@@ -173,6 +173,7 @@ function AppInner() {
   return (
     <div className="flex h-screen flex-col gap-3 p-3">
       <header data-tauri-drag-region className={`flex h-14 shrink-0 items-center gap-1 pl-[88px] pr-4 ${sm ? "sm-bar" : "clay-card"}`}>
+        <div className="hdr-group hdr-left">
         <IconBtn icon={PanelLeft} label="Afficher / masquer la barre latérale" onClick={() => setSidebar(s => !s)} />
         {sm ? <Sprite n="tree" className="mx-1 h-9 w-auto shrink-0" style={{ filter: "drop-shadow(0 2px 2px rgba(50,30,10,.35))" }} /> : <SewnButton size={34} color="#ff9d6b" className="mx-1" />}
         {sm
@@ -199,7 +200,9 @@ function AppInner() {
         <IconBtn icon={Undo2} label="Annuler (⌘Z)" onClick={undo} disabled={!canUndo} />
         <IconBtn icon={Redo2} label="Rétablir (⇧⌘Z)" onClick={redo} disabled={!canRedo} />
         <IconBtn icon={GearIcon} label="Réglages (thème)" onClick={() => setSettings(true)} />
+        </div>
         <div data-tauri-drag-region className="h-full flex-1" />
+        <div className="hdr-group hdr-right">
         {sm && <span className="mr-3 flex shrink-0 items-center gap-1.5">{["green", "blue", "yellow", "pink", "purple"].map(c => <Sprite key={c} n={`ball-${c}`} className="h-8 w-8" style={{ filter: "drop-shadow(0 2px 2px rgba(50,30,10,.35))" }} />)}</span>}
         <span className="mr-3 shrink-0 whitespace-nowrap text-[11px] font-semibold text-ink-soft">{scenes.length} scènes · ≈ {stats.pages} p.</span>
         <Sparkles size={15} className={`shrink-0 ${ai ? "text-[#ff8a5b]" : "text-ink-mute"}`} />
@@ -209,7 +212,8 @@ function AppInner() {
           : <button role="switch" aria-checked={ai} onClick={() => setAi(a => !a)} className={`relative h-7 w-12 shrink-0 rounded-full transition ${ai ? "bg-[#7fe0b8]" : "bg-[var(--line)]"}`} style={{ boxShadow: "inset 3px 3px 6px rgba(0,0,0,.15), inset -2px -2px 5px rgba(255,255,255,.7)" }}>
               <span className={`absolute top-0.5 transition-all ${ai ? "left-[22px]" : "left-0.5"}`}><SewnButton size={24} color="#fff2c4" holes={2} /></span>
             </button>}
-        </header>
+        </div>
+      </header>
 
       <div className="flex min-h-0 flex-1 gap-3">
         {sidebar && (
@@ -225,7 +229,7 @@ function AppInner() {
             </div>
           </nav>
         )}
-        <main className={`min-w-0 flex-1 overflow-auto rounded-[28px] ${current !== "script" ? "view-surface" : ""} ${sm && current !== "script" ? "sm-surface" : ""}`}>
+        <main className={`min-w-0 flex-1 overflow-auto rounded-[28px] ${sm && current !== "script" ? "sm-surface" : ""}`}>
           {current === "script" && <ScriptEditor lines={lines} setLines={set.lines} meta={meta} setMeta={set.meta} jumpTo={jumpTo} onShowNote={showNote} flags={report?.flags || {}} onOpenFlaw={id => openAnalysis({ flaw: id })} />}
           {current === "wall" && <PostItWall report={report} notes={notes} setNotes={set.notes} links={links} setLinks={set.links} scenes={scenes} filter={filter} setFilter={setFilter} highlight={highlight} onOpenScene={jump} onSync={sync} />}
           {current === "board" && <Storyboard scenes={scenes} panels={panels} setPanels={set.panels} />}
